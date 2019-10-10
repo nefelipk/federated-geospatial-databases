@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{report}
+\documentclass[12pt,a4paper]{article}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 
@@ -11,18 +11,18 @@
 \usepackage{indentfirst}	% indent the first paragraph of a section
 
 %
-% Configure chapter/section/subsection etc printing and alignment
+% Configure section/subsection etc printing and alignment
 %
 \usepackage{titlesec}
 
-\titleformat{\chapter}[block] % shape
+\titleformat{\section}[block] % shape
 {\bfseries\large\centering} % format
-{\thechapter.}{16pt}{\large} % label
-\titlespacing{\chapter}{12pc}{0cm}{1pc}
+{\thesection.}{16pt}{\large} % label
+\titlespacing{\section}{12pc}{0cm}{1pc}
 
-\titleformat{\section}[block]
+\titleformat{\subsection}[block]
 {\normalfont\bfseries}
-{\thesection.}{14pt}{}
+{\thesubsection.}{14pt}{}
 
 \newcommand{\term}{\textit}
 \newcommand{\sub}{\underline}
@@ -42,9 +42,10 @@
 		\hypersetup{linkcolor=black}
 		\tableofcontents
 		\thispagestyle{empty}
+		\newpage
 	}
 	
-	\chapter{Introduction}
+	\section{Introduction}
 	\label{sec:intro}
 
 
@@ -66,7 +67,7 @@
 	\\
 
 	\term{Geospatial data} is data about objects, events, or phenomena that have a location on the surface of the earth \citep{Stock}. The location may be 
-	static in the short-term (e.g., the location of a road, an earthquake event, children living in poverty), or dynamic (e.g., a moving vehicle or pedestrian, even the spread of an infectious disease). Geospatial data combines location information (usually coordinates on the earth), attribute information (the characteristics of the object, event, or phenomena concerned), and often also temporal information (the time or life span at which the location and attributes exist). The terms geographical, spatial and geospatial are often used interchangeably.
+	static in the short-term (e.g. the location of a road, an earthquake event, children living in poverty), or dynamic (e.g. a moving vehicle or pedestrian, even the spread of an infectious disease). Geospatial data combines location information (usually coordinates on the earth), attribute information (the characteristics of the object, event, or phenomena concerned), and often also temporal information (the time or life span at which the location and attributes exist). The terms geographical, spatial and geospatial are often used interchangeably.
 	\\
 
 
@@ -87,8 +88,129 @@
 
 
 
-	\chapter{Federated Geospatial Databases}
-	\label{sec:fed_geodata}
+	\section{Federated Databases}
+	\label{sec:fed}
+	
+	To the best of our knowledge the term federated database system was 
+	introduced by \citet{Hammer}. They defined federated databases as a middle 
+	road that should be followed between the rigid centralization of 
+	conventional database systems and the anarchy of completely diffused and 
+	decentralized files.
+	\\
+
+	Federated database systems have been extensively researched \citep{Sheth, Litwin}.
+	Systems consisting of multiple database systems may be characterized along 
+	three orthogonal dimensions: distribution, heterogeneity, and autonomy 
+	\citep{Sheth}. 
+	\begin{itemize}
+		\item \term{Distribution}: Data may be distributed among multiple 
+		databases. These databases may be stored on a single computer system or 
+		on multiple computer systems. They can be co-located or geographically 
+		distributed but interconnected by a communication system. Data may be 
+		distributed among multiple databases in different ways. Multiple copies 
+		of some or all of the data may be maintained. These copies need not be 
+		identically structured.
+		\item \term{Heterogeneity}: The types of heterogeneities in the 
+		database systems can be divided into those due to the differences in 
+		hardware or system software and those due to the differences in the 
+		semantics of data. The differences in software refer to differences in 
+		structure, constrains or query languages. Detecting semantic 
+		heterogeneity is a much more difficult problem. It occurs when there is 
+		a disagreement about the definition, interpretation, or intended use of 
+		the same or related data (e.g. different precision of the data values). 
+		\item \term{Autonomy}: Database systems are often under separate and 
+		independent control. Those who control a autonomous database are often 
+		willing to let others share the data only if they retain control. This 
+		autonomy refers to design, communication and execution 
+		\citep{Sheth, Heimbigner}. More concrete, each component database 
+		system determines how it will view and combine existing data. It 
+		decides when and how it responds to a request from another component. 
+		And it must not be forced to perform an activity for another component. 
+		Since the federation is a dynamic entity, components must be able to 
+		dynamically enter or leave the federation. Consequently, heterogeneity 
+		in an federated database system is primarily caused by design autonomy 
+		among component database systems. 
+	\end{itemize} 
+	
+
+	\todo[size={{\scriptsize}}]{??? See figure 2.}
+	\citep{Jian}: A federated database can accept different heterogeneous systems and integrate them into higher level systems. They can be divided between two basic forms of interaction, cooperation and coordination. Cooperation means several systems or components use the same common data source. While in case of coordination, the desired data will be copied among these systems or components.
+	\\
+
+	\citep{Jian}: Some times users want to access data from various distinct databases. They used to create a new database and migrate all data from other databases to the new database. This is an approach of re-engineer databases. But the method has its obvious limitations.
+	\\
+
+	\citep{Butenuth}: Federated databases allow for integrating heterogeneous databases via a global schema, and they provide a unified database interface for global applications. Local applications remain unchanged, as they still access the databases via the local schemata.
+	\\
+
+	\citep{Malik}: An archive is naturally reluctant to forsake its autonomy – even if it is not, complete restructuring can be prohibitively expensive. Federated database architecture is designed to maintain autonomy and yet accomplish federated tasks.
+	\\
+
+	\citep{Butenuth}: Beside the general benefits of data integration, there are a lot of practical applications of integration. One is the verification and update of data sets: in order to check the currency and correctness of a data set, a second or third data set can be used to check the information. The task can be extended to provide also update capability: whenever current information is available in one data set, it can be employed to update the other sets, based on the known relations between the data sets and the known link structure between corresponding objects. Furthermore, integration can be used to provide prior information for a dedicated analysis using one data set: for example if a road network has to be updated using aerial imagery, information from existing road data can be used to partition the space and identify potential areas for new roads. Similarly, land use classifications from imagery can be used as input for a more detailed inspection of dedicated areas of interest. 
+	\\
+
+
+
+	\section{Geospatial Data}
+	\label{sec:geo}
+
+	\citet{Tomlinson} first coined the term \term{Geographic Information System 
+	(\acr{gis})}, in order to store and manipulate map-based land data. However, 
+	spatial analysis began in 1854 when cholera hit the city of London 
+	\citep{whatIsGis}. British physician John Snow began mapping outbreak 
+	locations to understand how the disease started.
+	\\
+
+	A \acr{gis} is a system designed to capture, store, manipulate, analyze, 
+	manage, and visualize (usually in a map) all types of geographical data. 
+	The key word to this technology is Geography – this means that some portion 
+	of the data is geospatial. Interoperability of \acr{gis} is the ability to 
+	access spatial data and associated services in a distributed and 
+	heterogeneous processing environment \citep{Gong}. 
+	\\
+
+	\term{Multiway spatial joins} involve an arbitrary number of spatial inputs 
+	\citep{Mamoulis}. Such queries are important in several applications 
+	including \acr{gis} (e.g. find all cities adjacent to forests that are 
+	intersected by a river).
+	\\
+
+	\todo[size={{\scriptsize}}]{1. geospatial data join (vs relational database), 2. Hofmann}
+	There were three methods to realize geospatial data sharing \citep{Shi}, 
+	namely, through data exchange mode, database direct access mode or database 
+	interoperability mode. 
+	\begin{itemize} 
+		\item \term{Data exchange mode} is not an optimal method. This data 
+		sharing is based on files, which can be only used for data integration 
+		but cannot realize real-time data sharing and data consistency. Each 
+		update is only reflected in its own database. Thus, the interoperation 
+		between two systems is not real interoperability. After data exchange, 
+		information of the original data cannot be expressed accurately because 
+		different data formats use different data models to describe the 
+		spatial objects. That way information loss occurs.
+		\item \term{Database direct access mode} allows users to obtain online 
+		data by accessing multiple databases using different data formats. If 
+		the data format of the host software changes, any software package for 
+		data integration must re-address the changed format and then update 
+		its own. But this is rarely announced when it happens, which makes it 
+		difficult to access the changed format of the database for data 
+		integration. As is obvious, direct access assumes sufficient 
+		understanding of the data format and data model in the spatial database 
+		at hand.
+		\item \term{Database interoperability mode} is the database 
+		interoperability that can be achieved based on one of \acr{com}, 
+		\acr{corba} standards and the interface specification of \acr{sql}, or 
+		based on Web Services. According to the first case, by constituting the 
+		common interface function form and parameters, different \acr{gis} 
+		software packages can directly access each other’s database. The second 
+		case follows the specification of spatial data sharing models and 
+		interoperation based on \acr{xml}.
+	\end{itemize} 
+
+
+
+	\section{Federated Geospatial Databases}
+	\label{sec:fed_geo}
 
 	\citet{Butenuth} developed a mechanism for the semantic description of 
 	geospatial objects, in order to provide the applications with a model 
@@ -160,119 +282,7 @@
 
 
 
-	\section{Federated Systems}
-	\label{sec:fed_geodata:fed}
-	
-	To the best of our knowledge the term federated database system was 
-	introduced by \citet{Hammer}. They defined federated databases as a middle 
-	road that should be followed between the rigid centralization of 
-	conventional database systems and the anarchy of completely diffused and 
-	decentralized files.
-	\\
-
-	Federated database systems have been extensively researched \citep{Sheth, Litwin}.
-	Systems consisting of multiple database systems may be characterized along 
-	three orthogonal dimensions: distribution, heterogeneity, and autonomy 
-	\citep{Sheth}. 
-	\begin{itemize}
-		\item \term{Distribution}: Data may be distributed among multiple 
-		databases. These databases may be stored on a single computer system or 
-		on multiple computer systems. They can be co-located or geographically 
-		distributed but interconnected by a communication system. Data may be 
-		distributed among multiple databases in different ways. Multiple copies 
-		of some or all of the data may be maintained. These copies need not be 
-		identically structured.
-		\item \term{Heterogeneity}: The types of heterogeneities in the 
-		database systems can be divided into those due to the differences in 
-		hardware or system software and those due to the differences in the 
-		semantics of data. The differences in software refer to differences in 
-		structure, constrains or query languages. Detecting semantic 
-		heterogeneity is a much more difficult problem. It occurs when there is 
-		a disagreement about the definition, interpretation, or intended use of 
-		the same or related data (e.g. different precision of the data values). 
-		\item \term{Autonomy}: Database systems are often under separate and 
-		independent control. Those who control a autonomous database are often 
-		willing to let others share the data only if they retain control. This 
-		autonomy refers to design, communication and execution 
-		\citep{Sheth, Heimbigner}. More concrete, each component database 
-		system determines how it will view and combine existing data. It 
-		decides when and how it responds to a request from another component. 
-		And it must not be forced to perform an activity for another component. 
-		Since the federation is a dynamic entity, components must be able to 
-		dynamically enter or leave the federation. Consequently, heterogeneity 
-		in an federated database system is primarily caused by design autonomy 
-		among component database systems. 
-	\end{itemize} 
-	
-
-	\todo[size={{\scriptsize}}]{??? See figure 2.}
-	\citep{Jian}: A federated database can accept different heterogeneous systems and integrate them into higher level systems. They can be divided between two basic forms of interaction, cooperation and coordination. Cooperation means several systems or components use the same common data source. While in case of coordination, the desired data will be copied among these systems or components.
-	\\
-
-	\citep{Jian}: Some times users want to access data from various distinct databases. They used to create a new database and migrate all data from other databases to the new database. This is an approach of re-enginneer databases. But the method has its obvious limitations.
-	\\
-
-	\citep{Butenuth}: Federated databases allow for integrating heterogeneous databases via a global schema, and they provide a unified database interface for global applications. Local applications remain unchanged, as they still access the databases via the local schemata.
-	\\
-
-	\citep{Malik}: An archive is naturally reluctant to forsake its autonomy – even if it is not, complete restructuring can be prohibitively expensive. Federated database architecture is designed to maintain autonomy and yet accomplish federated tasks.
-	\\
-
-	\citep{Butenuth}: Beside the general benefits of data integration, there are a lot of practical applications of integration. One is the verification and update of data sets: in order to check the currency and correctness of a data set, a second or third data set can be used to check the information. The task can be extended to provide also update capability: whenever current information is available in one data set, it can be employed to update the other sets, based on the known relations between the data sets and the known link structure between corresponding objects. Furthermore, integration can be used to provide prior information for a dedicated analysis using one data set: for example if a road network has to be updated using aerial imagery, information from existing road data can be used to partition the space and identify potential areas for new roads. Similarly, land use classifications from imagery can be used as input for a more detailed inspection of dedicated areas of interest. 
-	\\
-
-
-
-	\section{Geospatial Data}
-	\label{sec:fed_geodata:geodata}
-
-	\citet{Tomlinson} first coined the term \term{Geographic Information System 
-	(\acr{gis})}, in order to store and manipulate map-based land data. However, 
-	spatial analysis began in 1854 when choleara hit the city of London 
-	\citep{whatIsGis}. British physician John Snow began mapping outbreak 
-	locations to understand how the disease started.
-	\\
-
-	A \acr{gis} is a system designed to capture, store, manipulate, analyze, 
-	manage, and visualize (usually in a map) all types of geographical data. 
-	The key word to this technology is Geography – this means that some portion 
-	of the data is geospatial. Interoperability of \acr{gis} is the ability to 
-	access spatial data and associated services in a distributed and 
-	heterogeneous processing environment \citep{Gong}. 
-	\\
-
-	\todo[size={{\scriptsize}}]{1. geospatial data join (vs relational database), 2. Hofmann}
-	There were three methods to realize geospatial data sharing \citep{Shi}, 
-	namely, through data exchange mode, database direct access mode or database 
-	interoperability mode. 
-	\begin{itemize} 
-		\item \term{Data exchange mode} is not an optimal method. This data 
-		sharing is based on files, which can be only used for data integration 
-		but cannot realize real-time data sharing and data consistency. Each 
-		update is only reflected in its own database. Thus, the interoperation 
-		between two systems is not real interoperability. After data exchange, 
-		information of the original data cannot be expressed accurately because 
-		different data formats use different data models to describe the 
-		spatial objects. That way information loss occurs.
-		\item \term{Database direct access mode} allows users to obtain online 
-		data by accessing multiple databases using different data formats. If 
-		the data format of the host software changes, any software package for 
-		data integration must re-address the changed format and then update 
-		its own. But this is rarely announced when it happens, which makes it 
-		difficult to access the changed format of the database for data 
-		integration. As is obvious, direct access assumes sufficient 
-		understanding of the data format and data model in the spatial database 
-		at hand.
-		\item \term{Database interoperability mode} is the database 
-		interoperability that can be achieved based on one of \acr{com}, 
-		\acr{corba} standards and the interface specification of \acr{sql}, or 
-		based on Web Services. According to the first case, by constituting the 
-		common interface function form and parameters, different \acr{gis} 
-		software packages can directly access each other’s database. The second 
-		case follows the specification of spatial data sharing models and 
-		interoperation based on \acr{xml}.
-	\end{itemize} 
-
+	\newpage
 	\renewcommand{\bibname}{References}
 	\bibliography{ref}
 	\bibliographystyle{unsrtnat}
