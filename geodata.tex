@@ -154,6 +154,9 @@
 	\section{Geospatial Data}
 	\label{sec:geo}
 
+	\subsection{Theory}
+	\label{sec:geo:th}
+
 	\citet{Tomlinson} first coined the term \term{Geographic Information System 
 	(\acr{gis})}, in order to store and manipulate map-based land data. However, 
 	spatial analysis began in 1854 when cholera hit the city of London 
@@ -208,6 +211,30 @@
 	\end{itemize} 
 
 
+	\subsection{Technically}
+	\label{sec:geo:tech}
+
+	\citet{Jacox} comprehensive survey
+	\\
+
+	A typical spatial join technique consists of the following components: partitioning the data, performing internal memory spatial joins on subsets of the data, and checking if the full polygons intersect \citep{Jacox}.
+	\\
+
+	Spatial joins are distinguished from a standard relational join \citep{Mishra} in that the join condition involves the multi-dimensional spatial attribute of the joined relation.
+	\\
+
+	There exist several methods for performing a spatial join on R-trees \citep{Guttman}.
+	\\
+
+	Typically, a spatial join is performed in two stages: the \term{filter} stage in which complicated polygonal objects are approximated by rectangles and the \term{refinement} stage which removes any results produced during the filtering stage that do not satisfy the join condition \citep{Jacox}. Filter-and-refine approach [Orenstein 1989b].
+	\\
+
+	Notes \citep{Jacox}:
+	1) The computational geometry approach to solving the simplified spatial join (a two-set rectangle intersection) is to use a plane-sweep technique [Preparata and Shamos 1985].
+
+	2) Vectors (a list of vertices) are commonly used to store polygons, but rasterapproaches are also used [Orenstein 1986].
+	\\
+
 
 	\section{Federated Geospatial Databases}
 	\label{sec:fed_geo}
@@ -250,8 +277,8 @@
 	that integrates three databases, a vector database, a 
 	\term{digital elevation model (\acr{dem})} database and an image database. 
 	A \acr{dem} is a 3D representation of a terrain's surface – commonly of a 
-	planet (e.g. Earth), moon, or asteroid – created from a terrain's elevation 
-	data. \term{Open Geodata Interoperability Specification (\acr{opengis})} 
+	planet, moon, or asteroid – created from a terrain's elevation data. 
+	\term{Open Geodata Interoperability Specification (\acr{opengis})} 
 	provides a framework to create software that enables users to access and 
 	process geographic data from a variety of sources across a generic computing 
 	interface And \term{Component Object Model (\acr{com})} is a software 
