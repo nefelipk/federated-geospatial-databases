@@ -8,6 +8,8 @@
 \usepackage[numbers]{natbib}
 \usepackage[nottoc]{tocbibind}
 
+\usepackage{csquotes}
+
 \usepackage{indentfirst}	% indent the first paragraph of a section
 
 %
@@ -27,6 +29,7 @@
 \newcommand{\term}{\textit}
 \newcommand{\sub}{\underline}
 \newcommand{\acr}{\MakeUppercase}
+\newcommand{\eg}{\enquote}
 
 
 \begin{document}
@@ -214,10 +217,13 @@
 	\subsection{Technically}
 	\label{sec:geo:tech}
 
-	\citet{Jacox} comprehensive survey
+	\citet{Jacox} comprehensive survey on spatial data joins.
 	\\
 
 	A typical spatial join technique consists of the following components: partitioning the data, performing internal memory spatial joins on subsets of the data, and checking if the full polygons intersect \citep{Jacox}.
+	\\
+
+	Given two datasets of multi-dimensional objects in Euclidean space, a spatial join finds all pairs of objects satisfying a given relation between the objects that involves the values of their spatial components, such as intersection. For example, a spatial join answers such queries as \eg{find all of the rural areas that are below sea level}, given an elevation map and a land use map \citep{Veenhof}. To illustrate the concept further, a simplified version of a spatial join is as follows: given two sets of rectangles, R and S, find all of the pairs of intersecting rectangles between the two sets. That is, for each rectangle r in dataset R, find each intersecting rectangle s from dataset S, as illustrated in Figure 1. The general spatial join problem, also
 	\\
 
 	Spatial joins are distinguished from a standard relational join \citep{Mishra} in that the join condition involves the multi-dimensional spatial attribute of the joined relation.
@@ -232,7 +238,7 @@
 	Notes \citep{Jacox}:
 	1) The computational geometry approach to solving the simplified spatial join (a two-set rectangle intersection) is to use a plane-sweep technique [Preparata and Shamos 1985].
 
-	2) Vectors (a list of vertices) are commonly used to store polygons, but rasterapproaches are also used [Orenstein 1986].
+	2) Vectors (a list of vertices) are commonly used to store polygons, but raster approaches are also used [Orenstein 1986].
 	\\
 
 
