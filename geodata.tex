@@ -175,11 +175,34 @@
 	heterogeneous processing environment \citep{Gong}. 
 	\\
 
+	Probably the most popular spatial access method is the R-tree 
+	\citep{Guttman}. An \term{R-tree} can be thought of as an extension of 
+	B\textsuperscript{+}-tree in multidimensional space. There is no special 
+	ordering of objects in space that preserves spatial proximity 
+	\citep{Mamoulis}, so conventional indexes, such as 
+	B\textsuperscript{+}-trees, are inapplicable to spatial databases. R-trees 
+	index object approximations, usually \term{minimum bounding rectangles 
+	(\acr{mbr}s)}, providing a spatial join performed in two steps 
+	\citep{Orenstein}. The \term{filter step} during which all objects that 
+	could not possibly satisfy the query are rapidly eliminated. The result of 
+	this step is a set of \term{candidate objects} which includes all the 
+	objects satisfying the query, and possibly some false hits. And then the 
+	subsequent \term{refinement step}, during which each candidate is examined 
+	– false hits are detected and eliminated, and the actual solutions are 
+	retrieved. In extreme cases, the filter step would return the entire set 
+	of data objects, all of which would then have to be considered by the 
+	refinement step.
+	\\
+
 	\term{Multiway spatial joins} involve an arbitrary number of spatial inputs 
 	\citep{Mamoulis}. Such queries are important in several applications 
 	including \acr{gis} (e.g. find all cities adjacent to forests that are 
 	intersected by a river).
 	\\
+
+	\citep{Mamoulis} : As in relational databases, joins in spatial databases play an important role in effective spatial query processing. A pairwise spatial join combines two datasets with respect to some spatial predicate (usually overlap). A typical example is “find all cities that are crossed by a river”. The most influential algorithm for joining two datasets indexed by R-trees is the R-tree join(RJ) [Brinkhoff et al. 1996]. RJ traverses synchronously both trees, following entry pairs that overlap;non-intersecting pairs cannot lead to solutions at the lower levels. Most methods deal with the filter step; that is, they output a set of MBR pairs(candidates) that may enclose intersecting objects.
+	\\
+
 
 	\todo[size={{\scriptsize}}]{1. geospatial data join (vs relational database), 2. Hofmann}
 	There were three methods to realize geospatial data sharing \citep{Shi}, 
@@ -245,8 +268,11 @@
 	such that r is a member of R and s is a member of S – r and s overlap spatially. Many queries involving spatial predicates can be easily mapped into overlap queries. The \term{range query} is a special case of the overlap query in which one set contains data  points, and the other set contains a single query box.
 	\\
 
-	Typically, a spatial join is performed in two steps, the \term{filter step} and the \term{refinement step} \citep{Orenstein}. During the filter step the objects that could not possibly satisfy the query are rapidly eliminated. The result of this step is a set of \term{candidate objects} which includes all the objects satisfying the query, and possibly some false hits. During the refinement step each candidate is examined and false hits are detected and eliminated. In extreme cases, the filter step would return the entire set of data objects, all of which would then have to be considered by the refinement step.
-	\\
+	
+
+
+ 	Each spatial object in each input set is transformed to a set of 1-d intervals. An algorithm called spatial join implements the filter step. Each resulting candidate is a pair of objects, one from each input set, that are likely to overlap. The output from spatial join has to go through a refinement step as described above. These algorithms comprise the geometry filter \citep{Orenstein}.
+ 	\\
 
 
 	Notes \citep{Jacox}:
