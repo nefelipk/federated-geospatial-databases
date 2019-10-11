@@ -223,7 +223,7 @@
 	A typical spatial join technique consists of the following components: partitioning the data, performing internal memory spatial joins on subsets of the data, and checking if the full polygons intersect \citep{Jacox}.
 	\\
 
-	Given two datasets of multi-dimensional objects in Euclidean space, a spatial join finds all pairs of objects satisfying a given relation between the objects that involves the values of their spatial components, such as intersection. For example, a spatial join answers such queries as \eg{find all of the rural areas that are below sea level}, given an elevation map and a land use map \citep{Veenhof}. To illustrate the concept further, a simplified version of a spatial join is as follows: given two sets of rectangles, R and S, find all of the pairs of intersecting rectangles between the two sets. That is, for each rectangle r in dataset R, find each intersecting rectangle s from dataset S, as illustrated in Figure 1. The general spatial join problem, also
+	Given two datasets of multi-dimensional objects in Euclidean space, a spatial join finds all pairs of objects satisfying a given relation between the objects that involves the values of their spatial components, such as intersection. For example, a spatial join answers such queries as \eg{find all of the rural areas that are below sea level}, given an elevation map and a land use map \citep{Veenhof}. To illustrate the concept further, a simplified version of a spatial join is as follows: given two sets of rectangles, R and S, find all of the pairs of intersecting rectangles between the two sets. That is, for each rectangle r in dataset R, find each intersecting rectangle s from dataset S, as illustrated in Figure 1.
 	\\
 
 	Spatial joins are distinguished from a standard relational join \citep{Mishra} in that the join condition involves the multi-dimensional spatial attribute of the joined relation.
@@ -232,8 +232,22 @@
 	There exist several methods for performing a spatial join on R-trees \citep{Guttman}.
 	\\
 
-	Typically, a spatial join is performed in two stages: the \term{filter} stage in which complicated polygonal objects are approximated by rectangles and the \term{refinement} stage which removes any results produced during the filtering stage that do not satisfy the join condition \citep{Jacox}. Filter-and-refine approach [Orenstein 1989b].
+	Applications such as \acr{gis} require the ability to deal with data objects other than points and query objects other than boxes \citep{Orenstein}. This motivates 
+	consideration of the overlap query. The \term{overlap query} takes as input 
+	two sets of spatial objects, R and S. And returns a set of pairs (r, s) 
+	such that r is a member of R and s is a member of S – r and s overlap 
+	spatially. The \term{range query} is a special case of the overlap query in 
+	which one set contains points and the other set contains a single box.
 	\\
+	OR
+	\\
+	A spatial database system must be able to store spatial objects and efficiently retrieve those objects in response to queries involving spatial predicates such as overlap, containment and proximity. Many useful queries are special cases of the overlap query. The \term{overlap query} takes as input two sets of spatial objects, R and S. And returns a set of pairs (r, s) 
+	such that r is a member of R and s is a member of S – r and s overlap spatially. Many queries involving spatial predicates can be easily mapped into overlap queries. The \term{range query} is a special case of the overlap query in which one set contains data  points, and the other set contains a single query box.
+	\\
+
+	Typically, a spatial join is performed in two steps, the \term{filter step} and the \term{refinement step} \citep{Orenstein}. During the filter step the objects that could not possibly satisfy the query are rapidly eliminated. The result of this step is a set of \term{candidate objects} which includes all the objects satisfying the query, and possibly some false hits. During the refinement step each candidate is examined and false hits are detected and eliminated. In extreme cases, the filter step would return the entire set of data objects, all of which would then have to be considered by the refinement step.
+	\\
+
 
 	Notes \citep{Jacox}:
 	1) The computational geometry approach to solving the simplified spatial join (a two-set rectangle intersection) is to use a plane-sweep technique [Preparata and Shamos 1985].
