@@ -94,7 +94,7 @@
 	\section{Federated Databases}
 	\label{sec:fed}
 	
-	To the best of our knowledge the term federated database system was 
+	To the best of our knowledge the term \term{federated database system} was 
 	introduced by \citet{Hammer}. They defined federated databases as a middle 
 	road that should be followed between the rigid centralization of 
 	conventional database systems and the anarchy of completely diffused and 
@@ -177,22 +177,44 @@
 
 	Probably the most popular spatial access method is the R-tree 
 	\citep{Guttman}. An \term{R-tree} can be thought of as an extension of 
-	B\textsuperscript{+}-tree in multidimensional space. There is no special 
-	ordering of objects in space that preserves spatial proximity 
-	\citep{Mamoulis}, so conventional indexes, such as 
-	B\textsuperscript{+}-trees, are inapplicable to spatial databases. R-trees 
-	index object approximations, usually \term{minimum bounding rectangles 
-	(\acr{mbr}s)}, providing a spatial join performed in two steps 
+	B\textsuperscript{+}-tree \citep{Comer} (see also B-trees \citep{Bayer}) 
+	in multidimensional space. There is no special ordering of objects in space 
+	that preserves spatial proximity \citep{Mamoulis}, so conventional indexes, 
+	such as B\textsuperscript{+}-trees, are inapplicable to spatial databases. 
+	R-trees index object approximations, usually \term{minimum bounding 
+	rectangles (\acr{mbr}s)}, providing a spatial join performed by a 
+	filter-and-refine approach. An \acr{mbr} of an object is the smallest 
+	enclosing rectangle whose sides are parallel to the axes of the space.
+	\par
+	The \term{filter-and-refine approach} consists of two steps 
 	\citep{Orenstein}. The \term{filter step} during which all objects that 
-	could not possibly satisfy the query are rapidly eliminated. The result of 
-	this step is a set of \term{candidate objects} which includes all the 
+	could not possibly satisfy the query are rapidly eliminated. The result 
+	of this step is a set of \term{candidate objects} which includes all the 
 	objects satisfying the query, and possibly some false hits. And then the 
 	subsequent \term{refinement step}, during which each candidate is examined 
 	– false hits are detected and eliminated, and the actual solutions are 
 	retrieved. In extreme cases, the filter step would return the entire set 
 	of data objects, all of which would then have to be considered by the 
 	refinement step.
+	\par 
+	More concrete, the filter step finds all objects whose \acr{mbr} intersects 
+	the query rectangle. And the refinement step checks whether and which of 
+	those objects really fulfill the query condition.
 	\\
+
+
+
+	\citep{Brinkhoff}:
+	Let us consider two sets A={a1,...,an} and B={b1,...,bm} of spatial objects, known as spatial relations. The reader may think of the objects in a spatial relation as polygons representing a surface of a spatial object. Let Id be a function that assigns a unique identifier to each spatial object in a database. Furthermore, let Mbr be a function that computes the minimum bounding rectilinear rectangle of an object. For example, Id(a1) and Mbr(a1) denote the identifier and the minimum bounding rectangle of a1, respectively. The most important spatial joins are given in the following:
+	1) MBR-spatial-join: Compute all pairs (Id(ai), Id(bj)) with Mbr(ai) tomi Mbr(bj) diaforo tou kenou
+	2) ID-spatial-join: Compute all pairs (Id(ai), Id(bj)) with ai tomi bj diaforo tou kenou
+	3) Object-spatial-join: Compute ai tomi bj with ai tomi bj diaforo tou kenou
+	\par
+	The MBR-spatial-join can be used for implementing the filter step of the ID-spatial-join and the object-spatial-join.
+	\\
+
+
+
 
 	\term{Multiway spatial joins} involve an arbitrary number of spatial inputs 
 	\citep{Mamoulis}. Such queries are important in several applications 
@@ -200,7 +222,7 @@
 	intersected by a river).
 	\\
 
-	\citep{Mamoulis} : As in relational databases, joins in spatial databases play an important role in effective spatial query processing. A pairwise spatial join combines two datasets with respect to some spatial predicate (usually overlap). A typical example is “find all cities that are crossed by a river”. The most influential algorithm for joining two datasets indexed by R-trees is the R-tree join(RJ) [Brinkhoff et al. 1996]. RJ traverses synchronously both trees, following entry pairs that overlap;non-intersecting pairs cannot lead to solutions at the lower levels. Most methods deal with the filter step; that is, they output a set of MBR pairs(candidates) that may enclose intersecting objects.
+	\citep{Mamoulis} : As in relational databases, joins in spatial databases play an important role in effective spatial query processing. A pairwise spatial join combines two datasets with respect to some spatial predicate (usually overlap). A typical example is “find all cities that are crossed by a river”. The most influential algorithm for joining two datasets indexed by R-trees is the R-tree join (RJ) \citep{Brinkhoff} [the other? 1996?]. RJ traverses synchronously both trees, following entry pairs that overlap;non-intersecting pairs cannot lead to solutions at the lower levels. Most methods deal with the filter step; that is, they output a set of MBR pairs(candidates) that may enclose intersecting objects.
 	\\
 
 
@@ -279,6 +301,9 @@
 	1) The computational geometry approach to solving the simplified spatial join (a two-set rectangle intersection) is to use a plane-sweep technique [Preparata and Shamos 1985].
 
 	2) Vectors (a list of vertices) are commonly used to store polygons, but raster approaches are also used [Orenstein 1986].
+
+	Noter \citep{Brinkhoff}:
+	1) Orenstein[18] has proposed B+-trees in combination with z-ordering as the underlying access method for performing spatial joins.
 	\\
 
 
