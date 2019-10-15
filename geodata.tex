@@ -29,10 +29,10 @@
 {\thesubsection.}{14pt}{}
 
 \newcommand{\term}{\textit}
-\newcommand{\sub}{\underline}
+%\newcommand{\sub}{\underline}
 \newcommand{\acr}{\MakeUppercase}
 \newcommand{\eg}{\enquote}
-\newcommand{\sub}[1][2]{#1\textsuperscript{#2}}
+%\newcommand{\sub}[1][2]{#1\textsuperscript{#2}}
 
 
 \begin{document}
@@ -229,12 +229,12 @@
 
 	
 	In general, processing spatial joins is more expensive than processing natural joins \citep{Brinkhoff96}. 
-	\begin{enumerate} 
+	\begin{itemize} 
 		\item Spatial relations tend to contain more objects than an average-sized relation from a traditional application [Fra 91]. In particular, this can be observed in those non-traditional geographic applications which strive for seamless spatial databases.
 		\item The computation of the spatial join predicate, e.g. intersection of two polygonal objects, is considerably more expensive than the simple test on equality.
 		\item A spatial object can be extremely large, i.e. it can consist of several hundred kilobytes. Therefore, the transfer time, i.e. the time to transfer spatial objects from secondary storage into main memory, considerably contributes to the total I/O cost. In contrast to large objects, the transfer time of small objects fitting in a data page can almost be ignored. In general, this is also fulfilled for natural join processing.
-		\item Spatial join processing cannot exploit the technique of data declustering which is generally used as the basis for processing natural joins in parallel (partitioned parallelism [Gra93]). Given a declustered data placement of spatial relations R and S into p disjoint subsets $R_1$,...,$R_n$ and $S_1$,...,$S_n$, respectively, the union of the response sets obtained from processing spatial joins of $R_j$ and $S_j$, 1 ≤ j ≤ p, is only a subset of the response set of the spatial join of R and S.
-	\end{enumerate} 
+		\item Spatial join processing cannot exploit the technique of data declustering which is generally used as the basis for processing natural joins in parallel (partitioned parallelism [Gra93]). Given a declustered data placement of spatial relations R and S into p disjoint subsets $R_1,...,R_n$ and $S_1,...,S_n$, respectively, the union of the response sets obtained from processing spatial joins of $R_j$ and $S_j$, $1 \leq j \leq p$, is only a subset of the response set of the spatial join of R and S.
+	\end{itemize} 
 
 
 	Probably the most popular spatial access method is the R-tree 
@@ -265,16 +265,15 @@
 	\\
 
 
-
 	\citep{Brinkhoff93}:
-	Let us consider two sets A={$a_1$,...,$a_n$} and B={$b_1$,...,$b_m$} of spatial objects, known as spatial relations. The reader may think of the objects in a spatial relation as polygons representing a surface of a spatial object. Let Id be a function that assigns a unique identifier to each spatial object in a database. Furthermore, let \acr{mbr} be a function that computes the minimum bounding rectilinear rectangle of an object. For example, \acr{id}($a_1$) and \acr{mbr}($a_1$) denote the identifier and the minimum bounding rectangle of $a_1$, respectively. The most important spatial joins are the following:\\
-	1) \acr{mbr}-spatial-join: Compute all pairs (\acr{id}(\sub{a,i}), \acr{id}(\sub{b,j})) with \acr{mbr}(\sub{a,i}) \cap \acr{mbr}(\sub{b,j}) \ne $\oldemptyset$\\
-	\acr{mbr}-spatial-join: Compute all pairs $(\acr{id}(a_i), \acr{id}(b_j))$ with $\acr{mbr}(a_i) \cap \acr{mbr}(b_j) \ne \oldemptyset$\\
-	2) \acr{id}-spatial-join: Compute all pairs (\acr{id}(\sub{a,i}), \acr{id}(\sub{b,j})) with \sub{a,i} \cap \sub{b,j} \neq $\emptyset$\\
-	\acr{id}-spatial-join: Compute all pairs $(\acr{id}(a_i), \acr{id}(b_j))$ with $a_i \cap b_j \neq \emptyset$\\
-	3) Object-spatial-join: Compute \sub{a,i} \cap \sub{b,j} with \sub{a,i} \cap \sub{b,j} \neq $\emptyset$\\
-	Object-spatial-join: Compute $a_i \cap b_j$ with $a_i \cap b_j \neq \emptyset$
-	\par
+	Let us consider two sets $A={a_1,...,a_n}$ and $B={b_1,...,b_m}$ of spatial objects, known as spatial relations. The reader may think of the objects in a spatial relation as polygons representing a surface of a spatial object. Let Id be a function that assigns a unique identifier to each spatial object in a database. Furthermore, let \acr{mbr} be a function that computes the minimum bounding rectilinear rectangle of an object. For example, $\acr{id}(a_1)$ and $\acr{mbr}(a_1)$ denote the identifier and the minimum bounding rectangle of $a_1$, respectively. The most important spatial joins are the following:
+	\begin{itemize} 
+		\item \acr{mbr}-spatial-join:\\ Compute all pairs $(\acr{id}(a_i), \acr{id}(b_j))$ with $\acr{mbr}(a_i) \cap \acr{mbr}(b_j) \ne \emptyset$\\
+		\item \acr{id}-spatial-join:\\ Compute all pairs $(\acr{id}(a_i), \acr{id}(b_j))$ with $a_i \cap b_j \neq \emptyset$\\
+		\item Object-spatial-join:\\ Compute $a_i \cap b_j$ with $a_i \cap b_j \neq \emptyset$
+	\end{itemize} 
+	
+
 	The \acr{mbr}-spatial-join can be used for implementing the filter step of the \acr{id}-spatial-join and the object-spatial-join.
 	In addition to these three, there are also other types of joins – joins with other spatial operators than intersection, e.g. containment, or joins with more than two spatial relations.
 	\\
