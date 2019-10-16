@@ -29,8 +29,8 @@
 {\thesubsection.}{14pt}{}
 
 \newcommand{\term}{\textit}
-\newcommand{\func}{\textsc}		% small capitals
-%\newcommand{\func}{\texttt}		% teletypefont family
+%\newcommand{\func}{\textsc}		% small capitals
+\newcommand{\func}{\texttt}		% teletypefont family
 \newcommand{\acr}{\MakeUppercase}
 \newcommand{\eg}{\enquote}
 
@@ -224,6 +224,12 @@
 	\end{itemize} 
 
 
+
+\citep{Orenstein86}: support spatial query processing by providimg an oblect class that implements approximate geometry (AG). Approximate geometry, as developed here, relies (conceptually) on a grid representation of spatial data. This IS where the approximation comes in - precision IS limited by the resolution of the grid. The AG algonthms are exact. I.e., if the grid representation IS considered to be precise (as might be the case for LANDSAT data), then AG would provide precise results. Common tech- niques for file organmatlon (e.g. B-trees) and buffer management provide excellent support for AG. [[[We are not aware of any other approach to spatial data that can make this claim.]]]
+	\\
+
+
+
 	\subsection{Technically}
 	\label{sec:geo:tech}
 
@@ -268,7 +274,7 @@
 	\citep{Brinkhoff93}:
 	Let us consider two sets $A={a_1,...,a_n}$ and $B={b_1,...,b_m}$ of spatial objects, known as spatial relations. The reader may think of the objects in a spatial relation as polygons representing a surface of a spatial object. Let \func{id} be a function that assigns a unique identifier to each spatial object in a database. Furthermore, let \func{mbr} be a function that computes the minimum bounding rectilinear rectangle of an object. For example, $\func{id}(a_1)$ and $\func{mbr}(a_1)$ denote the identifier and the minimum bounding rectangle of $a_1$, respectively. The most important spatial joins are the following:
 	\begin{itemize} 
-		\item \acr{mbr}-spatial-join:\\ Compute all pairs $(\func{id}(a_i), \func{id}(b_j))$ with $\func{mbr}(a_i) \cap \func{mbr}(b_j) \ne \emptyset$\\
+		\item \acr{mbr}-spatial-join:\\ Compute all pairs $(\func{id}(a_i), \func{id}(b_j))$ with $\func{mbr}(a_i) \cap \func{mbr}(b_j) \neq \emptyset$\\
 		\item \acr{id}-spatial-join:\\ Compute all pairs $(\func{id}(a_i), \func{id}(b_j))$ with $a_i \cap b_j \neq \emptyset$\\
 		\item Object-spatial-join:\\ Compute $a_i \cap b_j$ with $a_i \cap b_j \neq \emptyset$
 	\end{itemize} 
@@ -282,6 +288,16 @@
 
 	\citep{Brinkhoff96}: Another line of research starts with Orenstein and Manola [OM 88] who proposed to use B-trees combined with z-ordering for processing spatial joins. They followed the approach that for each object an approximation consists of a set of grid cells. A general problem with this approach is that a high number of cells per object is required to provide an accurate approximation of the object in order to obtain a small candidate set. This causes an expensive filter step.
 	\\
+
+
+	
+\citep{Orenstein86}: Their approach to approximate grid (AG) is based on a grid representation of spatial objects. [[[Implementations of spatial Join that incorporate the optlmlzatlons dmcussed above wdl be designed in the next phase of PROBE research.]]]
+\\
+\citep{Orenstein89}: An algorithm called spatial join implements the filter step. Each resulting candidate is a pair of objects, one from each input file. that are likely to overlap. The ourput from spatial join has to go through a refinement step as described above. Spatial join and filtering algorithms for other spatial problems appear in [OREN88]. These algorithms comprise the geometry filter (GF).
+\\
+
+
+
 
 
 
