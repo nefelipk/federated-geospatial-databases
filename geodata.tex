@@ -73,7 +73,7 @@
 	\\
 
 	\term{Geospatial data} is data about objects, events, or phenomena that have a location on the surface of the earth \citep{Stock}. The location may be 
-	static in the short-term (e.g. the location of a road, an earthquake event, children living in poverty), or dynamic (e.g. a moving vehicle or pedestrian, even the spread of an infectious disease). Geospatial data combines location information (usually coordinates on the earth), attribute information (the characteristics of the object, event, or phenomena concerned), and often also temporal information (the time or life span at which the location and attributes exist). The terms geographical, spatial and geospatial are often used interchangeably.
+	static in the short-term (e.g. the location of a road, an earthquake event, children living in poverty), or dynamic (e.g. a moving vehicle or pedestrian, even the spread of an infectious disease). Geospatial data combines location information (usually coordinates on the earth), attribute information (the characteristics of the object, event, or phenomena concerned), and often also temporal information (the time or life span at which the location and attributes exist). The terms geographical, spatial and geospatial are often used interchangeably. Subsequently, we will mostly use the term spatial interchangeably with geospatial.
 	\\
 
 
@@ -178,19 +178,6 @@
 	heterogeneous processing environment \citep{Gong}. 
 	\\
 
-
-
-
-	\term{Multiway spatial joins} involve an arbitrary number of spatial inputs 
-	\citep{Mamoulis}. Such queries are important in several applications 
-	including \acr{gis} (e.g. find all cities adjacent to forests that are 
-	intersected by a river).
-	\\
-
-	\citep{Mamoulis} : As in relational databases, joins in spatial databases play an important role in effective spatial query processing. A pairwise spatial join combines two datasets with respect to some spatial predicate (usually overlap). A typical example is “find all cities that are crossed by a river”. The most influential algorithm for joining two datasets indexed by R-trees is the R-tree join (RJ) \citep{Brinkhoff93} [the other? 1996?]. RJ traverses synchronously both trees, following entry pairs that overlap;non-intersecting pairs cannot lead to solutions at the lower levels. Most methods deal with the filter step; that is, they output a set of MBR pairs(candidates) that may enclose intersecting objects.
-	\\
-
-
 	\todo[size={{\scriptsize}}]{1. geospatial data join (vs relational database), 2. Hofmann}
 	There were three methods to realize geospatial data sharing \citep{Shi}, 
 	namely, through data exchange mode, database direct access mode or database 
@@ -223,17 +210,19 @@
 		interoperation based on \acr{xml}.
 	\end{itemize} 
 
-
-
-\citep{Orenstein86}: support spatial query processing by providimg an oblect class that implements approximate geometry (AG). Approximate geometry, as developed here, relies (conceptually) on a grid representation of spatial data. This IS where the approximation comes in - precision IS limited by the resolution of the grid. The AG algonthms are exact. I.e., if the grid representation IS considered to be precise (as might be the case for LANDSAT data), then AG would provide precise results. Common tech- niques for file organmatlon (e.g. B-trees) and buffer management provide excellent support for AG. [[[We are not aware of any other approach to spatial data that can make this claim.]]]
+	Below we will present a survey and analysis of geospatial joins.
 	\\
 
 
+	\subsection{Geospatial join basics}
+	\label{sec:geo:join}
 
-	\subsection{Technically}
-	\label{sec:geo:tech}
+	Intuitively, given two datasets of multi-dimensional objects in Euclidean space, a spatial join finds all pairs of objects satisfying a given relation between the objects that involves the values of their spatial components, such as intersection \citep{Jacox}. For example, a spatial join answers such queries as \eg{find all of the rural areas that are below sea level}, given an elevation map and a land use map \citep{Veenhof}. To illustrate the concept further, a simplified version of a spatial join is as follows: given two sets of rectangles, \func{R} and \func{S}, find all of the pairs of intersecting rectangles between the two sets. That is, for each rectangle \func{r} in dataset \func{R}, find each intersecting rectangle \func{s} from dataset \func{S}, as illustrated in Figure 1.
+	\\
 
-	
+	Spatial joins are distinguished from a standard relational join \citep{Mishra} in that the join condition involves the multi-dimensional spatial attribute of the joined relation. For instance, because the data objects are multi-dimensional, there is no ordering of the data that preserves proximity \citep{Mamoulis}. Relational join techniques that rely on sorting the data, such as the sort-merge join \citep{Mishra}, work because neighboring objects are adjacent to each other in the ordering. However, in more than one dimension, the data can not be sorted so that this property holds for all directions and dimensions.
+	\\
+
 	In general, processing spatial joins is more expensive than processing natural joins \citep{Brinkhoff96}. 
 	\begin{itemize} 
 		\item Spatial relations tend to contain more objects than an average-sized relation from a traditional application [Fra 91]. In particular, this can be observed in those non-traditional geographic applications which strive for seamless spatial databases.
@@ -242,7 +231,48 @@
 		\item Spatial join processing cannot exploit the technique of data declustering which is generally used as the basis for processing natural joins in parallel (partitioned parallelism [Gra93]). Given a declustered data placement of spatial relations R and S into p disjoint subsets $R_1,...,R_n$ and $S_1,...,S_n$, respectively, the union of the response sets obtained from processing spatial joins of $R_j$ and $S_j$, $1 \leq j \leq p$, is only a subset of the response set of the spatial join of R and S.
 	\end{itemize} 
 
+	Typically, a spatial join is performed in two steps, according to the 
+	\term{filter-and-refine approach} \citep{Orenstein89}. The \term{filter 
+	step} during which all objects that could not possibly satisfy the query 
+	are rapidly eliminated. The result of this step is a set of \term{candidate 
+	objects} which includes all the objects satisfying the query, and possibly 
+	some false hits. And then the subsequent \term{refinement step}, during 
+	which each candidate is examined – false hits are detected and eliminated, 
+	and the actual solutions are retrieved. In extreme cases, the filter step 
+	would return the entire set of data objects, all of which would then have 
+	to be considered by the refinement step.
+	\par
+	More concrete, during the filter step complicated polygonal objects are 
+	approximated by rectangles, and the refinement stage removes any results 
+	produced during the filtering stage that do not satisfy the join condition 
+	\citep{Jacox}.
+	\\ 
 
+	In the filter-and-refine approach, the spatial join is first solved using approximations of the objects in the filtering stage. Any incorrect results due to the approximations are removed in the refinement stage using the full objects. In the filtering stage, objects are typically approximated using \term{minimum bounding 
+	rectangles (\acr{mbr}s)}. An \acr{mbr} of an object is the smallest enclosing rectangle whose sides are parallel to the axes of the space. \acr{mbr}s) require less storage space than the full object, resulting in faster processing and less expensive I/O operations \citep{Jacox}.
+	\\
+
+	
+Other than the processor speed and I/O performance, there are other factors that contribute to the performance of a spatial join \citep{Jacox}. The characteristics of the datasets and whether the datasets are indexed are also major influences on performance. The dataset sizes obviously effect overall performance, but a more important issue is whether the dataset fits into the available internal memory. If the entire dataset does fit in internal memory, then the spatial join can be done entirely in memory. This can be significantly faster than using external memory method.
+\par
+How the data is stored is another factor that contributes to the design of spatial joins. Vectors (a list of vertices) are commonly used to store polygons, but raster approaches are also used [Orenstein 1986]. The choice of storage method for the full object mostly effects the complexity of the object intersection test during the refinement stage. During the filtering stage, an object is represented by an approximation (usually \acr{mbr}) and an object id or by a pointer in order to access the full object.
+	\\
+
+
+
+
+
+
+	\term{Multiway spatial joins} involve an arbitrary number of spatial inputs 
+	\citep{Mamoulis}. Such queries are important in several applications 
+	including \acr{gis} (e.g. find all cities adjacent to forests that are 
+	intersected by a river).
+	\\
+
+	\citep{Mamoulis} : As in relational databases, joins in spatial databases play an important role in effective spatial query processing. A pairwise spatial join combines two datasets with respect to some spatial predicate (usually overlap). A typical example is “find all cities that are crossed by a river”. The most influential algorithm for joining two datasets indexed by R-trees is the R-tree join (RJ) \citep{Brinkhoff93} [the other? 1996?]. RJ traverses synchronously both trees, following entry pairs that overlap;non-intersecting pairs cannot lead to solutions at the lower levels. Most methods deal with the filter step; that is, they output a set of MBR pairs(candidates) that may enclose intersecting objects.
+	\\
+
+	
 	Probably the most popular spatial access method is the R-tree 
 	\citep{Guttman}. An \term{R-tree} can be thought of as an extension of 
 	B\textsuperscript{+}-tree \citep{Comer} (see also B-trees \citep{Bayer}) 
@@ -267,7 +297,7 @@
 	\par 
 	More concrete, the filter step finds all objects whose \acr{mbr} intersects 
 	the query rectangle. And the refinement step checks whether and which of 
-	those objects really fulfill the query condition.
+	those results really fulfill the join condition.n 
 	\\
 
 
@@ -286,18 +316,34 @@
 
 
 
+
+\todo[size={{\scriptsize}}]{plane-sweep algorithm? (Zhu et al.)}
+
 	\citep{Brinkhoff96}: Another line of research starts with Orenstein and Manola [OM 88] who proposed to use B-trees combined with z-ordering for processing spatial joins. They followed the approach that for each object an approximation consists of a set of grid cells. A general problem with this approach is that a high number of cells per object is required to provide an accurate approximation of the object in order to obtain a small candidate set. This causes an expensive filter step.
 	\\
 
 
-	
-\citep{Orenstein86}: Their approach to approximate grid (AG) is based on a grid representation of spatial objects. [[[Implementations of spatial Join that incorporate the optlmlzatlons dmcussed above wdl be designed in the next phase of PROBE research.]]]
+	[[[[[[ \citep{Jacox}: it is assumed that the data istwo dimensional and that we are interested in determining pairs of intersecting ob-jects. Both of these assumptions are common in the literature. ]]]]]]
+
+
+
+\citep{Orenstein86}: support spatial query processing by providing an object class that implements approximate geometry (AG). Approximate geometry, as developed here, relies (conceptually) on a grid representation of spatial data. This is where the approximation comes in - precision is limited by the resolution of the grid. The AG algorithms are exact. I.e., if the grid representation is considered to be precise (as might be the case for LANDSAT data), then AG would provide precise results. Common techniques for file organization (e.g. B-trees) and buffer management provide excellent support for AG. [[[We are not aware of any other approach to spatial data that can make this claim.]]]
 \\
-\citep{Orenstein89}: An algorithm called spatial join implements the filter step. Each resulting candidate is a pair of objects, one from each input file. that are likely to overlap. The ourput from spatial join has to go through a refinement step as described above. Spatial join and filtering algorithms for other spatial problems appear in [OREN88]. These algorithms comprise the geometry filter (GF).
+
+
+\citep{Orenstein86}: Their approach to approximate grid (AG) is based on a grid representation of spatial objects. [[[Implementations of spatial join that incorporate the optimizations discussed above will be designed in the next phase of PROBE research.]]]
+\\
+\citep{Orenstein89}: An algorithm called spatial join implements the filter step. Each resulting candidate is a pair of objects, one from each input file. that are likely to overlap. The output from spatial join has to go through a refinement step as described above. Spatial join and filtering algorithms for other spatial problems appear in [OREN88]. These algorithms comprise the geometry filter (GF).
 \\
 
+\citep{Orenstein86}: The z value of a region is a concise description of the shape, size and position of the region. These can be derived from the z value. 
+Z ordering is a total ordering of elements. This property, combined with the highly constrained splitting policy that produces elements, leads to the following observation. The only possible relationships between elements are containment and precedence (in z order). Overlap (other than containment) cannot occur. This leads to very simple algorithms based on the merging of sequences of elements. Much of the usefulness of z order IS based on the property that it preserves proximity, i.e. if two points are close in space then they are likely to be close in z order. 
+\par
+\citep{Orenstein84}: By interleaving the bits of the binary representations of the attribute valued in a tuple, an integer corresponding to the tuple is created. A set of these integers represents a relation. The usual ordering of these integers (z ordering?????) corresponds to an ordering of multidimensional data that allows the use of conventional file organizations, such as B-trees, in the efficient processing of multidimensional queries (e.g. range queries).
+\\
 
-
+\citep{Orenstein89}: The spatial join algorithm performs a merge of two geometry filter (GF) sequences, searching for situations where an element in one sequence, as represented by its z value, contains an element from the other input. (This can be determined by checking whether one z value is a prefix of the other.) When such a pair is found, a candidate, comprising the objects associated with the elements, is generated. 
+\\
 
 
 
@@ -308,11 +354,6 @@
 	A typical spatial join technique consists of the following components: partitioning the data, performing internal memory spatial joins on subsets of the data, and checking if the full polygons intersect \citep{Jacox}.
 	\\
 
-	Given two datasets of multi-dimensional objects in Euclidean space, a spatial join finds all pairs of objects satisfying a given relation between the objects that involves the values of their spatial components, such as intersection. For example, a spatial join answers such queries as \eg{find all of the rural areas that are below sea level}, given an elevation map and a land use map \citep{Veenhof}. To illustrate the concept further, a simplified version of a spatial join is as follows: given two sets of rectangles, R and S, find all of the pairs of intersecting rectangles between the two sets. That is, for each rectangle r in dataset R, find each intersecting rectangle s from dataset S, as illustrated in Figure 1.
-	\\
-
-	Spatial joins are distinguished from a standard relational join \citep{Mishra} in that the join condition involves the multi-dimensional spatial attribute of the joined relation.
-	\\
 
 	There exist several methods for performing a spatial join on R-trees \citep{Guttman}.
 	\\
