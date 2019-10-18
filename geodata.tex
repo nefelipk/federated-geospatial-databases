@@ -217,7 +217,7 @@
 	\subsection{Geospatial join basics}
 	\label{sec:geo:join}
 
-	Intuitively, given two datasets of multi-dimensional objects in Euclidean space, a spatial join finds all pairs of objects satisfying a given relation between the objects that involves the values of their spatial components, such as intersection \citep{Jacox}. For example, a spatial join answers such queries as \eg{find all of the rural areas that are below sea level}, given an elevation map and a land use map \citep{Veenhof}. To illustrate the concept further, a simplified version of a spatial join is as follows: given two sets of rectangles, \func{R} and \func{S}, find all of the pairs of intersecting rectangles between the two sets. That is, for each rectangle \func{r} in dataset \func{R}, find each intersecting rectangle \func{s} from dataset \func{S}, as illustrated in Figure 1.
+	Intuitively, given two datasets of multi-dimensional objects in Euclidean space, a spatial join finds all pairs of objects satisfying a given relation between the objects that involves the values of their spatial components, such as intersection \citep{Jacox}. For example, a spatial join answers such queries as \eg{find all of the rural areas that are below sea level}, given an elevation map and a land use map \citep{Veenhof}. To illustrate the concept further, a simplified version of a spatial join is as follows: given two sets of rectangles, $R$ and $S$, find all of the pairs of intersecting rectangles between the two sets. That is, for each rectangle $r$ in dataset $R$, find each intersecting rectangle $s$ from dataset $S$, as illustrated in Figure 1.
 	\\
 
 	Spatial joins are distinguished from a standard relational join \citep{Mishra} in that the join condition involves the multi-dimensional spatial attribute of the joined relation. For instance, because the data objects are multi-dimensional, there is no ordering of the data that preserves proximity \citep{Mamoulis}. Relational join techniques that rely on sorting the data, such as the sort-merge join \citep{Mishra}, work because neighboring objects are adjacent to each other in the ordering. However, in more than one dimension, the data can not be sorted so that this property holds for all directions and dimensions.
@@ -228,7 +228,7 @@
 		\item Spatial relations tend to contain more objects than an average-sized relation from a traditional application [Fra 91]. In particular, this can be observed in those non-traditional geographic applications which strive for seamless spatial databases.
 		\item The computation of the spatial join predicate, e.g. intersection of two polygonal objects, is considerably more expensive than the simple test on equality.
 		\item A spatial object can be extremely large, i.e. it can consist of several hundred kilobytes. Therefore, the transfer time, i.e. the time to transfer spatial objects from secondary storage into main memory, considerably contributes to the total I/O cost. In contrast to large objects, the transfer time of small objects fitting in a data page can almost be ignored. In general, this is also fulfilled for natural join processing.
-		\item Spatial join processing cannot exploit the technique of data declustering which is generally used as the basis for processing natural joins in parallel (partitioned parallelism [Gra93]). Given a declustered data placement of spatial relations R and S into p disjoint subsets $R_1,...,R_n$ and $S_1,...,S_n$, respectively, the union of the response sets obtained from processing spatial joins of $R_j$ and $S_j$, $1 \leq j \leq p$, is only a subset of the response set of the spatial join of R and S.
+		\item Spatial join processing cannot exploit the technique of data declustering which is generally used as the basis for processing natural joins in parallel (partitioned parallelism [Gra93]). Given a declustered data placement of spatial relations $R$ and $S$ into $p$ disjoint subsets $R_1,...,R_n$ and $S_1,...,S_n$, respectively, the union of the response sets obtained from processing spatial joins of $R_j$ and $S_j$, $1 \leq j \leq p$, is only a subset of the response set of the spatial join of R and S.
 	\end{itemize} 
 
 	Typically, a spatial join is performed in two steps, according to the 
@@ -252,11 +252,29 @@
 	rectangles (\acr{mbr}s)}. An \acr{mbr} of an object is the smallest enclosing rectangle whose sides are parallel to the axes of the space. \acr{mbr}s) require less storage space than the full object, resulting in faster processing and less expensive I/O operations \citep{Jacox}.
 	\\
 
-	
-Other than the processor speed and I/O performance, there are other factors that contribute to the performance of a spatial join \citep{Jacox}. The characteristics of the datasets and whether the datasets are indexed are also major influences on performance. The dataset sizes obviously effect overall performance, but a more important issue is whether the dataset fits into the available internal memory. If the entire dataset does fit in internal memory, then the spatial join can be done entirely in memory. This can be significantly faster than using external memory method.
-\par
-How the data is stored is another factor that contributes to the design of spatial joins. Vectors (a list of vertices) are commonly used to store polygons, but raster approaches are also used [Orenstein 1986]. The choice of storage method for the full object mostly effects the complexity of the object intersection test during the refinement stage. During the filtering stage, an object is represented by an approximation (usually \acr{mbr}) and an object id or by a pointer in order to access the full object.
+
+	\todo[size={{\scriptsize}}]{Orenstein86 ??}
+	Other than the processor speed and I/O performance, there are other factors that contribute to the performance of a spatial join \citep{Jacox}. The characteristics of the datasets and whether the datasets are indexed are also major influences on performance. The dataset sizes obviously effect overall performance, but a more important issue is whether the dataset fits into the available internal memory. If the entire dataset does fit in internal memory, then the spatial join can be done entirely in memory. This can be significantly faster than using external memory method.
+	\par
+	How the data is stored is another factor that contributes to the design of spatial joins. Vectors (a list of vertices) are commonly used to store polygons, but raster approaches are also used \citep{Orenstein86}. The choice of storage method for the full object mostly effects the complexity of the object intersection test during the refinement stage. During the filtering stage, an object is represented by an approximation (usually \acr{mbr}) and an object id or by a pointer in order to access the full object.
 	\\
+
+
+	During the filtering stage, a spatial join is performed on approximations of the objects. Let's now see how a spatial join is performed.
+	\\
+
+
+
+	\subsection{Technical}
+	\label{sec:geo:tech}
+
+	One computational geometry approach to solving the simplified spatial join (a two-set rectangle intersection) is to use a \term{plane-sweep} technique \citep{Preparata}. The algorithm has two passes. The first pass sorts the rectangles in ascending order on the basis of their left sides (i.e.,x coordinate values) and forms a list. The second pass sweeps a vertical scan line through the sorted list from left to right. When intersecting with a rectangle it halts, the rectangle becomes active, and is inserted into the set of active rectangles. Any rectangles entirely to the left of the scan line are removed from the set of active rectangles. To keep track of the active rectangles, the plane-sweep algorithm uses a \term{sweep structure}. For three dimensions see the \term{space-sweep} technique \citep{Preparata}.
+	\par
+	More concrete, to apply the plane-sweep algorithm, a sweep structure is needed for both $R$ and $S$ (see the simplified spatial join in Section~\ref{sec:geo:join}). Rectangles from $R$ are inserted into $R's$ sweep structure and rectangles from $S$ are inserted into $S's$ sweep structure. Then, each rectangle $r$ from $R$ will perform a search on $S's$ sweep structure, to find all the intersections with the rectangles in $S$, and vice versa. 
+	\par
+	A disadvantage of the plane-sweep algorithm is that the its traditional version assumes that all of the data is in internal memory \citep{Jacox}. If the data is in external memory, then the entire dataset is first read into internal memory before performing the plane sweep. If the data is in external memory and sorted, then each object can be first read from external memory. Then inserted into the sweep structure, and finally purged from internal memory when it is deleted from the sweep structure. In this way, only the data intersecting the sweep line needs to be kept in internal memory. That will reduce the internal memory requirements of the algorithm and increase the size of datasets that can be processed without resorting to more sophisticated spatial join techniques.
+	\\
+
 
 
 
@@ -317,13 +335,13 @@ How the data is stored is another factor that contributes to the design of spati
 
 
 
-\todo[size={{\scriptsize}}]{plane-sweep algorithm? (Zhu et al.)}
+\todo[size={{\scriptsize}}]{plane-sweep algorithm? (Preparata et al.)}
 
 	\citep{Brinkhoff96}: Another line of research starts with Orenstein and Manola [OM 88] who proposed to use B-trees combined with z-ordering for processing spatial joins. They followed the approach that for each object an approximation consists of a set of grid cells. A general problem with this approach is that a high number of cells per object is required to provide an accurate approximation of the object in order to obtain a small candidate set. This causes an expensive filter step.
 	\\
 
 
-	[[[[[[ \citep{Jacox}: it is assumed that the data istwo dimensional and that we are interested in determining pairs of intersecting ob-jects. Both of these assumptions are common in the literature. ]]]]]]
+	[[[[[[ \citep{Jacox}: it is assumed that the data is two dimensional and that we are interested in determining pairs of intersecting ob-jects. Both of these assumptions are common in the literature. ]]]]]]
 
 
 
@@ -386,6 +404,10 @@ Z ordering is a total ordering of elements. This property, combined with the hig
 	Noter \citep{Brinkhoff93}:
 	1) Orenstein (1986)[18] has proposed B+-trees in combination with z-ordering as the underlying access method for performing spatial joins.
 	\\
+
+
+
+
 
 
 	\section{Federated Geospatial Databases}
