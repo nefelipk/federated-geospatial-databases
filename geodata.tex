@@ -268,7 +268,8 @@
 	\subsection{Technical}
 	\label{sec:geo:tech}
 
-	One computational geometry approach to solving the simplified spatial join (a two-set rectangle intersection) is to use a \term{plane-sweep} technique \citep{Preparata}. The algorithm has two passes. The first pass sorts the rectangles in ascending order on the basis of their left sides (i.e.,x coordinate values) and forms a list. The second pass sweeps a vertical scan line through the sorted list from left to right. When intersecting with a rectangle it halts, the rectangle becomes active, and is inserted into the set of active rectangles. Any rectangles entirely to the left of the scan line are removed from the set of active rectangles. To keep track of the active rectangles, the plane-sweep algorithm uses a \term{sweep structure}. For three dimensions see the \term{space-sweep} technique \citep{Preparata}.
+	
+	A line of research starts with \citet{Preparata}. They introduced a computational geometry approach to solving the simplified spatial join (a two-set rectangle intersection), called \term{plane-sweep} \citep{Preparata}. The algorithm has two passes. The first pass sorts the rectangles in ascending order on the basis of their left sides (i.e.,x coordinate values) and forms a list. The second pass sweeps a vertical scan line through the sorted list from left to right. When intersecting with a rectangle it halts, the rectangle becomes active, and is inserted into the set of active rectangles. Any rectangles entirely to the left of the scan line are removed from the set of active rectangles. To keep track of the active rectangles, the plane-sweep algorithm uses a \term{sweep structure}. For three dimensions see the \term{space-sweep} technique \citep{Preparata}.
 	\par
 	More concrete, to apply the plane-sweep algorithm, a sweep structure is needed for both $R$ and $S$ (see the simplified spatial join in Section~\ref{sec:geo:join}). Rectangles from $R$ are inserted into $R's$ sweep structure and rectangles from $S$ are inserted into $S's$ sweep structure. Then, each rectangle $r$ from $R$ will perform a search on $S's$ sweep structure, to find all the intersections with the rectangles in $S$, and vice versa. 
 	\par
@@ -276,6 +277,14 @@
 	\\
 
 
+A similar approach proposed by \citet{Orenstein86} that used a variation of the Z-order method on spatial joins.
+The z value of a region is a concise description of the shape, size and position of the region. 
+Z values can be compared lexicographically, i.e. the bit strings are left-justified and then compared one bit at a time. Therefore a collection of elements can be ordered by sorting lexicographically on their z values The spatial interpretation of this ordering is interesting. 
+The Z-order can ensure that larger objects will be seen first \citep{Jacox}. 
+\par
+\todo[size={{\scriptsize}}]{Does Orenstein86 combine z-order with plane-sweep? B-trees?}
+The Z-order algorithm is nearly identical to the plane-sweep algorithm. First, the objects from both datasets are assigned to Z-order grid cells. Next, the objects are sorted in Z-order rather than one-dimensionally. In this case, the active set, instead of being the objects that intersect the sweep line, are the enclosing cells of the objects that intersect the current Z-order grid cell. Since a sufficiently fine grid cell will intersect fewer objects, the active set will be smaller and the sweep structure can be simpler.
+\\
 
 
 
