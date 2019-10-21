@@ -217,7 +217,8 @@
 	\subsection{Geospatial join basics}
 	\label{sec:geo:join}
 
-	Intuitively, given two datasets of multi-dimensional objects in Euclidean space, a spatial join finds all pairs of objects satisfying a given relation between the objects that involves the values of their spatial components, such as intersection \citep{Jacox}. For example, a spatial join answers such queries as \eg{find all of the rural areas that are below sea level}, given an elevation map and a land use map \citep{Veenhof}. To illustrate the concept further, a simplified version of a spatial join is as follows: given two sets of rectangles, $R$ and $S$, find all of the pairs of intersecting rectangles between the two sets. That is, for each rectangle $r$ in dataset $R$, find each intersecting rectangle $s$ from dataset $S$, as illustrated in Figure 1.
+	Intuitively, given two datasets of multi-dimensional objects in Euclidean space, a spatial join finds all pairs of objects satisfying a given relation between the objects that involve the values of their spatial components, such as intersection \citep{Jacox}. For example, a spatial join answers such queries as \eg{find all of the rural areas that are below sea level}, given an elevation map and a land use map \citep{Veenhof}. To illustrate the concept further, a simplified version of a spatial join is as follows: given two sets of rectangles, $R$ and $S$, find all of the pairs of intersecting rectangles between the two sets. That is, for each rectangle $r$ in dataset $R$, find each intersecting rectangle $s$ from dataset $S$.
+	\todo[size={{\scriptsize}}]{Maybe use an image to illustrate it? (e.g. like fig.1 from Jacox)}
 	\\
 
 	Spatial joins are distinguished from a standard relational join \citep{Mishra} in that the join condition involves the multi-dimensional spatial attribute of the joined relation. For instance, because the data objects are multi-dimensional, there is no ordering of the data that preserves proximity \citep{Mamoulis}. Relational join techniques that rely on sorting the data, such as the sort-merge join \citep{Mishra}, work because neighboring objects are adjacent to each other in the ordering. However, in more than one dimension, the data can not be sorted so that this property holds for all directions and dimensions.
@@ -225,10 +226,11 @@
 
 	In general, processing spatial joins is more expensive than processing natural joins \citep{Brinkhoff96}. 
 	\begin{itemize} 
-		\item Spatial relations tend to contain more objects than an average-sized relation from a traditional application [Fra 91]. In particular, this can be observed in those non-traditional geographic applications which strive for seamless spatial databases.
+		\item Spatial relations tend to contain more objects than an average-sized relation from a traditional application. In particular, this can be observed in those non-traditional geographic applications which strive for seamless spatial databases.
+		\todo[size={{\scriptsize}}]{[Fra 91] from Brinkhoff 1996}
 		\item The computation of the spatial join predicate, e.g. intersection of two polygonal objects, is considerably more expensive than the simple test on equality.
 		\item A spatial object can be extremely large, i.e. it can consist of several hundred kilobytes. Therefore, the transfer time, i.e. the time to transfer spatial objects from secondary storage into main memory, considerably contributes to the total I/O cost. In contrast to large objects, the transfer time of small objects fitting in a data page can almost be ignored. In general, this is also fulfilled for natural join processing.
-		\item Spatial join processing cannot exploit the technique of data declustering which is generally used as the basis for processing natural joins in parallel (partitioned parallelism [Gra93]). Given a declustered data placement of spatial relations $R$ and $S$ into $p$ disjoint subsets $R_1,...,R_n$ and $S_1,...,S_n$, respectively, the union of the response sets obtained from processing spatial joins of $R_j$ and $S_j$, $1 \leq j \leq p$, is only a subset of the response set of the spatial join of R and S.
+		\item Spatial join processing cannot exploit the technique of data declustering which is generally used as the basis for processing natural joins in parallel (partitioned parallelism \todo[size={{\scriptsize}}]{??? [Gra93] from Brinkhoff 1996}). Given a declustered data placement of spatial relations $R$ and $S$ into $p$ disjoint subsets $R_1,...,R_n$ and $S_1,...,S_n$, respectively, the union of the response sets obtained from processing spatial joins of $R_j$ and $S_j$, $1 \leq j \leq n$, is only a subset of the response set of the spatial join of $R$ and $S$.
 	\end{itemize} 
 
 	Typically, a spatial join is performed in two steps, according to the 
@@ -249,14 +251,14 @@
 	\\ 
 
 	In the filter-and-refine approach, the spatial join is first solved using approximations of the objects in the filtering stage. Any incorrect results due to the approximations are removed in the refinement stage using the full objects. In the filtering stage, objects are typically approximated using \term{minimum bounding 
-	rectangles (\acr{mbr}s)}. An \acr{mbr} of an object is the smallest enclosing rectangle whose sides are parallel to the axes of the space. \acr{mbr}s) require less storage space than the full object, resulting in faster processing and less expensive I/O operations \citep{Jacox}.
+	rectangles (\acr{mbr}s)}. An \acr{mbr} of an object is the smallest enclosing rectangle whose sides are parallel to the axes of the space. \acr{mbr}s require less storage space than the full object, resulting in faster processing and less expensive I/O operations \citep{Jacox}.
 	\\
 
 
 	\todo[size={{\scriptsize}}]{Orenstein86 ??}
-	Other than the processor speed and I/O performance, there are other factors that contribute to the performance of a spatial join \citep{Jacox}. The characteristics of the datasets and whether the datasets are indexed are also major influences on performance. The dataset sizes obviously effect overall performance, but a more important issue is whether the dataset fits into the available internal memory. If the entire dataset does fit in internal memory, then the spatial join can be done entirely in memory. This can be significantly faster than using external memory method.
+	In addition to the processor speed and I/O performance, there are other factors that contribute to the performance of a spatial join \citep{Jacox}. The characteristics of the datasets and whether the datasets are indexed are also major influences on performance. The dataset sizes obviously effect overall performance, but a more important issue is whether the dataset fits into the available internal memory. If the entire dataset does fit in internal memory, then the spatial join can be done entirely in memory. This can be significantly faster than using external memory method.
 	\par
-	How the data is stored is another factor that contributes to the design of spatial joins. Vectors (a list of vertices) are commonly used to store polygons, but raster approaches are also used \citep{Orenstein86}. The choice of storage method for the full object mostly effects the complexity of the object intersection test during the refinement stage. During the filtering stage, an object is represented by an approximation (usually \acr{mbr}) and an object id or by a pointer in order to access the full object.
+	How the data is stored is another factor that contributes to the design of spatial joins. Vectors (a list of vertices) are commonly used to store polygons, but raster approaches are also used \citep{Orenstein86}. The choice of storage method for the full object mostly effects the complexity of the object intersection test during the refinement stage. During the filtering stage, an object is represented by an approximation (usually \acr{mbr}) and an object id, or by a pointer, in order to access the full object.
 	\\
 
 
@@ -268,50 +270,52 @@
 	\subsection{Technical}
 	\label{sec:geo:tech}
 
-	
-	A line of research starts with \citet{Preparata}. They introduced a computational geometry approach to solving the simplified spatial join (a two-set rectangle intersection), called \term{plane-sweep}. The algorithm has two passes. The first pass sorts the rectangles in ascending order on the basis of their left sides (i.e.,x coordinate values) and forms a list. The second pass sweeps a vertical scan line through the sorted list from left to right. When intersecting with a rectangle it halts, the rectangle becomes active, and is inserted into the set of active rectangles. Any rectangles entirely to the left of the scan line are removed from the set of active rectangles. To keep track of the active rectangles, the plane-sweep algorithm uses a \term{sweep structure}. For three dimensions see the \term{space-sweep} technique \citep{Preparata}.
+	Let us start with techniques for performing a spatial join without using external memory. That is no data is written to external memory, only read once if necessary. 
+	A line of research starts with \citet{Preparata} who introduced a computational geometry approach to solving the simplified spatial join (a two-set rectangle intersection), called \term{plane-sweep}. The algorithm has two passes. The first pass sorts the rectangles in ascending order on the basis of their left sides (i.e.,x coordinate values) and forms a list. The second pass sweeps a vertical scan line through the sorted list from left to right. When intersecting with a rectangle it halts, the rectangle becomes active, and is inserted into the set of active rectangles. Any rectangles entirely to the left of the scan line are removed from the set of active rectangles. To keep track of the active rectangles, the plane-sweep algorithm uses a \term{sweep structure} (for three dimensions see the \term{space-sweep} technique \citep{Preparata}).
 	\par
 	More concrete, to apply the plane-sweep algorithm, a sweep structure is needed for both $R$ and $S$ (see the simplified spatial join in Section~\ref{sec:geo:join}). Rectangles from $R$ are inserted into $R's$ sweep structure and rectangles from $S$ are inserted into $S's$ sweep structure. Then, each rectangle $r$ from $R$ will perform a search on $S's$ sweep structure, to find all the intersections with the rectangles in $S$, and vice versa. 
 	\par
-	A disadvantage of the plane-sweep algorithm is that the its traditional version assumes that all of the data is in internal memory \citep{Jacox}. If the data is in external memory, then the entire dataset is first read into internal memory before performing the plane sweep. If the data is in external memory and sorted, then each object can be first read from external memory. Then inserted into the sweep structure, and finally purged from internal memory when it is deleted from the sweep structure. In this way, only the data intersecting the sweep line needs to be kept in internal memory. That will reduce the internal memory requirements of the algorithm and increase the size of datasets that can be processed without resorting to more sophisticated spatial join techniques.
+	A disadvantage of the plane-sweep algorithm is that its traditional version assumes that all of the data are in internal memory \citep{Jacox}. If the data is in external memory, then the entire dataset is first read into internal memory before performing the plane sweep. If the data is in external memory and sorted, then each object can be first read from external memory. Then inserted into the sweep structure. And finally purged from internal memory when it is deleted from the sweep structure. In this way, only the data intersecting the sweep line needs to be kept in internal memory. That has a two fold benefit. It reduces the internal memory requirements of the algorithm. And it increases the size of datasets that can be processed, without resorting to more sophisticated spatial join techniques.
 	\\
 
 
-A similar approach proposed by \citet{Orenstein86} that used a variation of the Z-order method on spatial joins.
+A similar approach was proposed by \citet{Orenstein86} who used a variation of the Z-order method on spatial joins.
 The z value of a region is a concise description of the shape, size and position of the region. 
-Z values can be compared lexicographically, i.e. the bit strings are left-justified and then compared one bit at a time. Therefore a collection of elements can be ordered by sorting lexicographically on their z values The spatial interpretation of this ordering is interesting. 
+Z values can be compared lexicographically, i.e. the bit strings are left-justified and then compared one bit at a time. Therefore a collection of elements can be ordered by sorting lexicographically on their z values.
 The Z-order can ensure that larger objects will be seen first \citep{Jacox}. 
-\par
+	\par
+	For those who are not familiar with \term{Z-order}, it is a linear order 
+	that creates a total order on multi-dimensional objects. The Z-order is a 
+	traversal through a regular grid using a \eg{Z} pattern. It traverses the 
+	grid in a pattern that helps to preserve locality. It first traverses 
+	objects in a block before moving to the next block. If there are more than 
+	four cells in the grid, then each top-level block is fully traversed before 
+	moving to the next block. Linear orders that keep neighboring objects 
+	closer in the order, on average, such as the Z-order, tend to be more 
+	useful for spatial join algorithms.
+	\par
 \todo[size={{\scriptsize}}]{Does Orenstein86 combine z-order with plane-sweep? B-trees?}
 The Z-order algorithm is nearly identical to the plane-sweep algorithm. First, the objects from both datasets are assigned to Z-order grid cells. Next, the objects are sorted in Z-order rather than one-dimensionally. In this case, the active set, instead of being the objects that intersect the sweep line, are the enclosing cells of the objects that intersect the current Z-order grid cell. Since a sufficiently fine grid cell will intersect fewer objects, the active set will be smaller and the sweep structure can be simpler.
 \\
 
-	For those who are not familiar with \term{Z-order}, it is a linear order 
-	that creates a total order on multi-dimensional objects. The Z-order is a 
-	traversal through a regular grid using a ‘Z’ pattern. It traverses the grid 
-	in a pattern that helps to preserve locality. It first order objects in a 
-	block before moving to the next block. If there are more than four cells 
-	in the grid, then each top-level block is fully traversed before moving to 
-	the next block. Linear orders that keep neighboring objects closer in the 
-	order, on average, such as the Z-order, tend to be more useful for spatial 
-	join algorithms.  
-	\\
 
 
-
+Even if there is sufficient internal memory to use one of the above internal memory techniques (plane-sweep and Z-order approach), if both datasets are indexed, then it can be faster to use the two-index filtering techniques\citep{Jacox}.
+\par
 \todo[size={{\scriptsize}}]{indexed dataset, 1 indexed 1 not, not-indexed datasets}
-If neither dataset is indexed, then it might not be efficient to build indices in order to do a spatial join \citep{Jacox}. Especially if the indices will not be used again and immediately discarded, for example if the spatial join in question is an intermediate step in solving a complex query.
+If neither dataset is indexed, then it might not be efficient to build indices in order to do a spatial join \citep{Jacox}. Especially if the indices will not be used again and immediately discarded, for example if the spatial join in question is an intermediate step in solving a complex query. Even so, at some point, most external memory spatial join algorithms reduce the size of the problem and process subsets of the data using internal memory techniques.
 \\
 
 
 Probably the most popular spatial access method is the R-tree 
 \citep{Guttman}. An \term{R-tree} can be thought of as an extension of 
-B\textsuperscript{+}-tree \citep{Comer} (see also B-trees \citep{Bayer}) in 
-multi-dimensional space. There is no special ordering of objects in space 
-that preserves spatial proximity \citep{Mamoulis}, so conventional indexes, 
-such as B\textsuperscript{+}-trees, are inapplicable to spatial databases. 
-R-trees index object approximations, usually \acr{mbr}s, providing a 
-spatial join performed by a filter-and-refine approach.
+\term{B\textsuperscript{+}-tree} \citep{Comer} (see also \term{B-trees} 
+\citep{Bayer}) in multi-dimensional space. There is no special ordering of 
+objects in space that fully preserves spatial proximity \citep{Mamoulis}, so 
+conventional indexes, such as B\textsuperscript{+}-trees, are inapplicable 
+to spatial databases. R-trees index object approximations, usually 
+\acr{mbr}s, providing a spatial join performed by a filter-and-refine 
+approach.
 \\
 
 
@@ -325,7 +329,7 @@ spatial join performed by a filter-and-refine approach.
 	intersected by a river).
 	\\
 
-	\citep{Mamoulis} : As in relational databases, joins in spatial databases play an important role in effective spatial query processing. A pairwise spatial join combines two datasets with respect to some spatial predicate (usually overlap). A typical example is “find all cities that are crossed by a river”. The most influential algorithm for joining two datasets indexed by R-trees is the R-tree join (RJ) \citep{Brinkhoff93} [the other? 1996?]. RJ traverses synchronously both trees, following entry pairs that overlap;non-intersecting pairs cannot lead to solutions at the lower levels. Most methods deal with the filter step; that is, they output a set of MBR pairs(candidates) that may enclose intersecting objects.
+	\citep{Mamoulis} : As in relational databases, joins in spatial databases play an important role in effective spatial query processing. A pairwise spatial join combines two datasets with respect to some spatial predicate (usually overlap). A typical example is “find all cities that are crossed by a river”. The most influential algorithm for joining two datasets indexed by R-trees is the R-tree join (RJ) \citep{Brinkhoff93} [the other? 1996?]. RJ traverses synchronously both trees, following entry pairs that overlap;non-intersecting pairs cannot lead to solutions at the lower levels. Most methods deal with the filter step; that is, they output a set of MBR pairs (candidates) that may enclose intersecting objects.
 	\\
 
 	
