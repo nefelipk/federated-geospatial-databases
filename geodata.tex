@@ -307,15 +307,26 @@ If neither dataset is indexed, then it might not be efficient to build indices i
 \\
 
 
-Probably the most popular spatial access method is the R-tree 
-\citep{Guttman}. An \term{R-tree} can be thought of as an extension of 
-\term{B\textsuperscript{+}-tree} \citep{Comer} (see also \term{B-trees} 
-\citep{Bayer}) in multi-dimensional space. There is no special ordering of 
-objects in space that fully preserves spatial proximity \citep{Mamoulis}, so 
-conventional indexes, such as B\textsuperscript{+}-trees, are inapplicable 
-to spatial databases. R-trees index object approximations, usually 
-\acr{mbr}s, providing a spatial join performed by a filter-and-refine 
-approach.
+Probably the most popular spatial access method is the R-tree \citep{Guttman}, when considering indexed datasets. An \term{R-tree} can be thought of as an extension of \term{B\textsuperscript{+}-tree} \citep{Comer} (see also \term{B-trees} \citep{Bayer}) in multi-dimensional space. There is no special ordering of objects in space that fully preserves spatial proximity \citep{Mamoulis}, so conventional indexes, such as B\textsuperscript{+}-trees, are inapplicable to spatial databases. R-trees index object approximations, usually \acr{mbr}s, providing a spatial join performed by a filter-and-refine approach.
+\\
+
+
+
+
+
+[[[[[[ The most basic spatial join method is the \term{nested-loop join}, which compares every object in one dataset to every object in the other dataset \citep{Mishra}. A variant of the nested-loop join algorithm, called the \term{index nested-loop join}, improves performance for larger datasets \citep{Jacox}. It first creates a spatial index and inserts every element of one dataset, say $A$ into this index. Next, the other dataset, say $B$ is scanned, and each element is used to search the index on dataset $A$ for intersections. Generally, the search window is a rectangle, which limits the types of join conditions to intersection tests or related relations that can be solved with a window query, such as proximity. ]]]]]]
+\\
+
+
+Let us consider two sets $A={a_1,...,a_n}$ and $B={b_1,...,b_m}$ of spatial objects, known as spatial relations \citep{Brinkhoff93}. The reader may think of the objects in a spatial relation as polygons representing a surface of a spatial object. Let \func{id} be a function that assigns a unique identifier to each spatial object in a database. Furthermore, let \func{mbr} be a function that computes the minimum bounding rectilinear rectangle of an object. For example, $\func{id}(a_1)$ and $\func{mbr}(a_1)$ denote the identifier and the minimum bounding rectangle of $a_1$, respectively. The most important spatial joins are the following:
+\begin{itemize} 
+	\item \acr{mbr}-spatial-join:\\ Compute all pairs $(\func{id}(a_i), \func{id}(b_j))$ with $\func{mbr}(a_i) \cap \func{mbr}(b_j) \neq \emptyset$\\
+	\item \acr{id}-spatial-join:\\ Compute all pairs $(\func{id}(a_i), \func{id}(b_j))$ with $a_i \cap b_j \neq \emptyset$\\
+	\item Object-spatial-join:\\ Compute $a_i \cap b_j$ with $a_i \cap b_j \neq \emptyset$
+\end{itemize} 
+
+The \acr{mbr}-spatial-join can be used for implementing the filter step of the \acr{id}-spatial-join and the object-spatial-join.
+In addition to these three, there are also other types of joins – joins with other spatial operators than intersection, e.g. containment, or joins with more than two spatial relations.
 \\
 
 
@@ -333,50 +344,10 @@ approach.
 	\\
 
 	
-	\todo[size={{\scriptsize}}]{probably remove this paragraph}
-	Probably the most popular spatial access method is the R-tree 
-	\citep{Guttman}. An \term{R-tree} can be thought of as an extension of 
-	B\textsuperscript{+}-tree \citep{Comer} (see also B-trees \citep{Bayer}) in 
-	multi-dimensional space. There is no special ordering of objects in space 
-	that preserves spatial proximity \citep{Mamoulis}, so conventional indexes, 
-	such as B\textsuperscript{+}-trees, are inapplicable to spatial databases. 
-	R-trees index object approximations, usually \term{minimum bounding 
-	rectangles (\acr{mbr}s)}, providing a spatial join performed by a 
-	filter-and-refine approach. An \acr{mbr} of an object is the smallest 
-	enclosing rectangle whose sides are parallel to the axes of the space.
-	\par
-	The \term{filter-and-refine approach} consists of two steps 
-	\citep{Orenstein89}. The \term{filter step} during which all objects that 
-	could not possibly satisfy the query are rapidly eliminated. The result 
-	of this step is a set of \term{candidate objects} which includes all the 
-	objects satisfying the query, and possibly some false hits. And then the 
-	subsequent \term{refinement step}, during which each candidate is examined 
-	– false hits are detected and eliminated, and the actual solutions are 
-	retrieved. In extreme cases, the filter step would return the entire set 
-	of data objects, all of which would then have to be considered by the 
-	refinement step.
-	\par 
-	More concrete, the filter step finds all objects whose \acr{mbr} intersects 
-	the query rectangle. And the refinement step checks whether and which of 
-	those results really fulfill the join condition.
-	\\
 
-
-	\citep{Brinkhoff93}:
-	Let us consider two sets $A={a_1,...,a_n}$ and $B={b_1,...,b_m}$ of spatial objects, known as spatial relations. The reader may think of the objects in a spatial relation as polygons representing a surface of a spatial object. Let \func{id} be a function that assigns a unique identifier to each spatial object in a database. Furthermore, let \func{mbr} be a function that computes the minimum bounding rectilinear rectangle of an object. For example, $\func{id}(a_1)$ and $\func{mbr}(a_1)$ denote the identifier and the minimum bounding rectangle of $a_1$, respectively. The most important spatial joins are the following:
-	\begin{itemize} 
-		\item \acr{mbr}-spatial-join:\\ Compute all pairs $(\func{id}(a_i), \func{id}(b_j))$ with $\func{mbr}(a_i) \cap \func{mbr}(b_j) \neq \emptyset$\\
-		\item \acr{id}-spatial-join:\\ Compute all pairs $(\func{id}(a_i), \func{id}(b_j))$ with $a_i \cap b_j \neq \emptyset$\\
-		\item Object-spatial-join:\\ Compute $a_i \cap b_j$ with $a_i \cap b_j \neq \emptyset$
-	\end{itemize} 
+\citep{Jacox}: Unlike points, rectangles have extent, which complicates spatial join algorithms. 
+\\
 	
-
-	The \acr{mbr}-spatial-join can be used for implementing the filter step of the \acr{id}-spatial-join and the object-spatial-join.
-	In addition to these three, there are also other types of joins – joins with other spatial operators than intersection, e.g. containment, or joins with more than two spatial relations.
-	\\
-
-
-
 
 \todo[size={{\scriptsize}}]{plane-sweep algorithm? (Preparata et al.)}
 
@@ -384,7 +355,7 @@ approach.
 	\\
 
 
-	[[[[[[ \citep{Jacox}: it is assumed that the data is two dimensional and that we are interested in determining pairs of intersecting ob-jects. Both of these assumptions are common in the literature. ]]]]]]
+	[[[[[[ \citep{Jacox}: it is assumed that the data is two dimensional and that we are interested in determining pairs of intersecting objects. Both of these assumptions are common in the literature. ]]]]]]
 
 
 
