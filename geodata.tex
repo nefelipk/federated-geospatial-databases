@@ -269,7 +269,7 @@
 	\label{sec:geo:tech}
 
 	
-	A line of research starts with \citet{Preparata}. They introduced a computational geometry approach to solving the simplified spatial join (a two-set rectangle intersection), called \term{plane-sweep} \citep{Preparata}. The algorithm has two passes. The first pass sorts the rectangles in ascending order on the basis of their left sides (i.e.,x coordinate values) and forms a list. The second pass sweeps a vertical scan line through the sorted list from left to right. When intersecting with a rectangle it halts, the rectangle becomes active, and is inserted into the set of active rectangles. Any rectangles entirely to the left of the scan line are removed from the set of active rectangles. To keep track of the active rectangles, the plane-sweep algorithm uses a \term{sweep structure}. For three dimensions see the \term{space-sweep} technique \citep{Preparata}.
+	A line of research starts with \citet{Preparata}. They introduced a computational geometry approach to solving the simplified spatial join (a two-set rectangle intersection), called \term{plane-sweep}. The algorithm has two passes. The first pass sorts the rectangles in ascending order on the basis of their left sides (i.e.,x coordinate values) and forms a list. The second pass sweeps a vertical scan line through the sorted list from left to right. When intersecting with a rectangle it halts, the rectangle becomes active, and is inserted into the set of active rectangles. Any rectangles entirely to the left of the scan line are removed from the set of active rectangles. To keep track of the active rectangles, the plane-sweep algorithm uses a \term{sweep structure}. For three dimensions see the \term{space-sweep} technique \citep{Preparata}.
 	\par
 	More concrete, to apply the plane-sweep algorithm, a sweep structure is needed for both $R$ and $S$ (see the simplified spatial join in Section~\ref{sec:geo:join}). Rectangles from $R$ are inserted into $R's$ sweep structure and rectangles from $S$ are inserted into $S's$ sweep structure. Then, each rectangle $r$ from $R$ will perform a search on $S's$ sweep structure, to find all the intersections with the rectangles in $S$, and vice versa. 
 	\par
@@ -286,6 +286,35 @@ The Z-order can ensure that larger objects will be seen first \citep{Jacox}.
 The Z-order algorithm is nearly identical to the plane-sweep algorithm. First, the objects from both datasets are assigned to Z-order grid cells. Next, the objects are sorted in Z-order rather than one-dimensionally. In this case, the active set, instead of being the objects that intersect the sweep line, are the enclosing cells of the objects that intersect the current Z-order grid cell. Since a sufficiently fine grid cell will intersect fewer objects, the active set will be smaller and the sweep structure can be simpler.
 \\
 
+	For those who are not familiar with \term{Z-order}, it is a linear order 
+	that creates a total order on multi-dimensional objects. The Z-order is a 
+	traversal through a regular grid using a ‘Z’ pattern. It traverses the grid 
+	in a pattern that helps to preserve locality. It first order objects in a 
+	block before moving to the next block. If there are more than four cells 
+	in the grid, then each top-level block is fully traversed before moving to 
+	the next block. Linear orders that keep neighboring objects closer in the 
+	order, on average, such as the Z-order, tend to be more useful for spatial 
+	join algorithms.  
+	\\
+
+
+
+\todo[size={{\scriptsize}}]{indexed dataset, 1 indexed 1 not, not-indexed datasets}
+If neither dataset is indexed, then it might not be efficient to build indices in order to do a spatial join \citep{Jacox}. Especially if the indices will not be used again and immediately discarded, for example if the spatial join in question is an intermediate step in solving a complex query.
+\\
+
+
+Probably the most popular spatial access method is the R-tree 
+\citep{Guttman}. An \term{R-tree} can be thought of as an extension of 
+B\textsuperscript{+}-tree \citep{Comer} (see also B-trees \citep{Bayer}) in 
+multi-dimensional space. There is no special ordering of objects in space 
+that preserves spatial proximity \citep{Mamoulis}, so conventional indexes, 
+such as B\textsuperscript{+}-trees, are inapplicable to spatial databases. 
+R-trees index object approximations, usually \acr{mbr}s, providing a 
+spatial join performed by a filter-and-refine approach.
+\\
+
+
 
 
 
@@ -300,10 +329,11 @@ The Z-order algorithm is nearly identical to the plane-sweep algorithm. First, t
 	\\
 
 	
+	\todo[size={{\scriptsize}}]{probably remove this paragraph}
 	Probably the most popular spatial access method is the R-tree 
 	\citep{Guttman}. An \term{R-tree} can be thought of as an extension of 
-	B\textsuperscript{+}-tree \citep{Comer} (see also B-trees \citep{Bayer}) 
-	in multidimensional space. There is no special ordering of objects in space 
+	B\textsuperscript{+}-tree \citep{Comer} (see also B-trees \citep{Bayer}) in 
+	multi-dimensional space. There is no special ordering of objects in space 
 	that preserves spatial proximity \citep{Mamoulis}, so conventional indexes, 
 	such as B\textsuperscript{+}-trees, are inapplicable to spatial databases. 
 	R-trees index object approximations, usually \term{minimum bounding 
@@ -324,7 +354,7 @@ The Z-order algorithm is nearly identical to the plane-sweep algorithm. First, t
 	\par 
 	More concrete, the filter step finds all objects whose \acr{mbr} intersects 
 	the query rectangle. And the refinement step checks whether and which of 
-	those results really fulfill the join condition.n 
+	those results really fulfill the join condition.
 	\\
 
 
@@ -366,7 +396,7 @@ The Z-order algorithm is nearly identical to the plane-sweep algorithm. First, t
 \citep{Orenstein86}: The z value of a region is a concise description of the shape, size and position of the region. These can be derived from the z value. 
 Z ordering is a total ordering of elements. This property, combined with the highly constrained splitting policy that produces elements, leads to the following observation. The only possible relationships between elements are containment and precedence (in z order). Overlap (other than containment) cannot occur. This leads to very simple algorithms based on the merging of sequences of elements. Much of the usefulness of z order IS based on the property that it preserves proximity, i.e. if two points are close in space then they are likely to be close in z order. 
 \par
-\citep{Orenstein84}: By interleaving the bits of the binary representations of the attribute valued in a tuple, an integer corresponding to the tuple is created. A set of these integers represents a relation. The usual ordering of these integers (z ordering?????) corresponds to an ordering of multidimensional data that allows the use of conventional file organizations, such as B-trees, in the efficient processing of multidimensional queries (e.g. range queries).
+\citep{Orenstein84}: By interleaving the bits of the binary representations of the attribute valued in a tuple, an integer corresponding to the tuple is created. A set of these integers represents a relation. The usual ordering of these integers (z ordering?????) corresponds to an ordering of multi-dimensional data that allows the use of conventional file organizations, such as B-trees, in the efficient processing of multi-dimensional queries (e.g. range queries).
 \\
 
 \citep{Orenstein89}: The spatial join algorithm performs a merge of two geometry filter (GF) sequences, searching for situations where an element in one sequence, as represented by its z value, contains an element from the other input. (This can be determined by checking whether one z value is a prefix of the other.) When such a pair is found, a candidate, comprising the objects associated with the elements, is generated. 
@@ -497,3 +527,5 @@ Z ordering is a total ordering of elements. This property, combined with the hig
 	\bibliography{ref}
 	\bibliographystyle{unsrtnat}
 \end{document}
+\grid
+\grid
