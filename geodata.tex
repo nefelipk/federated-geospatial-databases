@@ -615,6 +615,9 @@
 Probably the most popular spatial access method is the R-tree \citep{Guttman}, when considering indexed datasets. An \term{R-tree} can be thought of as an extension of \term{B\textsuperscript{+}-tree} \citep{Comer} (see also \term{B-trees} \citep{Bayer}) in multi-dimensional space. There is no special ordering of objects in space that fully preserves spatial proximity \citep{Mamoulis}, so conventional indexes, such as B\textsuperscript{+}-trees, are inapplicable to spatial databases. R-trees index object approximations, usually \acr{mbr}s, providing a spatial join performed by a filter-and-refine approach.
 \\
 
+\citep{Guttman}: An R-tree is a height-balanced tree similar to a B-tree with index records in its leaf nodes containing pointers to data objects. Nodes correspond to disk pages if the index is disk-resident. The structure is designed so that a spatial search requires visiting only a small number of nodes. The index is completely dynamic – inserts and deletes can be intermixed with searches and no periodic reorganization is required. 
+\\
+
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=\textwidth]{generalization_tree}
@@ -819,3 +822,5 @@ Z ordering is a total ordering of elements. This property, combined with the hig
 	\bibliography{ref}
 	\bibliographystyle{unsrtnat}
 \end{document}
+
+–
