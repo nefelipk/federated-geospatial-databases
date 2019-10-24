@@ -546,8 +546,10 @@
 
 	The \term{window query} in example for a single-scan query 
 	\citep{Brinkhoff93} (we will use this term below). Let $A$ be a dataset of 
-	spatial objects and $r$ be a rectilinear rectangle. The window query 
-	searches all objects $a \in A$ with $a \cap r \neq \emptyset$.
+	spatial objects and $r$ be a rectilinear rectangle. \term{Rectilinear} 
+	means related to a straight line, i.e. it may refer to a polygon whose 
+	edges meet at right angles. The window query searches all objects $a \in A$ 
+	with $a \cap r \neq \emptyset$.
 	\\
 
 	The most basic spatial join method is the \term{nested-loop join}, which 
@@ -602,21 +604,141 @@
 	data using internal memory techniques.
 	\\
 
+	The nested-loop strategy (as well as the index nested-loop) works although 
+	its lack of efficiency becomes even more obvious in the case of spatial 
+	data \citep{Gunther}. The spatial operators are usually much harder to 
+	compute than simple comparison operators on real numbers.
+	\\
+
+	In the section below we briefly present some of the most popular methods 
+	used for accessing spatial data stored in external memory.
+	\\
+
+
 	\paragraph{One dataset indexed, one not}
 	\label{sec:geo:filter:ex:both}
 
 	\paragraph{Neither dataset indexed}
 	\label{sec:geo:filter:ex:both}
 
+
+	\paragraph{Spatial access methods}
+	\label{sec:geo:filter:ex:access}
+
+	There is no special ordering of objects in space that fully preserves 
+	spatial proximity \citep{Mamoulis}. So conventional indexes, such as 
+	B-trees \citep{Bayer, Comer}, are inapplicable to spatial databases. 
+	\term{B-trees} are self-balancing search trees, with all their leaf nodes 
+	appearing on the same level. The main idea of using B-Trees is to reduce 
+	the number of disk accesses. For this reason the height of B-Trees is kept 
+	low by putting maximum possible keys in each B-Tree node. Generally, a 
+	B-Tree node size is kept equal to the disk block size. All keys of a node 
+	are sorted in increasing order. The child node between two keys 
+	$k\textsubscript{1}$ and $k\textsubscript{2}$ contains all keys in the 
+	range from $k\textsubscript{1}$ to $k\textsubscript{2}$.
+	\\
+
+	An R-tree can be thought of as an extension of a B-tree in 
+	multi-dimensional space. An \term{R-tree} \citep{Guttman} is a 
+	height-balanced tree. It has index records in its leaf nodes containing 
+	pointers to data objects, as illustrated in 
+	Figure~\bl{\ref{fig:r_tree_str}}. Nodes correspond to disk pages if the 
+	index is disk-resident. The structure is designed so that a spatial search 
+	requires visiting only a small number of nodes. The index is completely 
+	dynamic – inserts and deletes can be intermixed with searches and no 
+	periodic reorganization is required. Containment and overlapping 
+	relationships are possible to exist between the rectangles of an R-tree. 
+	R-trees index object approximations, usually \acr{mbr}s, providing a 
+	spatial join performed by a filter-and-refine approach.
+	\\
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.7\textwidth]{b_tree}
+		\caption{Structure of a B-tree (Fig. 2 \citep{Bayer}).}
+		\label{fig:b_tree}
+	\end{figure}
+
+	\begin{figure}[h!]
+		\centering
+		\begin{subfigure}[t]{0.49\textwidth}
+			\includegraphics[width=\textwidth]{r_tree}
+			\caption{Structure of an R-tree.}
+			\label{fig:r_tree_str}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[t]{0.49\textwidth}
+			\includegraphics[width=\textwidth]{r_tree_overlap}
+			\caption{Containment and overlapping relationships that can exist 
+			between the rectangles of an R-tree.}
+		\end{subfigure}
+		\caption{R-tree structure and relationships between its objects 
+		(Fig. 2 \citep{Guttman})}
+		\label{fig:r_tree}
+	\end{figure}
+
+	Another spatial access method is the \term{quad tree} \citep{Finkel}, a 
+	data structure appropriate for storing information to be retrieved on 
+	composite keys. It is a generalization of the binary tree for the treatment 
+	of data with inherently two-dimensional structure. As a reminder, a 
+	\term{binary tree} is a tree data structure in which each node has at most 
+	two children. Quad trees are most often used to partition a two-dimensional 
+	space by recursively subdividing it into four quadrants or regions, as 
+	illustrated in figure~\bl{\ref{fig:quad_tree}}. In such a tree data 
+	structure each internal node has exactly four children. The data associated 
+	with a leaf cell represents spatial information – a square, rectangle, or 
+	even an arbitrary shape.
+	\\
+
+	\begin{figure}[h!]
+		\centering
+		\begin{subfigure}[t]{0.49\textwidth}
+			\includegraphics[width=\textwidth]{quad_tree}
+			\caption{Structure of a quad tree.}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[t]{0.49\textwidth}
+			\includegraphics[width=\textwidth]{quad_tree_boxes}
+			\caption{Correspondence of a quad tree to the records it 
+			represents. Null subtrees are indicated by boxes, but they do not 
+			appear explicitly in computer memory.}
+		\end{subfigure}
+		\caption{Quad-tree structure and correspondence to its records 
+		(Fig. 1 \citep{Finkel}).}
+		\label{fig:quad_tree}
+	\end{figure}
+
+
+	A \term{k-d tree} \citep{Bentley} (short for \term{k-dimensional tree}) 
+	is a space-partitioning data structure for organizing points in a 
+	k-dimensional space. Practically it is a multidimensional binary search 
+	tree. Each record is stored as a node in the k-d tree. In addition to the 
+	records, each node contains two pointers, which are either null or point 
+	to another node in the k-d tree. Each pointer can be considered as 
+	specifying a subtree. Each internal node divides the space into two parts. 
+	And every leaf node is a k-dimensional point.
+	\\
+
+	A variation of both B-trees and k-d trees is the so called 
+	\term{K-D-B tree} \citep{Robinson} (short for \term{k-dimensional B-tree}). 
+	It is a tree data structure for subdividing a k-dimensional search space. 
+	The K-D-B-tree combines properties of k-d trees and B-trees. Its aim is to 
+	provide the search efficiency of a balanced k-d tree, while providing the 
+	block-oriented storage of a B-tree for optimizing external memory accesses.
+	\\
+
+	\todo[size={{\scriptsize}}]{more info for (multilevel) grid files}
+	The \term{grid file} \citep{Nievergelt} is a contribution to the development of balanced multikey file structures. 
+	\\
+
+	Let's now see how these access methods are used to retrieve information 
+	about spatial data. We will first describe external memory techniques used 
+	when both datasets are indexed.
+	\\
+
+
 	\paragraph{Both datasets indexed}
 	\label{sec:geo:filter:ex:both}
-
-\todo[size={{\scriptsize}}]{more info for R-trees, B-trees, quad trees, multilevel grid files, kd trees}
-Probably the most popular spatial access method is the R-tree \citep{Guttman}, when considering indexed datasets. An \term{R-tree} can be thought of as an extension of \term{B\textsuperscript{+}-tree} \citep{Comer} (see also \term{B-trees} \citep{Bayer}) in multi-dimensional space. There is no special ordering of objects in space that fully preserves spatial proximity \citep{Mamoulis}, so conventional indexes, such as B\textsuperscript{+}-trees, are inapplicable to spatial databases. R-trees index object approximations, usually \acr{mbr}s, providing a spatial join performed by a filter-and-refine approach.
-\\
-
-\citep{Guttman}: An R-tree is a height-balanced tree similar to a B-tree with index records in its leaf nodes containing pointers to data objects. Nodes correspond to disk pages if the index is disk-resident. The structure is designed so that a spatial search requires visiting only a small number of nodes. The index is completely dynamic – inserts and deletes can be intermixed with searches and no periodic reorganization is required. 
-\\
 
 	\begin{figure}[h!]
 		\centering
@@ -626,15 +748,15 @@ Probably the most popular spatial access method is the R-tree \citep{Guttman}, w
 		\label{fig:gen_tree}
 	\end{figure}
 
-	A \term{generalization tree} is a tree structure where each node corresponds to a spatial object \citep{Gunther}. Each object corresponding to an internal node is completely contained in the object corresponding to its parent node, as illustrated in Figure~\bl{\ref{fig:gen_tree}}. Different spatial objects, even objects corresponding to nodes at the same height may overlap. The objects at any height do not have to cover the total space, dead space is allowed. Any such generalization tree structure can be used to compute spatial joins in a hierarchical manner. 
-	\par
-	\todo[size={{\scriptsize}}]{differences between Gunther [1993], Brinkhoff [1993], Kim [1995], and Huang [1997b]}
-	If both datasets are indexed using generalization trees and both indices have the same height, then a spatial join can be performed efficiently with a \term{synchronized traversal} of the indices \citep{Jacox}. For indices of different heights, the join of a leaf of one index with a sub-tree of the other can be accomplished using a window query [Brinkhoff et al. 1993], or handling leaf-to-node comparison as special cases [Kim et al. 1995]. In the following we assume that the data objects are only stored in the leaves of the tree. Starting with the two root nodes of the indices, $rootA$ and $rootB$, the algorithm finds intersections between the sub-nodes of $rootA$ and $rootB$. The intersecting sub-node pairs are added to a priority queue [Cormen et al. 1990]. The pairs in the priority queue are checked for intersecting sub-nodes in later iterations. If the two nodes are leaves, they are compared and report any intersecting objects.
-	\\
+A \term{generalization tree} is a tree structure where each node corresponds to a spatial object \citep{Gunther}. Each object corresponding to an internal node is completely contained in the object corresponding to its parent node, as illustrated in Figure~\bl{\ref{fig:gen_tree}}. Different spatial objects, even objects corresponding to nodes at the same height may overlap. The objects at any height do not have to cover the total space, dead space is allowed. Any such generalization tree structure can be applied efficiently to compute spatial joins in a hierarchical manner. 
+\par
+\todo[size={{\scriptsize}}]{differences between Gunther [1993], Brinkhoff [1993], Kim [1995], and Huang [1997b]}
+If both datasets are indexed using generalization trees and both indices have the same height, then a spatial join can be performed efficiently with a \term{synchronized traversal} of the indices \citep{Jacox}. For indices of different heights, the join of a leaf of one index with a sub-tree of the other can be accomplished using a window query [Brinkhoff et al. 1993], or handling leaf-to-node comparison as special cases [Kim et al. 1995]. In the following we assume that the data objects are only stored in the leaves of the tree. Starting with the two root nodes of the indices, $rootA$ and $rootB$, the algorithm finds intersections between the sub-nodes of $rootA$ and $rootB$. The intersecting sub-node pairs are added to a priority queue [Cormen et al. 1990]. The pairs in the priority queue are checked for intersecting sub-nodes in later iterations. If the two nodes are leaves, they are compared and report any intersecting objects.
+\\
 
 	
-
-
+Probably the most popular spatial access method is the R-tree, when considering indexed datasets \citep{Jacox}.
+\\
 
 
 
@@ -822,5 +944,6 @@ Z ordering is a total ordering of elements. This property, combined with the hig
 	\bibliography{ref}
 	\bibliographystyle{unsrtnat}
 \end{document}
+
 
 –
