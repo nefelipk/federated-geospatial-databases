@@ -476,7 +476,7 @@
 		\label{fig:z_value}
 	\end{figure}
 
-	\todo[size={{\scriptsize}}]{problems with Z-order sweep and optimizations? see Jacox}
+	\todo[size={{\scriptsize}}]{problems with Z-order sweep and optimizations?? see Jacox}
 	A similar approach was proposed by \citet{Orenstein86} who used a variation 
 	of the Z-order method on spatial joins. The z value of a region is a 
 	concise description of the size and position of the region. It is 
@@ -588,7 +588,7 @@
 	
 	\subsubsection{External memory techniques}
 	\label{sec:geo:filter:ex}
-	\todo[size={{\scriptsize}}]{indexed dataset, one indexed one not, not-indexed datasets}
+	\todo[size={{\scriptsize}}]{about indexed dataset, one indexed one not, not-indexed datasets}
 
 	Even if there is sufficient internal memory to use one of the internal 
 	memory techniques mentioned in Section~\ref{sec:geo:filter:in} (i.e. 
@@ -615,13 +615,6 @@
 	\\
 
 
-	\paragraph{One dataset indexed, one not}
-	\label{sec:geo:filter:ex:both}
-
-	\paragraph{Neither dataset indexed}
-	\label{sec:geo:filter:ex:both}
-
-
 	\paragraph{Spatial access methods}
 	\label{sec:geo:filter:ex:access}
 
@@ -635,7 +628,9 @@
 	B-Tree node size is kept equal to the disk block size. All keys of a node 
 	are sorted in increasing order. The child node between two keys 
 	$k\textsubscript{1}$ and $k\textsubscript{2}$ contains all keys in the 
-	range from $k\textsubscript{1}$ to $k\textsubscript{2}$.
+	range from $k\textsubscript{1}$ to $k\textsubscript{2}$. (We remind that 
+	a \term{key} is a unique identifier for each item in the dataset used to 
+	retrieve it from the structure.)
 	\\
 
 	An R-tree can be thought of as an extension of a B-tree in 
@@ -727,15 +722,49 @@
 	block-oriented storage of a B-tree for optimizing external memory accesses.
 	\\
 
-	\todo[size={{\scriptsize}}]{more info for (multilevel) grid files}
-	The \term{grid file} \citep{Nievergelt} is a contribution to the development of balanced multikey file structures. 
+	The \term{grid file} \citep{Nievergelt} or \term{bucket grid} is a 
+	contribution to the development of balanced multikey file structures. 
+	Multidimensional trees of various kinds (e.g, k-d trees \citep{Bentley}) 
+	are another example of multikey access techniques that organize the set 
+	of data to be stored. \term{Multikey access} means that the reference of 
+	records is done by using any possible subset of its fields, as shown in 
+	the following examples: 
+	\begin{itemize} 
+		\item Entire record specified (exact match query, point query)
+		\item Doe born in 1951 (a partially specified query)
+		\item All records with last name Doe (single-key query) 
+		\item Social security number 987654321 (presumably unique) 
+		\item Everybody born between 1940 and 1960 (range or interval query) 
+	\end{itemize} 
+	The grid file is a point access method based on grid partitions of the 
+	search space illustrated in Figure~\bl{\ref{fig:grid_file}}. Each region 
+	boundary cuts the entire search space in two, so all dimensions are 
+	treated symmetrically. Each partition is known as a cell of the grid. And 
+	each cell contains a pointer to the appropriate bucket in the database 
+	where the actual data (i.e. the record) is stored. The grid file provides 
+	an efficient method of storing these indices on disk to perform complex 
+	data lookups. 
 	\\
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.2\textwidth]{grid_file}
+		\caption{Space partitions created by a grid file (Fig. 10 
+		\citep{Nievergelt}).}
+		\label{fig:grid_file}
+	\end{figure}
 
 	Let's now see how these access methods are used to retrieve information 
 	about spatial data. We will first describe external memory techniques used 
 	when both datasets are indexed.
 	\\
 
+
+	\paragraph{One dataset indexed, one not}
+	\label{sec:geo:filter:ex:both}
+
+	\paragraph{Neither dataset indexed}
+	\label{sec:geo:filter:ex:both}
 
 	\paragraph{Both datasets indexed}
 	\label{sec:geo:filter:ex:both}
