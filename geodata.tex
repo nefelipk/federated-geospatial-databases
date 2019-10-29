@@ -392,26 +392,19 @@
 
 	Now that we have seen how a spatial join works in theory, in the next 
 	section we will present techniques used for the filtering stage of a 
-	spatial join.
+	spatial join. During the filtering stage, a spatial join is performed on 
+	approximations of the objects \citep{Jacox}. Let us start with techniques 
+	for performing a spatial join without using external memory. That is no 
+	data is written to external memory, only read once if necessary. 
 	\\
 
 
 
-	\subsection{Filtering stage}
-	\label{sec:geo:filter}
+	\subsection{Internal memory techniques}
+	\label{sec:geo:in}
 
-	During the filtering stage, a spatial join is performed on approximations 
-	of the objects \citep{Jacox}. Let us start with techniques for performing 
-	a spatial join without using external memory. That is no data is written 
-	to external memory, only read once if necessary. 
-	\\
-
-
-	\subsubsection{Internal memory techniques}
-	\label{sec:geo:filter:in}
-
-	\paragraph{Plane sweep method}
-	\label{sec:geo:filter:in:sweep}
+	\subsubsection{Plane sweep method}
+	\label{sec:geo:in:sweep}
 
 	A line of research starts with \citet{Preparata} who introduced a 
 	computational geometry approach to solving the simplified spatial join (a 
@@ -449,8 +442,8 @@
 	\\
 
 
-	\paragraph{Z-order method}
-	\label{sec:geo:filter:in:z}
+	\subsubsection{Z-order method}
+	\label{sec:geo:in:z}
 
 	\begin{figure}[h!]
 		\centering
@@ -541,8 +534,8 @@
 	\end{figure}
 
 
-	\paragraph{Index nested-loop join}
-	\label{sec:geo:filter:in:nested}
+	\subsubsection{Index nested-loop join}
+	\label{sec:geo:in:nested}
 
 	The \term{window query} \citep{Brinkhoff93} is an example for a 
 	single-scan query (we will use this term below). Let $A$ be a dataset of 
@@ -573,7 +566,7 @@
 	external memory spatial join algorithm by using external memory indices. 
 	This allows the algorithm to process larger datasets. Finally it can be 
 	useful as a component in other spatial join algorithms (see 
-	Section~\ref{sec:geo:filter:ex}).
+	Section~\ref{sec:geo:ex}).
 	\\
 
 	But unfortunately, as mentioned before in Section~\ref{sec:geo:basics}, 
@@ -586,12 +579,12 @@
 
 
 	
-	\subsubsection{External memory techniques}
-	\label{sec:geo:filter:ex}
+	\subsection{External memory techniques}
+	\label{sec:geo:ex}
 	\todo[size={{\scriptsize}}]{about indexed dataset, one indexed one not, not-indexed datasets}
 
 	Even if there is sufficient internal memory to use one of the internal 
-	memory techniques mentioned in Section~\ref{sec:geo:filter:in} (i.e. 
+	memory techniques mentioned in Section~\ref{sec:geo:in} (i.e. 
 	plane-sweep, Z-order approach), if both datasets are indexed, then it can 
 	be faster to use external memory filtering technique \citep{Jacox}. The 
 	cases in which this is the right choice is an open question. If, on the 
@@ -615,8 +608,8 @@
 	\\
 
 
-	\paragraph{Spatial access methods}
-	\label{sec:geo:filter:ex:access}
+	\subsubsection{Spatial access methods}
+	\label{sec:geo:ex:access}
 
 	There is no special ordering of objects in space that fully preserves 
 	spatial proximity \citep{Mamoulis}. So conventional indexes, such as 
@@ -672,24 +665,6 @@
 		\label{fig:r_tree}
 	\end{figure}
 
-	A \term{generalization tree} is a tree structure where each node 
-	corresponds to a spatial object \citep{Gunther}. Each object corresponding 
-	to an internal node is completely contained in the object corresponding to 
-	its parent node, as illustrated in Figure~\bl{\ref{fig:gen_tree}}. 
-	Different spatial objects, even objects corresponding to nodes at the same 
-	height may overlap. The objects at any height do not have to cover the 
-	total space, dead space is allowed. This very general definition includes 
-	several common spatial access methods, such as R-trees.
-	\\
-
-	\begin{figure}[h!]
-		\centering
-		\includegraphics[width=\textwidth]{generalization_tree}
-		\caption{A generalization tree representing a cartographic hierarchy 
-		(Fig. 3 \citep{Gunther}).}
-		\label{fig:gen_tree}
-	\end{figure}
-
 	Another spatial access method is the \term{quad tree} \citep{Finkel}, a 
 	data structure appropriate for storing information to be retrieved on 
 	composite keys. It is a generalization of the binary tree for the treatment 
@@ -741,25 +716,34 @@
 	\\
 
 	The \term{grid file} \citep{Nievergelt} or \term{bucket grid} is a 
-	contribution to the development of balanced multikey file structures. 
+	contribution to the development of balanced multikey file structures. A 
+	\term{file} is a collection of \term{records}, where a record consists of 
+	a list of \term{attributes} \citep{Whang}. 
 	Multidimensional trees of various kinds (e.g, k-d trees \citep{Bentley}) 
 	are another example of multikey access techniques that organize the set 
-	of data to be stored. \term{Multikey access} means that the reference of 
-	records is done by using any possible subset of its fields, as shown in 
-	the following examples: 
+	of data to be stored. As an example, consider records with the attribute 
+	fields last name, first name, year of birth, and social security number, 
+	and a record [Doe, John, 1951, 1234567891]. \term{Multikey access} means 
+	that the reference of records is done by using any possible subset of its 
+	fields, as shown in the following examples \citep{Nievergelt}: 
 	\begin{itemize} 
-		\item Entire record specified (exact match query, point query)
-		\item Doe born in 1951 (a partially specified query)
-		\item All records with last name Doe (single-key query) 
-		\item Social security number 987654321 (presumably unique) 
-		\item Everybody born between 1940 and 1960 (range or interval query) 
+		\item Entire record specified (\term{exact match query}, point query)
+		\item Doe born in 1951 (\term{partial match query})
+		\item All records with last name Doe (\term{single-key query}) 
+		\item All records with social security number 987654321 (presumably 
+		unique) 
+		\item Everybody born between 1940 and 1960 (\term{range query}) 
 	\end{itemize} 
+	
 	The grid file is a point access method based on grid partitions of the 
-	search space illustrated in Figure~\bl{\ref{fig:grid_file}}. Each region 
+	search space illustrated in Figure~\bl{\ref{fig:grid_file}}. The grid file 
+	consist of two components, the directory and the main data in the file. The 
+	directory partitions the domain space into grid-like regions. Each region 
 	boundary cuts the entire search space in two, so all dimensions are 
-	treated symmetrically. Each partition is known as a cell of the grid. And 
-	each cell contains a pointer to the appropriate bucket in the database 
-	where the actual data (i.e. the record) is stored. The grid file provides 
+	treated symmetrically. Each such region is known as a cell of the grid. 
+	And each cell contains a pointer to the appropriate bucket in the database 
+	where the actual data (i.e. the record) is stored. More than one entry in 
+	the directory may point to the same data block. The grid file provides 
 	an efficient method of storing these indices on disk to perform complex 
 	data lookups. 
 	\\
@@ -772,17 +756,97 @@
 		\label{fig:grid_file}
 	\end{figure}
 
+	An extension of the grid file provides a multilevel approach to organizing 
+	the directory. It encounters the directory as a file, and creates a new 
+	directory to organize this file. This extension is called the 
+	\term{multilevel grid file} (or \term{\acr{mlgf}}) \citep{Whang}. For 
+	example, a two-level grid file is shown in 	Figure~\bl{\ref{fig:mlgf}}, 
+	together with how regions are represented by its directory entries. 
+	$D\textsubscript{2}$ is the directory for the file $D\textsubscript{1}$, 
+	and $D\textsubscript{1}$ is the directory for the original file 
+	$D\textsubscript{0}$. Besides the multilevel property, there is one other 
+	major deviation from the grid file approach. The partition number is 
+	computed using a hashing function (possibly order-preserving) rather than 
+	a linear scale. This enables the multilevel grid file method to represent 
+	a partition using the prefix of the hash value. The advantages of this 
+	approach are evident in the splitting and merging operations. An 
+	illustration of how regions are represented by the directory entries is 
+	given in Figures~\bl{\ref{fig:mlgf}}.
+	\\
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.5\textwidth]{mlgf}
+		\caption{Multilevel grid file structure (Figure 3 \citep{Whang}).}
+		\label{fig:mlgf:temp}
+	\end{figure}
+
+																							\todo[size={{\scriptsize}}]{same d1 and d2 in Kim and Whang ???}
+	\begin{figure}[h!]
+		\centering
+		\begin{subfigure}[t]{0.5\textwidth}
+			\includegraphics[width=\textwidth]{mlgf}
+			\caption{The structure of a two-level grid file (Figure 3 \citep{Whang}).}
+		\end{subfigure}
+		\\
+		\begin{subfigure}[t]{0.4\textwidth}
+			\includegraphics[width=\textwidth]{mlgf_d1}
+			\caption{Regions represented by directory entries in $D\textsubscript{1}$ (Figure 3b \citep{Kim}).}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[t]{0.4\textwidth}
+			\includegraphics[width=\textwidth]{mlgf_d2}
+			\caption{Regions represented by directory entries in $D\textsubscript{2}$ (Figure 3c \citep{Kim}).}
+		\end{subfigure}
+		\caption{Multilevel grid file structure.}
+		\label{fig:mlgf}
+	\end{figure}
+
+
+	A \term{generalization tree} is a tree structure where each node 
+	corresponds to a spatial object \citep{Gunther}. Each object corresponding 
+	to an internal node is completely contained in the object corresponding to 
+	its parent node, as illustrated in Figure~\bl{\ref{fig:gen_tree}}. 
+	Different spatial objects, even objects corresponding to nodes at the same 
+	height may overlap. The objects at any height do not have to cover the 
+	total space, dead space is allowed. This very general definition includes 
+	some common spatial access methods, such as R-trees and multilevel grid 
+	files.
+	\\
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=\textwidth]{generalization_tree}
+		\caption{A generalization tree representing a cartographic hierarchy 
+		(Fig. 3 \citep{Gunther}).}
+		\label{fig:gen_tree}
+	\end{figure}
+
 	Let's now see how these access methods are used to retrieve information 
 	about spatial data. We will first describe external memory techniques used 
 	when both datasets are indexed.
 	\\
 
 
-	\paragraph{Both datasets indexed}
-	\label{sec:geo:filter:ex:both}
+	\subsubsection{Both datasets indexed}
+	\label{sec:geo:ex:both}
 
 	Probably the most popular spatial access method is the R-tree, when 
 	considering indexed datasets \citep{Jacox}.
+	\\
+
+	When joining two regions which do not cover the same space, as is likely 
+	when joining index nodes, then the search space can be reduced 
+	\citep{Brinkhoff93}. The two regions could alternatively represent two 
+	data pages or two partitions. Only objects within the intersecting region 
+	of the two nodes need to be compared, as shown in 
+	Figure~\bl{\ref{fig:common_region}}. That way, the space covered by both 
+	the regions might fit in internal memory. In these cases internal memory 
+	techniques from Section~\ref{sec:geo:in} should be used \citep{Jacox}. For 
+	smaller page sizes, a nested-loop join (Section~\ref{sec:geo:in:nested}) 
+	might be best because of the low overhead. For larger page sizes, the 
+	plane-sweep method (Section~\ref{sec:geo:in:sweep}), or a Z-order sweep 
+	(Section~\ref{sec:geo:in:z}) would be more appropriate.
 	\\
 
 	\begin{figure}[h!]
@@ -793,21 +857,6 @@
 		\citep{Jacox}).}
 		\label{fig:common_region}
 	\end{figure}
-
-	When joining two regions which do not cover the same space, as is likely 
-	when joining index nodes, then the search space can be reduced 
-	\citep{Brinkhoff93}. The two regions could alternatively represent two 
-	data pages or two partitions. Only objects within the intersecting region 
-	of the two nodes need to be compared, as shown in 
-	Figure~\bl{\ref{fig:common_region}}. That way, the space covered by both 
-	the regions might fit in internal memory. In these cases internal memory 
-	techniques from Section~\ref{sec:geo:filter:in} should be used 
-	\citep{Jacox}. For smaller page sizes, a nested-loop join 
-	(Section~\ref{sec:geo:filter:in:nested}) might be best because of the 
-	low overhead. For larger page sizes, the plane-sweep method 
-	(Section~\ref{sec:geo:filter:in:sweep}), or a Z-order sweep 
-	(Section~\ref{sec:geo:filter:in:z}) would be more appropriate.
-	\\
 
 	A simple example of space reduction for an R-tree is given in 
 	Figure~\bl{\ref{fig:reduce_space}}. The tree consists of three data pages 
@@ -832,20 +881,38 @@
 
 
 
-
-
-\todo[size={{\scriptsize}}]{hierarchical and non-hierarchical methods}
-Any such generalization tree structure can be applied efficiently to compute spatial joins in a hierarchical manner. 
-\todo[size={{\scriptsize}}]{hierarchical manner: differences between Gunther [1993], Brinkhoff [1993], Kim [1995], and Huang [1997b]}
-If both datasets are indexed using generalization trees and both indices have the same height, then a spatial join can be performed efficiently with a \term{synchronized traversal} of the indices \citep{Jacox}. For indices of different heights, the join of a leaf of one index with a sub-tree of the other can be accomplished using a window query [Brinkhoff et al. 1993], or handling leaf-to-node comparison as special cases [Kim et al. 1995]. In the following we assume that the data objects are only stored in the leaves of the tree. Starting with the two root nodes of the indices, $rootA$ and $rootB$, the algorithm finds intersections between the sub-nodes of $rootA$ and $rootB$. The intersecting sub-node pairs are added to a priority queue [Cormen et al. 1990]. The pairs in the priority queue are checked for intersecting sub-nodes in later iterations. If the two nodes are leaves, they are compared and report any intersecting objects.
-\\
-
-
-
 \todo[size={{\scriptsize}}]{see from Jacox: Corral et al. [1999]}
-If both datasets are indexed, but with incompatible types of indices, such as an R-tree \citep{Guttman} and a point quad tree \citep{Finkel}, Corral et al. [1999] suggest ignoring one index and performing an index-nested loop join, as described in Section~\ref{sec:geo:filter:in:nested}. If both datasets are indexed using the same type of index, then the technique for performing the filtering stage of the spatial join depends on the structure of the index. 
+If both datasets are indexed, but with incompatible types of indices, such as an R-tree \citep{Guttman} and a point quad tree \citep{Finkel}, Corral et al. [1999] suggest ignoring one index and performing an index-nested loop join, as described in Section~\ref{sec:geo:in:nested}. If both datasets are indexed using the same type of index, then the technique for performing the filtering stage of the spatial join depends on the structure of the index. 
 \\
 
+
+Since many spatial indices are hierarchical, a spatial join algorithm for these indices also has a hierarchical nature \citep{Jacox}.
+\todo[size={{\scriptsize}}]{hierarchical and non-hierarchical methods}
+Any generalization tree structure can be applied efficiently to compute spatial joins in a hierarchical manner.
+\todo[size={{\scriptsize}}]{hierarchical manner: differences between Gunther [1993], Brinkhoff [1993], Kim [1995], and Huang [1997b]}
+If both datasets are indexed using generalization trees and both indices have the same height, then a spatial join can be performed efficiently with a \term{synchronized traversal} of the indices \citep{Jacox}. In the following we assume that the data objects are only stored in the leaves of the tree. Starting with the two root nodes of the indices, $rootA$ and $rootB$, the algorithm finds intersections between the sub-nodes of $rootA$ and $rootB$. The intersecting sub-node pairs are added to a priority queue [Cormen et al. 1990]. The pairs in the priority queue are checked for intersecting sub-nodes in later iterations. If the two nodes are leaves, they are compared and report any intersecting objects.
+\\
+
+
+
+For indices of different heights, the join of a leaf of one index with a sub-tree of the other can be accomplished using a window query \citep{Brinkhoff93}, or handling leaf-to-node comparison as special cases [Kim et al. 1995]. The idea of \citet{Brinkhoff93} is to perform window queries on the subtrees of the shorter tree using the data rectangles of the higher tree as query rectangles.
+\\
+
+In the following, we call the trees $R$ and $S$.
+\\
+
+The three (three ????????????????????????) 
+variations of the synchronized traversal algorithm differ in the priority (i.e., the sort order) that is used by the priority queue. Each variation attempts to minimize disk accesses.
+\\
+
+\citet{Brinkhoff93} and \citet{Kim} deal with R-trees and multilevel grid files respectively. They both use a depth-first approach in which all of the sub-node pairs for a given node pair are processed before proceeding to the next node pair at the same level. To improve performance, \citet{Brinkhoff93} use two buffers. A path buffer is used to accommodate all of the ancestor nodes of the current node pair. And an additional \acr{lru} (\term{last recently used}) buffer is used for single pages, not complete paths, independently of the path buffer. The reason for two different buffers is that the path buffer exclusively belongs to the data structure, whereas the \acr{lru} buffer can be considered as a buffer of the underlying system.
+\\
+
+
+
+\todo[size={{\scriptsize}}]{What about the other operations?}
+Join is an operation that is frequently used and is the most expensive in processing database queries \citep{Kim}. 
+\\
 
 
 	Another idea for spatial join is to first transform objects into multi-dimensional points. Unlike points, rectangles have extent, which complicates spatial join algorithms. If an object will not fit into a partition, then either it must be replicated into multiple partitions or the partitions must overlap, as in an R-tree \citep{Guttman}. Transformation methods avoid this problem by transforming objects into multi-dimensional points in a higher dimensional space, such as used by the grid file index \citep{Nievergelt}. For example, a two-dimensional rectangle can be transformed into a point in four-dimensional space. One way is to use the coordinate values of the opposing corner points of the rectangle as the four values representing the rectangle. This is a technique known as the \term{corner transformation}. Alternatively, the rectangle can be transformed using the coordinate values of the the center point, half of the width, and half of the height as the four values.
@@ -865,11 +932,11 @@ Methods for computing the spatial join are discussed in great detail for quadtre
 
 
 
-\paragraph{One dataset indexed, one not}
-\label{sec:geo:filter:ex:both}
+\subsubsection{One dataset indexed, one not}
+\label{sec:geo:ex:one}
 
-\paragraph{Neither dataset indexed}
-\label{sec:geo:filter:ex:both}
+\subsubsection{Neither dataset indexed}
+\label{sec:geo:ex:none}
 
 
 
