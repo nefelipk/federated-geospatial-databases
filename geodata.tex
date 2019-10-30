@@ -418,7 +418,8 @@
 	of active rectangles. To keep track of the active rectangles, the 
 	plane-sweep algorithm uses a \term{sweep structure} (for three dimensions 
 	see the \term{space-sweep} technique \citep{Preparata}).
-	\par
+	\\
+
 	More concrete, to apply the plane-sweep algorithm, a sweep structure is 
 	needed for both $R$ and $S$ (see the simplified spatial join in 
 	Section~\ref{sec:geo:basics}). Rectangles from $R$ are inserted into $R's$ 
@@ -426,7 +427,8 @@
 	structure. Then, each rectangle $r$ from $R$ will perform a search on 
 	$S's$ sweep structure, to find all the intersections with the rectangles 
 	in $S$, and vice versa. 
-	\par
+	\\
+
 	A disadvantage of the plane-sweep algorithm is that its traditional version 
 	assumes that all of the data are in internal memory \citep{Jacox}. If the 
 	data is in external memory, then the entire dataset is first read into 
@@ -479,7 +481,8 @@
 	i.e. the bit strings are left-justified and then compared one bit at a 
 	time. Therefore a collection of elements can be ordered by sorting 
 	lexicographically on their z values.
-	\par
+	\\
+
 	The \term{Z-order} is a linear order that creates a total order on 
 	multi-dimensional objects. More concrete, the Z-order is a traversal 
 	through a regular grid using a \eg{Z} pattern, as shown in 
@@ -497,7 +500,8 @@
 	Figure~\bl{\ref{fig:16grid_levels}}, which also includes the top level 
 	cell (the enclosing space) in the ordering. As a consequence, the Z-order 
 	can ensure that larger objects will be seen first \citep{Jacox}. 
-	\par
+	\\
+
 	Continuing with the approach of \citet{Orenstein86}, the Z-order algorithm 
 	is nearly identical to the plane-sweep algorithm. First, the objects from 
 	both datasets are assigned to Z-order grid cells. Next, the objects are 
@@ -551,7 +555,8 @@
 	useful when there are too few objects to justify the overhead of more 
 	complex methods. Its advantage is that is works with any object type and 
 	with any join condition. 
-	\par 
+	\\
+
 	A variant of the nested-loop join algorithm, called the \term{index 
 	nested-loop join}, improves performance for larger datasets \citep{Jacox}. 
 	It first creates a spatial index and inserts every element of one dataset, 
@@ -752,7 +757,8 @@
 		\centering
 		\includegraphics[width=0.2\textwidth]{grid_file}
 		\caption{Space partitions created by a grid file (Fig. 10 
-		\citep{Nievergelt}).}
+		\citep{Nievergelt}). Each region boundary cuts the entire search space 
+		in half, so all dimensions are treated symmetrically.}
 		\label{fig:grid_file}
 	\end{figure}
 
@@ -760,7 +766,7 @@
 	the directory. It encounters the directory as a file, and creates a new 
 	directory to organize this file. This extension is called the 
 	\term{multilevel grid file} (or \term{\acr{mlgf}}) \citep{Whang}. For 
-	example, a two-level grid file is shown in 	Figure~\bl{\ref{fig:mlgf}}, 
+	example, a two-level grid file is shown in 	Figure~\bl{\ref{fig:mlgf_str}}, 
 	together with how regions are represented by its directory entries. 
 	$D\textsubscript{2}$ is the directory for the file $D\textsubscript{1}$, 
 	and $D\textsubscript{1}$ is the directory for the original file 
@@ -771,34 +777,33 @@
 	a partition using the prefix of the hash value. The advantages of this 
 	approach are evident in the splitting and merging operations. An 
 	illustration of how regions are represented by the directory entries is 
-	given in Figures~\bl{\ref{fig:mlgf}}.
+	given in Figures~\bl{\ref{fig:mlgf_d2}, \ref{fig:mlgf_d1}}.
 	\\
 
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width=0.5\textwidth]{mlgf}
-		\caption{Multilevel grid file structure (Figure 3 \citep{Whang}).}
-		\label{fig:mlgf:temp}
-	\end{figure}
-
-																							\todo[size={{\scriptsize}}]{same d1 and d2 in Kim and Whang ???}
-	\begin{figure}[h!]
-		\centering
 		\begin{subfigure}[t]{0.5\textwidth}
 			\includegraphics[width=\textwidth]{mlgf}
-			\caption{The structure of a two-level grid file (Figure 3 \citep{Whang}).}
+			\caption{The structure of a two-level grid file (Figure 3 
+			\citep{Whang}).}
+			\label{fig:mlgf_str}
 		\end{subfigure}
 		\\
 		\begin{subfigure}[t]{0.4\textwidth}
-			\includegraphics[width=\textwidth]{mlgf_d1}
-			\caption{Regions represented by directory entries in $D\textsubscript{1}$ (Figure 3b \citep{Kim}).}
+			\includegraphics[width=\textwidth]{mlgf_d2}
+			\caption{Regions represented by directory entries in 
+			$D\textsubscript{2}$.}
+			\label{fig:mlgf_d2}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}[t]{0.4\textwidth}
-			\includegraphics[width=\textwidth]{mlgf_d2}
-			\caption{Regions represented by directory entries in $D\textsubscript{2}$ (Figure 3c \citep{Kim}).}
-		\end{subfigure}
-		\caption{Multilevel grid file structure.}
+			\includegraphics[width=\textwidth]{mlgf_d1}
+			\caption{Regions represented by directory entries in 
+			$D\textsubscript{1}$.}
+			\label{fig:mlgf_d1}
+		\end{subfigure}	
+		\caption{Multilevel grid file structure and multilevel directory 
+		entries.}
 		\label{fig:mlgf}
 	\end{figure}
 
@@ -881,46 +886,96 @@
 
 
 
-\todo[size={{\scriptsize}}]{see from Jacox: Corral et al. [1999]}
+\todo[size={{\scriptsize}}]{see from Jacox: Corral et al. [1999], what does it mean with "incompatible types of indices"? for example one points to object and the other to mbr?}
 If both datasets are indexed, but with incompatible types of indices, such as an R-tree \citep{Guttman} and a point quad tree \citep{Finkel}, Corral et al. [1999] suggest ignoring one index and performing an index-nested loop join, as described in Section~\ref{sec:geo:in:nested}. If both datasets are indexed using the same type of index, then the technique for performing the filtering stage of the spatial join depends on the structure of the index. 
 \\
 
 
-Since many spatial indices are hierarchical, a spatial join algorithm for these indices also has a hierarchical nature \citep{Jacox}.
-\todo[size={{\scriptsize}}]{hierarchical and non-hierarchical methods}
-Any generalization tree structure can be applied efficiently to compute spatial joins in a hierarchical manner.
-\todo[size={{\scriptsize}}]{hierarchical manner: differences between Gunther [1993], Brinkhoff [1993], Kim [1995], and Huang [1997b]}
-If both datasets are indexed using generalization trees and both indices have the same height, then a spatial join can be performed efficiently with a \term{synchronized traversal} of the indices \citep{Jacox}. In the following we assume that the data objects are only stored in the leaves of the tree. Starting with the two root nodes of the indices, $rootA$ and $rootB$, the algorithm finds intersections between the sub-nodes of $rootA$ and $rootB$. The intersecting sub-node pairs are added to a priority queue [Cormen et al. 1990]. The pairs in the priority queue are checked for intersecting sub-nodes in later iterations. If the two nodes are leaves, they are compared and report any intersecting objects.
-\\
+	Since many spatial indices are hierarchical, a spatial join algorithm 
+	for these indices also has a hierarchical nature \citep{Jacox}. Any 
+	generalization tree structure can be applied efficiently to compute 
+	spatial joins in a hierarchical manner. In the following we assume that 
+	both datasets are indexed using generalization trees. For indices of 
+	different heights, the join of a leaf of one index with a sub-tree of the 
+	other can be accomplished using a window query \citep{Brinkhoff93}, 
+	handling leaf-to-node comparison \citep{Kim}, or waiting for the higher 
+	tree \citep{Huang}. The idea of \citet{Brinkhoff93} is to perform window 
+	queries on the subtrees of the shorter tree using the data rectangles of 
+	the higher tree as query rectangles. Alternatively, if there is no more 
+	next-level node (or directory page) \citet{Kim} pass the current node 
+	itself as an input parameter to the next-level recursive call. 
+	\citet{Huang} suggest that after reaching the leaf level of one of the two 
+	trees, then the algorithm stays at this leaf level of this tree. And it 
+	proceeds to traverse the other tree, until its leaf level is reached as 
+	well. Then the current join is the output of the spatial join process. 
+	\\
 
+	If both datasets are indexed using generalization trees and both indices 
+	have the same height, then a spatial join can be performed efficiently 
+	with a \term{synchronized traversal} of the indices \citep{Jacox}. In the 
+	following we assume that the data objects are only stored in the leaves of 
+	the tree. Starting with the two root nodes (or levels) of the indices, the 
+	algorithm finds intersections between their sub-nodes. The intersecting 
+	sub-node pairs are added to a priority queue. The pairs in the priority 
+	queue are checked for intersecting sub-nodes in later iterations. If the 
+	two nodes are leaves, they are compared and report any intersecting 
+	objects.
+	\\
 
+	The variations of the synchronized traversal algorithm differ in the 
+	priority (i.e. the sort order) that is used by the priority queue. Each 
+	variation attempts to minimize disk accesses. \citet{Gunther} and 
+	\citet{Huang} both use algorithms that correspond to breadth-first 
+	traversal, where priority is given to higher-level node pairs. In this way, 
+	join computations are processed level by level – all of the nodes at one 
+	level of the indices are examined before any nodes in the next level. At 
+	each level \citet{Huang} further sort the node pairs that are to be joined 
+	at the next lower level, that is, the node pairs in the priority queue. 
+	That way they reduce the number of page faults and buffer misses. Priority 
+	is still given to higher level nodes, but a secondary sort is used within 
+	each level. They also reduce the number of node pair traversals by search 
+	pruning at all levels of the tree. The affect of \term{search pruning} is 
+	that, starting from the top level, each node pair is only traversed for 
+	join computation if the \acr{mbr}s of the parent nodes overlap.
+	\\
 
-For indices of different heights, the join of a leaf of one index with a sub-tree of the other can be accomplished using a window query \citep{Brinkhoff93}, or handling leaf-to-node comparison as special cases [Kim et al. 1995]. The idea of \citet{Brinkhoff93} is to perform window queries on the subtrees of the shorter tree using the data rectangles of the higher tree as query rectangles.
-\\
+	One of the drawbacks of the breadth-first approach is that, as the 
+	algorithm progresses, the priority queue can grow extremely large and 
+	portions of it might need to be kept in external memory \citep{Jacox}. 
+	\citet{Kim} and \citet{Brinkhoff93} deal with multilevel grid files and 
+	R-trees respectively. They both use a depth-first approach in which all of 
+	the sub-node pairs for a given node pair are processed before proceeding 
+	to the next node pair at the same level. \citet{Kim} use a 
+	\term{region-oriented subjoin}. This is a join between the sets of records 
+	in regions of two relations overlapping a subjoin range. Processing 
+	region-oriented subjoins resembles the nested-loop join algorithm 
+	described in Section~\ref{sec:geo:in:nested}. To improve performance, 
+	\citet{Brinkhoff93} use two buffers. A path buffer is used to accommodate 
+	all of the ancestor nodes of the current node pair. And an additional 
+	\acr{lru} (\term{last recently used}) buffer is used for single pages, 
+	not complete paths, independently of the path buffer. The reason for two 
+	different buffers is that the path buffer exclusively belongs to the data 
+	structure, whereas the \acr{lru} buffer can be considered as a buffer of 
+	the underlying system. 
+	\\
+
+																					\todo[size={{\scriptsize}}]{non-hierarchical methods}
+
 
 In the following, we call the trees $R$ and $S$.
 \\
-
-The three (three ????????????????????????) 
-variations of the synchronized traversal algorithm differ in the priority (i.e., the sort order) that is used by the priority queue. Each variation attempts to minimize disk accesses.
-\\
-
-\citet{Brinkhoff93} and \citet{Kim} deal with R-trees and multilevel grid files respectively. They both use a depth-first approach in which all of the sub-node pairs for a given node pair are processed before proceeding to the next node pair at the same level. To improve performance, \citet{Brinkhoff93} use two buffers. A path buffer is used to accommodate all of the ancestor nodes of the current node pair. And an additional \acr{lru} (\term{last recently used}) buffer is used for single pages, not complete paths, independently of the path buffer. The reason for two different buffers is that the path buffer exclusively belongs to the data structure, whereas the \acr{lru} buffer can be considered as a buffer of the underlying system.
-\\
-
-
 
 \todo[size={{\scriptsize}}]{What about the other operations?}
 Join is an operation that is frequently used and is the most expensive in processing database queries \citep{Kim}. 
 \\
 
 
-	Another idea for spatial join is to first transform objects into multi-dimensional points. Unlike points, rectangles have extent, which complicates spatial join algorithms. If an object will not fit into a partition, then either it must be replicated into multiple partitions or the partitions must overlap, as in an R-tree \citep{Guttman}. Transformation methods avoid this problem by transforming objects into multi-dimensional points in a higher dimensional space, such as used by the grid file index \citep{Nievergelt}. For example, a two-dimensional rectangle can be transformed into a point in four-dimensional space. One way is to use the coordinate values of the opposing corner points of the rectangle as the four values representing the rectangle. This is a technique known as the \term{corner transformation}. Alternatively, the rectangle can be transformed using the coordinate values of the the center point, half of the width, and half of the height as the four values.
-	\\
+Another idea for spatial join is to first transform objects into multi-dimensional points. Unlike points, rectangles have extent, which complicates spatial join algorithms. If an object will not fit into a partition, then either it must be replicated into multiple partitions or the partitions must overlap, as in an R-tree \citep{Guttman}. Transformation methods avoid this problem by transforming objects into multi-dimensional points in a higher dimensional space, such as used by the grid file index \citep{Nievergelt}. For example, a two-dimensional rectangle can be transformed into a point in four-dimensional space. One way is to use the coordinate values of the opposing corner points of the rectangle as the four values representing the rectangle. This is a technique known as the \term{corner transformation}. Alternatively, the rectangle can be transformed using the coordinate values of the the center point, half of the width, and half of the height as the four values.
+\\
 
-	\todo[size={{\scriptsize}}]{\citep{Song} and pages 17-18 of \citep{Jacox}}
-	Song et al. [1999] propose a spatial join for data that is indexed using the corner transformation method. [...] similar to the non-hierarchical spatial join methods [...]
-	\\
+\todo[size={{\scriptsize}}]{\citep{Song} and pages 17-18 of \citep{Jacox}}
+Song et al. [1999] propose a spatial join for data that is indexed using the corner transformation method. [...] similar to the non-hierarchical spatial join methods [...]
+\\
 	
 
 
@@ -979,8 +1034,12 @@ In addition to these three, there are also other types of joins – joins with o
 
 
 	[[[[[[ \citep{Jacox}: it is assumed that the data is two dimensional and that we are interested in determining pairs of intersecting objects. Both of these assumptions are common in the literature. ]]]]]]
+\\
 
 
+
+\citep{Huang}: In \citep{Orenstein86} the z-ordering technique is used to transform multidimensional data into the 1-dimensional domain. Spatial join is then conducted on the $B\textsuperscript{+}$-tree structures that store z-ordering values of the spatial data.
+\\
 
 \citep{Orenstein86}: support spatial query processing by providing an object class that implements approximate geometry (AG). Approximate geometry, as developed here, relies (conceptually) on a grid representation of spatial data. This is where the approximation comes in - precision is limited by the resolution of the grid. The AG algorithms are exact. I.e. if the grid representation is considered to be precise (as might be the case for LANDSAT data), then AG would provide precise results. Common techniques for file organization (e.g. B-trees) and buffer management provide excellent support for AG. [[[We are not aware of any other approach to spatial data that can make this claim.]]]
 \\
