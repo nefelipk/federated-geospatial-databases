@@ -12,6 +12,8 @@
 
 \usepackage{amssymb}
 
+\usepackage{commath}	% to use absolute values
+
 \usepackage{indentfirst}	% indent the first paragraph of a section
 
 \usepackage[font={footnotesize}]{caption}
@@ -715,7 +717,7 @@
 	A variation of both B-trees and k-d trees is the so called 
 	\term{K-D-B tree} \citep{Robinson} (short for \term{k-dimensional B-tree}). 
 	It is a tree data structure for subdividing a k-dimensional search space. 
-	The K-D-B-tree combines properties of k-d trees and B-trees. Its aim is to 
+	The K-D-B tree combines properties of k-d trees and B-trees. Its aim is to 
 	provide the search efficiency of a balanced k-d tree, while providing the 
 	block-oriented storage of a B-tree for optimizing external memory accesses.
 	\\
@@ -840,6 +842,9 @@
 	considering indexed datasets \citep{Jacox}.
 	\\
 
+	\paragraph{Search space reduction}
+	\label{sec:geo:ex:both:red}
+
 	When joining two regions which do not cover the same space, as is likely 
 	when joining index nodes, then the search space can be reduced 
 	\citep{Brinkhoff93}. The two regions could alternatively represent two 
@@ -886,10 +891,13 @@
 
 
 
-\todo[size={{\scriptsize}}]{see from Jacox: Corral et al. [1999], what does it mean with "incompatible types of indices"? for example one points to object and the other to mbr?}
-If both datasets are indexed, but with incompatible types of indices, such as an R-tree \citep{Guttman} and a point quad tree \citep{Finkel}, Corral et al. [1999] suggest ignoring one index and performing an index-nested loop join, as described in Section~\ref{sec:geo:in:nested}. If both datasets are indexed using the same type of index, then the technique for performing the filtering stage of the spatial join depends on the structure of the index. 
+\todo[size={{\scriptsize}}]{see from Jacox: Corral et al. [1999]}
+If both datasets are indexed, but with incompatible types of indices, such as an R-tree \citep{Guttman} and a point quad tree \citep{Finkel}, Corral et al. [1999] suggest ignoring one index and performing an index-nested loop join, as described in Section~\ref{sec:geo:in:nested}. 
 \\
 
+
+	\paragraph{Synchronized traversal}
+	\label{sec:geo:ex:both:syn}
 
 	Since many spatial indices are hierarchical, a spatial join algorithm 
 	for these indices also has a hierarchical nature \citep{Jacox}. Any 
@@ -942,33 +950,49 @@ If both datasets are indexed, but with incompatible types of indices, such as an
 	One of the drawbacks of the breadth-first approach is that, as the 
 	algorithm progresses, the priority queue can grow extremely large and 
 	portions of it might need to be kept in external memory \citep{Jacox}. 
-	\citet{Kim} and \citet{Brinkhoff93} deal with multilevel grid files and 
-	R-trees respectively. They both use a depth-first approach in which all of 
-	the sub-node pairs for a given node pair are processed before proceeding 
-	to the next node pair at the same level. \citet{Kim} use a 
-	\term{region-oriented subjoin}. This is a join between the sets of records 
-	in regions of two relations overlapping a subjoin range. Processing 
-	region-oriented subjoins resembles the nested-loop join algorithm 
-	described in Section~\ref{sec:geo:in:nested}. To improve performance, 
-	\citet{Brinkhoff93} use two buffers. A path buffer is used to accommodate 
-	all of the ancestor nodes of the current node pair. And an additional 
-	\acr{lru} (\term{last recently used}) buffer is used for single pages, 
-	not complete paths, independently of the path buffer. The reason for two 
-	different buffers is that the path buffer exclusively belongs to the data 
-	structure, whereas the \acr{lru} buffer can be considered as a buffer of 
-	the underlying system. 
+	\citet{Kim} and \citet{Brinkhoff93} deal with multilevel grid files 
+	\citep{Whang} and R-trees \citep{Guttman} respectively. They both use a 
+	depth-first approach in which all of the sub-node pairs for a given node 
+	pair are processed before proceeding to the next node pair at the same 
+	level. \citet{Kim} use a \term{region-oriented subjoin}. This is a join 
+	between the sets of records in regions of two relations overlapping a 
+	subjoin range. Processing region-oriented subjoins resembles the 
+	nested-loop join algorithm described in Section~\ref{sec:geo:in:nested}. 
+	To improve performance, \citet{Brinkhoff93} use two buffers. A path buffer 
+	is used to accommodate all of the ancestor nodes of the current node pair. 
+	And an additional \acr{lru} (\term{last recently used}) buffer is used for 
+	single pages, not complete paths, independently of the path buffer. The 
+	reason for two different buffers is that the path buffer exclusively 
+	belongs to the data structure, whereas the \acr{lru} buffer can be 
+	considered as a buffer of the underlying system. 
 	\\
 
+
+	\paragraph{Treat as partitioned datasets}
+	\label{sec:geo:ex:both:part}
 																					\todo[size={{\scriptsize}}]{non-hierarchical methods}
 
+But not all spatial indices are hierarchical. For these cases more general approaches are needed \citep{Jacox}. For example, a way of performing a spatial join on indexed data is to treat the indices as simply a partitioned dataset, where the data pages of the indices are the partitions. Each pair of intersecting data pages is then read into memory and joined. This method is applicable to any index type with data pages. \citet{Kitsuregawa} applied it with k-d trees \citep{Bentley}, while Harada et al. [1990] applied it with grid files \citep{Nievergelt}.
+\\ 
 
-In the following, we call the trees $R$ and $S$.
+In the following, we call the relations to be joined $R$ and $S$, of sizes $\abs{R}$ and $\abs{S}$ respectively. We consider $\abs{S} \geq \abs{R} >\!\!> M$, where $M$ is the main memory size.
+
+The set of pages of relation $R$ loaded in the main memory is the unit of processing in each step. Because of its shape is called \term{wave} \citep{Kitsuregawa}. 
 \\
+
+
+
+
+
+
 
 \todo[size={{\scriptsize}}]{What about the other operations?}
 Join is an operation that is frequently used and is the most expensive in processing database queries \citep{Kim}. 
 \\
 
+
+\paragraph{Transform to multi-dimensional points}
+\label{sec:geo:ex:both:mul}
 
 Another idea for spatial join is to first transform objects into multi-dimensional points. Unlike points, rectangles have extent, which complicates spatial join algorithms. If an object will not fit into a partition, then either it must be replicated into multiple partitions or the partitions must overlap, as in an R-tree \citep{Guttman}. Transformation methods avoid this problem by transforming objects into multi-dimensional points in a higher dimensional space, such as used by the grid file index \citep{Nievergelt}. For example, a two-dimensional rectangle can be transformed into a point in four-dimensional space. One way is to use the coordinate values of the opposing corner points of the rectangle as the four values representing the rectangle. This is a technique known as the \term{corner transformation}. Alternatively, the rectangle can be transformed using the coordinate values of the the center point, half of the width, and half of the height as the four values.
 \\
@@ -980,12 +1004,6 @@ Song et al. [1999] propose a spatial join for data that is indexed using the cor
 
 
 
-\citep{Brinkhoff93}: There are several other approaches for performing joins using multidimensional point access methods, e.g. grid files [1] and kd-trees[11]. These methods can be used for spatial joins, if spatial objects are transformed to higher-dimensional points. However, the most serious disadvantage is that the use of transformation does not preserve proximity.
-\par
-Methods for computing the spatial join are discussed in great detail for quadtrees and similar access methods[18]. The cells of quadtrees can be represented in a linear fashion in order of z-value and level. A spatial join of two quadtrees can be performed by an “almost linear” scan through the corresponding sequences of cells. Note that the meaning of linear is not related to the number of objects, but to the number of pointers referring to the objects.
-\\
-
-
 
 \subsubsection{One dataset indexed, one not}
 \label{sec:geo:ex:one}
@@ -993,6 +1011,14 @@ Methods for computing the spatial join are discussed in great detail for quadtre
 \subsubsection{Neither dataset indexed}
 \label{sec:geo:ex:none}
 
+
+
+
+
+\citep{Brinkhoff93}: There are several other approaches for performing joins using multidimensional point access methods, e.g. grid files [1] and kd-trees[11]. These methods can be used for spatial joins, if spatial objects are transformed to higher-dimensional points. However, the most serious disadvantage is that the use of transformation does not preserve proximity.
+\par
+Methods for computing the spatial join are discussed in great detail for quadtrees and similar access methods[18]. The cells of quadtrees can be represented in a linear fashion in order of z-value and level. A spatial join of two quadtrees can be performed by an “almost linear” scan through the corresponding sequences of cells. Note that the meaning of linear is not related to the number of objects, but to the number of pointers referring to the objects.
+\\
 
 
 
