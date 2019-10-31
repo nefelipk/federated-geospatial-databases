@@ -83,7 +83,7 @@
 	network systems, operating systems, database systems, programming platforms, 
 	and algorithmic techniques used. With the advance of more and more sensors 
 	and automatic data acquisition tools, the number of available digital data 
-	sets is ever increasing \citep{Butenuth}. This is especially true for 
+	sets is ever increasing \citep{butenuth-etal-2007}. This is especially true for 
 	geospatial data, which are acquired by different organizations, e.g. 
 	administrations like national mapping and environmental agencies, but also 
 	private companies, e.g. in car navigation.
@@ -94,16 +94,16 @@
 	\\
 
 
-	\citep{Butenuth}: Obviously, true integration is much more than just overlaying data in a geographic information system (GIS), as it must make the relations between the individual objects in the different data sets explicit. Technically, it also means more than information fusion, if the original data sets should still be available to be used in their own right. This is a common requirement today, as different agencies are interested in maintaining control over the data they are responsible for and they have the knowledge to maintain the data properly.
+	\citep{butenuth-etal-2007}: Obviously, true integration is much more than just overlaying data in a geographic information system (GIS), as it must make the relations between the individual objects in the different data sets explicit. Technically, it also means more than information fusion, if the original data sets should still be available to be used in their own right. This is a common requirement today, as different agencies are interested in maintaining control over the data they are responsible for and they have the knowledge to maintain the data properly.
 	\\
 
 
 	\todo[size={{\scriptsize}}]{Keep fig. 4 ?}
-	\citep{Butenuth}: (Given the structural adaptation of the different data sets, the federated database can be enabled to incorporate correspondences through so called links. ) In the context of federated databases the process of identifying objects is usually restricted to one-to-one correspondences often based on simple attribute matching (like, e.g. the ISBN of books). Identifying geospatial objects, however, does not only involve simple one-to-one-relationships, as real-world objects can be represented differently in different maps. Fig. 4 shows an instance of three and two objects, respectively, e.g. a section of a water body segmented in two different ways. To represent these many-to-many correspondences, the database stores attributed one-to-one links between aggregated objects (denoted by dashed lines in Fig. 4).
+	\citep{butenuth-etal-2007}: (Given the structural adaptation of the different data sets, the federated database can be enabled to incorporate correspondences through so called links. ) In the context of federated databases the process of identifying objects is usually restricted to one-to-one correspondences often based on simple attribute matching (like, e.g. the ISBN of books). Identifying geospatial objects, however, does not only involve simple one-to-one-relationships, as real-world objects can be represented differently in different maps. Fig. 4 shows an instance of three and two objects, respectively, e.g. a section of a water body segmented in two different ways. To represent these many-to-many correspondences, the database stores attributed one-to-one links between aggregated objects (denoted by dashed lines in Fig. 4).
 	\\
 
 
-	The integration of heterogeneous geospatial data offers possibilities to manually and automatically derive new information, which are not available when using only a single data source \citep{Butenuth}. Furthermore, it allows for a consistent representation and the propagation of updates from one data set to the other. However, different acquisition methods, data schemata and updating cycles of the content can lead to discrepancies in geometric and thematic accuracy and correctness which hamper the combined integration. To overcome these difficulties, appropriate methods for the integration and harmonization of data from different sources and of different types are needed.
+	The integration of heterogeneous geospatial data offers possibilities to manually and automatically derive new information, which are not available when using only a single data source \citep{butenuth-etal-2007}. Furthermore, it allows for a consistent representation and the propagation of updates from one data set to the other. However, different acquisition methods, data schemata and updating cycles of the content can lead to discrepancies in geometric and thematic accuracy and correctness which hamper the combined integration. To overcome these difficulties, appropriate methods for the integration and harmonization of data from different sources and of different types are needed.
 	\\
 
 	The major challenge in building a federation of these autonomous and heterogeneous databases is system integration \citep{Malik}.
@@ -163,13 +163,13 @@
 	\citep{Jian}: Some times users want to access data from various distinct databases. They used to create a new database and migrate all data from other databases to the new database. This is an approach of re-engineer databases. But the method has its obvious limitations.
 	\\
 
-	\citep{Butenuth}: Federated databases allow for integrating heterogeneous databases via a global schema, and they provide a unified database interface for global applications. Local applications remain unchanged, as they still access the databases via the local schemata.
+	\citep{butenuth-etal-2007}: Federated databases allow for integrating heterogeneous databases via a global schema, and they provide a unified database interface for global applications. Local applications remain unchanged, as they still access the databases via the local schemata.
 	\\
 
 	\citep{Malik}: An archive is naturally reluctant to forsake its autonomy – even if it is not, complete restructuring can be prohibitively expensive. Federated database architecture is designed to maintain autonomy and yet accomplish federated tasks.
 	\\
 
-	\citep{Butenuth}: Beside the general benefits of data integration, there are a lot of practical applications of integration. One is the verification and update of data sets: in order to check the currency and correctness of a data set, a second or third data set can be used to check the information. The task can be extended to provide also update capability: whenever current information is available in one data set, it can be employed to update the other sets, based on the known relations between the data sets and the known link structure between corresponding objects. Furthermore, integration can be used to provide prior information for a dedicated analysis using one data set: for example if a road network has to be updated using aerial imagery, information from existing road data can be used to partition the space and identify potential areas for new roads. Similarly, land use classifications from imagery can be used as input for a more detailed inspection of dedicated areas of interest. 
+	\citep{butenuth-etal-2007}: Beside the general benefits of data integration, there are a lot of practical applications of integration. One is the verification and update of data sets: in order to check the currency and correctness of a data set, a second or third data set can be used to check the information. The task can be extended to provide also update capability: whenever current information is available in one data set, it can be employed to update the other sets, based on the known relations between the data sets and the known link structure between corresponding objects. Furthermore, integration can be used to provide prior information for a dedicated analysis using one data set: for example if a road network has to be updated using aerial imagery, information from existing road data can be used to partition the space and identify potential areas for new roads. Similarly, land use classifications from imagery can be used as input for a more detailed inspection of dedicated areas of interest. 
 	\\
 
 
@@ -237,14 +237,15 @@
 	Intuitively, given two datasets of multi-dimensional objects in Euclidean 
 	space, a spatial join finds all pairs of objects satisfying a given 
 	relation between the objects that involve the values of their spatial 
-	components, such as intersection \citep{Jacox}. For example, a spatial join 
-	answers such queries as \eg{find all of the rural areas that are below sea 
-	level}, given an elevation map and a land use map \citep{Veenhof}. To 
-	illustrate the concept further, a simplified version of a spatial join is 
-	as follows: given two sets of rectangles, $R$ and $S$, find all of the 
-	pairs of intersecting rectangles between the two sets. That is, for each 
-	rectangle $r$ in dataset $R$, find each intersecting rectangle $s$ from 
-	dataset $S$, as illustrated in Figure~\bl{\ref{fig:ds_join}}.
+	components, such as intersection \citep{jacox-etal-2007}. For example, a 
+	spatial join answers such queries as \eg{find all of the rural areas that 
+	are below sea level}, given an elevation map and a land use map 
+	\citep{veenhof-etal-1995}. To illustrate the concept further, a simplified 
+	version of a spatial join is as follows: given two sets of rectangles, $R$ 
+	and $S$, find all of the pairs of intersecting rectangles between the two 
+	sets. That is, for each rectangle $r$ in dataset $R$, find each 
+	intersecting rectangle $s$ from dataset $S$, as illustrated in 
+	Figure~\bl{\ref{fig:ds_join}}.
 	\\
 
 	\begin{figure}[h!]
@@ -253,29 +254,30 @@
 		\caption{Spatial join to find the intersecting objects of datasets $R$ 
 		(consisting of objects $r1$, $r2$ and $r3$) and $S$ (objects $s1$, $s2$ 
 		and $s3$), will report the intersection of objects $r1/s2$, $r2/s2$, 
-		$r2/s3$ and $r3/s2$ (Fig. 1 \citep{Jacox}).}
+		$r2/s3$ and $r3/s2$ (Fig. 1 \citep{jacox-etal-2007}).}
 		\label{fig:ds_join}
 	\end{figure}
 
 	
 	Spatial joins are distinguished from a standard relational join 
-	\citep{Mishra} in that the join condition involves the multi-dimensional 
-	spatial attribute of the joined relation. For instance, because the data 
-	objects are multi-dimensional, there is no ordering of the data that 
-	preserves proximity \citep{Mamoulis}. Relational join techniques that rely 
-	on sorting the data, such as the sort-merge join \citep{Mishra}, work 
-	because neighboring objects are adjacent to each other in the ordering. 
-	However, in more than one dimension, the data can not be sorted so that 
-	this property holds for all directions and dimensions.
+	\citep{mishra-etal-1992} in that the join condition involves the 
+	multi-dimensional spatial attribute of the joined relation. For instance, 
+	because the data objects are multi-dimensional, there is no ordering of the 
+	data that preserves proximity \citep{mamoulis-etal-2001}. Relational join 
+	techniques that rely on sorting the data, such as the sort-merge join 
+	\citep{mishra-etal-1992}, work because neighboring objects are adjacent to 
+	each other in the ordering. However, in more than one dimension, the data 
+	can not be sorted so that this property holds for all directions and 
+	dimensions.
 	\\
 
 	Vector and raster data are the two primary types of spatial data in 
-	\acr{gis} \citep{vectorVSraster}. The three basic symbol types for vector 
-	data are points (e.g. cities in maps), lines (e.g. rivers or roads in maps) 
-	and polygons (e.g. building footprints, agricultural fields). Polygon 
-	features are most commonly distinguished using either a thematic mapping 
-	symbology (color schemes), patterns, or in the case of numeric gradation, 
-	a color gradation scheme \citep{Dempsey}.
+	\acr{gis} \citep{s-gisgeography-2018}. The three basic symbol types for 
+	vector data are points (e.g. cities in maps), lines (e.g. rivers or roads 
+	in maps) and polygons (e.g. building footprints, agricultural fields). 
+	Polygon features are most commonly distinguished using either a thematic 
+	mapping symbology (color schemes), patterns, or in the case of numeric 
+	gradation, a color gradation scheme \citep{s-dempsey-2017}.
 	\par 
 	On the other hand raster data is made up of pixels (also referred to as 
 	grid cells). They are useful for storing data representing surfaces, that 
@@ -284,14 +286,15 @@
 	elevation measurements and lead contamination. Unlike vector data, raster 
 	data is formed by each cell receiving the value of the feature that 
 	dominates the cell. Rasters are digital aerial photographs, imagery from 
-	satellites \citep{Butenuth}, digital pictures, scanned maps and so on.
+	satellites \citep{butenuth-etal-2007}, digital pictures, scanned maps and 
+	so on.
 	\par
 	Most \acr{gis} software applications mainly focus on the usage and 
 	manipulation of vector geospatial databases with added components to work 
-	with raster-based geospatial databases \citep{Dempsey}.
+	with raster-based geospatial databases \citep{s-dempsey-2017}.
 	\\
 
-	In general, processing spatial joins is more expensive than processing natural joins \citep{Brinkhoff96}. 
+	In general, processing spatial joins is more expensive than processing natural joins \citep{brinkhoff-etal-1996}. 
 	\begin{itemize} 
 		\item Spatial relations tend to contain more objects than an average-sized relation from a traditional application. In particular, this can be observed in those non-traditional geographic applications which strive for seamless spatial databases.
 		\todo[size={{\scriptsize}}]{[Fra 91] from Brinkhoff 1996}
@@ -302,7 +305,7 @@
 
 
 	Typically, a spatial join is performed in two steps, according to the 
-	\term{filter-and-refine approach} \citep{Orenstein89}. The \term{filter 
+	\term{filter-and-refine approach} \citep{orenstein-1989}. The \term{filter 
 	step} during which all objects that could not possibly satisfy the query 
 	are rapidly eliminated. The result of this step is a set of \term{candidate 
 	objects} which includes all the objects satisfying the query, and possibly 
@@ -315,7 +318,7 @@
 	More concrete, during the filter step complicated polygonal objects are 
 	approximated by rectangles, and the refinement stage removes any results 
 	produced during the filtering stage that do not satisfy the join condition 
-	\citep{Jacox}.
+	\citep{jacox-etal-2007}.
 	\\ 
 
 	In the filter-and-refine approach, the spatial join is first solved using 
@@ -326,8 +329,8 @@
 	object is the smallest enclosing rectangle whose sides are parallel to the 
 	axes of the space, as shown in Figure~\bl{\ref{fig:mbr}}. \acr{mbr}s 
 	require less storage space than the full object, resulting in faster 
-	processing and less expensive I/O operations \citep{Jacox}. Additionally, 
-	intersections between \acr{mbr}s are easier to calculate. 
+	processing and less expensive I/O operations \citep{jacox-etal-2007}. 
+	Additionally, intersections between \acr{mbr}s are easier to calculate. 
 	\par
 	Spatial objects, especially in \acr{gis} applications, can be very large. 
 	That means the require many points or lines to represent a polygon. For 
@@ -367,24 +370,26 @@
 			within do not intersect.}
 			\label{fig:mbr_join}
 		\end{subfigure}
-		\caption{Minimum bounding rectangles (Fig. 20 \citep{Jacox}).}
+		\caption{Minimum bounding rectangles (Fig. 20 \citep{jacox-etal-2007}).}
 		\label{fig:mbrs}
 	\end{figure}
 
 
 	In addition to the processor speed and I/O performance, there are other 
-	factors that contribute to the performance of a spatial join \citep{Jacox}. 
-	The characteristics of the datasets and whether the datasets are indexed 
-	are also major influences on performance. The dataset sizes obviously 
-	effect overall performance, but a more important issue is whether the 
-	dataset fits into the available internal memory. If the entire dataset 
-	does fit in internal memory, then the spatial join can be done entirely 
-	in memory. This can be significantly faster than using external memory 
-	method. In external memory, if a dataset is indexed, then in general, 
+	factors that contribute to the performance of a spatial join 
+	\citep{jacox-etal-2007}. The characteristics of the datasets and whether 
+	the datasets are indexed are also major influences on performance. The 
+	dataset sizes obviously effect overall performance, but a more important 
+	issue is whether the dataset fits into the available internal memory. If 
+	the entire dataset does fit in internal memory, then the spatial join can 
+	be done entirely in memory. This can be significantly faster than using 
+	external memory method. From now one we will use internal memory and main 
+	memory interchangeably, as well as external memory and secondary storage. 
+	In external memory, if a dataset is indexed, then in general, 
 	algorithms that use the index will be faster than those that do not. How 
 	the data is stored is another factor that contributes to the design of 
 	spatial joins. Vectors (a list of vertices) are commonly used to store 
-	polygons, but raster approaches are also used \citep{Orenstein86}. The 
+	polygons, but raster approaches are also used \citep{orenstein-1986}. The 
 	choice of storage method for the full object mostly effects the complexity 
 	of the object intersection test during the refinement stage. During the 
 	filtering stage, an object is represented by an approximation (usually 
@@ -395,9 +400,9 @@
 	Now that we have seen how a spatial join works in theory, in the next 
 	section we will present techniques used for the filtering stage of a 
 	spatial join. During the filtering stage, a spatial join is performed on 
-	approximations of the objects \citep{Jacox}. Let us start with techniques 
-	for performing a spatial join without using external memory. That is no 
-	data is written to external memory, only read once if necessary. 
+	approximations of the objects \citep{jacox-etal-2007}. Let us start with 
+	techniques for performing a spatial join without using external memory. 
+	That is no data is written to external memory, only read once if necessary. 
 	\\
 
 
@@ -408,7 +413,7 @@
 	\subsubsection{Plane sweep method}
 	\label{sec:geo:in:sweep}
 
-	A line of research starts with \citet{Preparata} who introduced a 
+	A line of research starts with \citet{preparata-etal-1985} who introduced a 
 	computational geometry approach to solving the simplified spatial join (a 
 	two-set rectangle intersection), called \term{plane-sweep}. The algorithm 
 	has two passes. The first pass sorts the rectangles in ascending order on 
@@ -419,7 +424,7 @@
 	rectangles entirely to the left of the scan line are removed from the set 
 	of active rectangles. To keep track of the active rectangles, the 
 	plane-sweep algorithm uses a \term{sweep structure} (for three dimensions 
-	see the \term{space-sweep} technique \citep{Preparata}).
+	see the \term{space-sweep} technique \citep{preparata-etal-1985}).
 	\\
 
 	More concrete, to apply the plane-sweep algorithm, a sweep structure is 
@@ -432,9 +437,9 @@
 	\\
 
 	A disadvantage of the plane-sweep algorithm is that its traditional version 
-	assumes that all of the data are in internal memory \citep{Jacox}. If the 
-	data is in external memory, then the entire dataset is first read into 
-	internal memory before performing the plane sweep. If the data is in 
+	assumes that all of the data are in internal memory \citep{jacox-etal-2007}. 
+	If the data is in external memory, then the entire dataset is first read 
+	into internal memory before performing the plane sweep. If the data is in 
 	external memory and sorted, then each object can be first read from 
 	external memory. Then inserted into the sweep structure. And finally purged 
 	from internal memory when it is deleted from the sweep structure. This way, 
@@ -458,7 +463,7 @@
 			that $2 \leq x \leq 3$ and $0 \leq y \leq 3$. In binary these 
 			ranges are [010:011, 000:011]. The element is characterized by the 
 			common prefix of each range: [01, 0]. Interleaving these bits 
-			(starting with $x$) yields 001 (Figure. 2 \citep{Orenstein86}).}
+			(starting with $x$) yields 001 (Figure. 2 \citep{orenstein-1986}).}
 			\label{fig:decomp}
 		\end{subfigure}
 		\hfill
@@ -466,17 +471,18 @@
 			\includegraphics[width=\textwidth]{z_values2}
 			\caption{The element shown is the element with z value 001 from 
 			Figure~\bl{\ref{fig:decomp}}. Note that all z values inside the 
-			element have the same prefix, 001 (Figure. 3 \citep{Orenstein86}).}
+			element have the same prefix, 001 (Figure. 3 
+			\citep{orenstein-1986}).}
 		\end{subfigure}
 		\caption{Decomposition of a box. Each element is labeled with its z 
 		value.}
 		\label{fig:z_value}
 	\end{figure}
 
-	\todo[size={{\scriptsize}}]{problems with Z-order sweep and optimizations?? see Jacox}
-	A similar approach was proposed by \citet{Orenstein86} who used a variation 
-	of the Z-order method on spatial joins. The z value of a region is a 
-	concise description of the size and position of the region. It is 
+	\todo[size={{\scriptsize}}]{what problems are there with Z-order sweep and optimizations?? see Jacox}
+	A similar approach was proposed by \citet{orenstein-1986} who used a 
+	variation of the Z-order method on spatial joins. The z value of a region 
+	is a concise description of the size and position of the region. It is 
 	constructed by interleaving the bits describing the range of values 
 	covered by the element along each dimension. For example see 
 	Figure~\bl{\ref{fig:z_value}}. Z values can be compared lexicographically, 
@@ -501,17 +507,18 @@
 	in Figure~\bl{\ref{fig:16grid}}), as shown in 
 	Figure~\bl{\ref{fig:16grid_levels}}, which also includes the top level 
 	cell (the enclosing space) in the ordering. As a consequence, the Z-order 
-	can ensure that larger objects will be seen first \citep{Jacox}. 
+	can ensure that larger objects will be seen first \citep{jacox-etal-2007}. 
 	\\
 
-	Continuing with the approach of \citet{Orenstein86}, the Z-order algorithm 
-	is nearly identical to the plane-sweep algorithm. First, the objects from 
-	both datasets are assigned to Z-order grid cells. Next, the objects are 
-	sorted in Z-order rather than one-dimensionally. In this case, the active 
-	set, instead of being the objects that intersect the sweep line, are the 
-	enclosing cells of the objects that intersect the current Z-order grid 
-	cell. Since a sufficiently fine grid cell will intersect fewer objects, 
-	the active set will be smaller and the sweep structure can be simpler.
+	Continuing with the approach of \citet{orenstein-1986}, the Z-order 
+	algorithm is nearly identical to the plane-sweep algorithm. First, the 
+	objects from both datasets are assigned to Z-order grid cells. Next, the 
+	objects are sorted in Z-order rather than one-dimensionally. In this case, 
+	the active set, instead of being the objects that intersect the sweep line, 
+	are the enclosing cells of the objects that intersect the current Z-order 
+	grid cell. Since a sufficiently fine grid cell will intersect fewer 
+	objects, the active set will be smaller and the sweep structure can be 
+	simpler.
 	\\
 
 	\begin{figure}[h!]
@@ -535,7 +542,7 @@
 			\label{fig:16grid_levels}
 		\end{subfigure}
 		\caption{Four cell and sixteen cell grids traversed in a Z-order 
-		(Fig. 24 \citep{Jacox}).}
+		(Fig. 24 \citep{jacox-etal-2007}).}
 		\label{fig:z_order}
 	\end{figure}
 
@@ -543,7 +550,7 @@
 	\subsubsection{Index nested-loop join}
 	\label{sec:geo:in:nested}
 
-	The \term{window query} \citep{Brinkhoff93} is an example for a 
+	The \term{window query} \citep{brinkhoff-etal-1993} is an example for a 
 	single-scan query (we will use this term below). Let $A$ be a dataset of 
 	spatial objects and $r$ be a rectilinear rectangle. \term{Rectilinear} 
 	means related to a straight line, i.e. it may refer to a polygon whose 
@@ -553,27 +560,27 @@
 
 	The most basic spatial join method is the \term{nested-loop join}, which 
 	compares every object in one dataset to every object in the other dataset 
-	\citep{Mishra}. Despite its larger cost, the nested-loop join can be 
-	useful when there are too few objects to justify the overhead of more 
+	\citep{mishra-etal-1992}. Despite its larger cost, the nested-loop join can 
+	be useful when there are too few objects to justify the overhead of more 
 	complex methods. Its advantage is that is works with any object type and 
 	with any join condition. 
 	\\
 
 	A variant of the nested-loop join algorithm, called the \term{index 
-	nested-loop join}, improves performance for larger datasets \citep{Jacox}. 
-	It first creates a spatial index and inserts every element of one dataset, 
-	say $A$ into this index. Next, the other dataset, say $B$, is scanned, and 
-	each element is used to search the index on dataset $A$ for intersections. 
-	So the index becomes a window query on the index, where the window is the 
-	object from dataset $B$. Generally, the search window is a rectangle (i.e. 
-	\acr{mbr}s), which limits the types of join conditions to intersection 
-	tests or related relations that can be solved with a window query, such as 
-	proximity. The index nested-loop algorithm can be executed entirely in 
-	memory, using in memory indices. It can also be used as a stand alone 
-	external memory spatial join algorithm by using external memory indices. 
-	This allows the algorithm to process larger datasets. Finally it can be 
-	useful as a component in other spatial join algorithms (see 
-	Section~\ref{sec:geo:ex}).
+	nested-loop join}, improves performance for larger datasets 
+	\citep{jacox-etal-2007}. It first creates a spatial index and inserts every 
+	element of one dataset, say $A$ into this index. Next, the other dataset, 
+	say $B$, is scanned, and each element is used to search the index on 
+	dataset $A$ for intersections. So the index becomes a window query on the 
+	index, where the window is the object from dataset $B$. Generally, the 
+	search window is a rectangle (i.e. \acr{mbr}s), which limits the types of 
+	join conditions to intersection tests or related relations that can be 
+	solved with a window query, such as proximity. The index nested-loop 
+	algorithm can be executed entirely in memory, using in memory indices. It 
+	can also be used as a stand alone external memory spatial join algorithm by 
+	using external memory indices. This allows the algorithm to process larger 
+	datasets. Finally it can be useful as a component in other spatial join 
+	algorithms (see Section~\ref{sec:geo:ex}).
 	\\
 
 	But unfortunately, as mentioned before in Section~\ref{sec:geo:basics}, 
@@ -591,23 +598,23 @@
 	\todo[size={{\scriptsize}}]{about indexed dataset, one indexed one not, not-indexed datasets}
 
 	Even if there is sufficient internal memory to use one of the internal 
-	memory techniques mentioned in Section~\ref{sec:geo:in} (i.e. 
-	plane-sweep, Z-order approach), if both datasets are indexed, then it can 
-	be faster to use external memory filtering technique \citep{Jacox}. The 
-	cases in which this is the right choice is an open question. If, on the 
-	other hand, neither dataset is indexed, then it might not be efficient to 
-	build indices in order to do a spatial join \citep{Jacox}. Especially if 
-	the indices will not be used again and immediately discarded, for example 
-	if the spatial join in question is an intermediate step in solving a 
-	complex query. Even so, at some point, most external memory spatial join 
+	memory techniques mentioned in Section~\ref{sec:geo:in} (i.e. plane-sweep, 
+	Z-order approach), if both datasets are indexed, then it can be faster to 
+	use external memory filtering technique \citep{jacox-etal-2007}. The cases 
+	in which this is the right choice is an open question. If, on the other 
+	hand, neither dataset is indexed, then it might not be efficient to build 
+	indices in order to do a spatial join \citep{jacox-etal-2007}. Especially 
+	if the indices will not be used again and immediately discarded, for 
+	example if the spatial join in question is an intermediate step in solving 
+	a complex query. Even so, at some point, most external memory spatial join 
 	algorithms reduce the size of the problem and can process subsets of the 
 	data using internal memory techniques.
 	\\
 
 	The nested-loop strategy (as well as the index nested-loop) works although 
 	its lack of efficiency becomes even more obvious in the case of spatial 
-	data \citep{Gunther}. The spatial operators are usually much harder to 
-	compute than simple comparison operators on real numbers.
+	data \citep{gunther-1993}. The spatial operators are usually much harder 
+	to compute than simple comparison operators on real numbers.
 	\\
 
 	In the section below we briefly present some of the most popular methods 
@@ -619,38 +626,38 @@
 	\label{sec:geo:ex:access}
 
 	There is no special ordering of objects in space that fully preserves 
-	spatial proximity \citep{Mamoulis}. So conventional indexes, such as 
-	B-trees \citep{Bayer, Comer}, are inapplicable to spatial databases. 
-	\term{B-trees} are self-balancing search trees, with all their leaf nodes 
-	appearing on the same level. The main idea of using B-Trees is to reduce 
-	the number of disk accesses. For this reason the height of B-Trees is kept 
-	low by putting maximum possible keys in each B-Tree node. Generally, a 
-	B-Tree node size is kept equal to the disk block size. All keys of a node 
-	are sorted in increasing order. The child node between two keys 
-	$k\textsubscript{1}$ and $k\textsubscript{2}$ contains all keys in the 
+	spatial proximity \citep{mamoulis-etal-2001}. So conventional indexes, such 
+	as B-trees \citep{bayer-etal-1972, comer-1979}, are inapplicable to spatial 
+	databases. \term{B-trees} are self-balancing search trees, with all their 
+	leaf nodes appearing on the same level. The main idea of using B-Trees is 
+	to reduce the number of disk accesses. For this reason the height of 
+	B-Trees is kept low by putting maximum possible keys in each B-Tree node. 
+	Generally, a B-Tree node size is kept equal to the disk block size. All 
+	keys of a node are sorted in increasing order. The child node between two 
+	keys $k\textsubscript{1}$ and $k\textsubscript{2}$ contains all keys in the 
 	range from $k\textsubscript{1}$ to $k\textsubscript{2}$. (We remind that 
 	a \term{key} is a unique identifier for each item in the dataset used to 
 	retrieve it from the structure.)
 	\\
 
 	An R-tree can be thought of as an extension of a B-tree in 
-	multi-dimensional space. An \term{R-tree} \citep{Guttman} is a 
+	multi-dimensional space. An \term{R-tree} \citep{guttman-1984} is a 
 	height-balanced tree. It has index records in its leaf nodes containing 
-	pointers to data objects, as illustrated in 
-	Figure~\bl{\ref{fig:r_tree_str}}. Nodes correspond to disk pages if the 
-	index is disk-resident. The structure is designed so that a spatial search 
-	requires visiting only a small number of nodes. The index is completely 
-	dynamic – inserts and deletes can be intermixed with searches and no 
-	periodic reorganization is required. Containment and overlapping 
-	relationships are possible to exist between the rectangles of an R-tree. 
-	R-trees index object approximations, usually \acr{mbr}s, providing a 
-	spatial join performed by a filter-and-refine approach.
+	pointers to data objects, as illustrated in Figure~\bl{\ref{fig:r_tree_str}}. 
+	Nodes correspond to disk pages if the index is disk-resident. The structure 
+	is designed so that a spatial search requires visiting only a small number 
+	of nodes. The index is completely dynamic – inserts and deletes can be 
+	intermixed with searches and no periodic reorganization is required. 
+	Containment and overlapping relationships are possible to exist between 
+	the rectangles of an R-tree. R-trees index object approximations, usually 
+	\acr{mbr}s, providing a spatial join performed by a filter-and-refine 
+	approach.
 	\\
 
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=0.7\textwidth]{b_tree}
-		\caption{Structure of a B-tree (Fig. 2 \citep{Bayer}).}
+		\caption{Structure of a B-tree (Fig. 2 \citep{bayer-etal-1972}).}
 		\label{fig:b_tree}
 	\end{figure}
 
@@ -668,21 +675,21 @@
 			between the rectangles of an R-tree.}
 		\end{subfigure}
 		\caption{R-tree structure and relationships between its objects 
-		(Fig. 2 \citep{Guttman})}
+		(Fig. 2 \citep{guttman-1984})}
 		\label{fig:r_tree}
 	\end{figure}
 
-	Another spatial access method is the \term{quad tree} \citep{Finkel}, a 
-	data structure appropriate for storing information to be retrieved on 
-	composite keys. It is a generalization of the binary tree for the treatment 
-	of data with inherently two-dimensional structure. As a reminder, a 
-	\term{binary tree} is a tree data structure in which each node has at most 
-	two children. Quad trees are most often used to partition a two-dimensional 
-	space by recursively subdividing it into four quadrants or regions, as 
-	illustrated in figure~\bl{\ref{fig:quad_tree}}. In such a tree data 
-	structure each internal node has exactly four children. The data associated 
-	with a leaf cell represents spatial information – a square, rectangle, or 
-	even an arbitrary shape.
+	Another spatial access method is the \term{quad tree} 
+	\citep{finkel-etal-1974}, a data structure appropriate for storing 
+	information to be retrieved on composite keys. It is a generalization of 
+	the binary tree for the treatment of data with inherently two-dimensional 
+	structure. As a reminder, a \term{binary tree} is a tree data structure in 
+	which each node has at most two children. Quad trees are most often used 
+	to partition a two-dimensional space by recursively subdividing it into 
+	four quadrants or regions, as illustrated in figure~\bl{\ref{fig:quad_tree}}. 
+	In such a tree data structure each internal node has exactly four children. 
+	The data associated with a leaf cell represents spatial information – a 
+	square, rectangle, or even an arbitrary shape.
 	\\
 
 	\begin{figure}[h!]
@@ -699,12 +706,12 @@
 			appear explicitly in computer memory.}
 		\end{subfigure}
 		\caption{Quad-tree structure and correspondence to its records 
-		(Fig. 1 \citep{Finkel}).}
+		(Fig. 1 \citep{finkel-etal-1974}).}
 		\label{fig:quad_tree}
 	\end{figure}
 
 
-	A \term{k-d tree} \citep{Bentley} (short for \term{k-dimensional tree}) 
+	A \term{k-d tree} \citep{bentley-1975} (short for \term{k-dimensional tree}) 
 	is a space-partitioning data structure for organizing points in a 
 	k-dimensional space. Practically it is a multidimensional binary search 
 	tree. Each record is stored as a node in the k-d tree. In addition to the 
@@ -714,25 +721,28 @@
 	And every leaf node is a k-dimensional point.
 	\\
 
-	A variation of both B-trees and k-d trees is the so called 
-	\term{K-D-B tree} \citep{Robinson} (short for \term{k-dimensional B-tree}). 
-	It is a tree data structure for subdividing a k-dimensional search space. 
-	The K-D-B tree combines properties of k-d trees and B-trees. Its aim is to 
-	provide the search efficiency of a balanced k-d tree, while providing the 
+	A variation of both B-trees and k-d trees is the so called \term{K-D-B tree} 
+	\citep{robinson-1981} (short for \term{k-dimensional B-tree}). It is a tree 
+	data structure for subdividing a k-dimensional search space. The K-D-B tree 
+	combines properties of k-d trees and B-trees. Its aim is to provide the 
+	search efficiency of a balanced k-d tree, while providing the 
 	block-oriented storage of a B-tree for optimizing external memory accesses.
 	\\
 
-	The \term{grid file} \citep{Nievergelt} or \term{bucket grid} is a 
-	contribution to the development of balanced multikey file structures. A 
+	The \term{grid file} \citep{nievergelt-etal-1984} or \term{bucket grid} is 
+	a contribution to the development of balanced multikey file structures. A 
 	\term{file} is a collection of \term{records}, where a record consists of 
-	a list of \term{attributes} \citep{Whang}. 
-	Multidimensional trees of various kinds (e.g, k-d trees \citep{Bentley}) 
+	a list of \term{attributes} \citep{whang-etal-1991}. Each attribute is a 
+	column of a table called \term{relation}, whose rows are called 
+	\term{tuples}. The attributes keep up with a particular kind of data, and 
+	the tuples hold the data of a particular entity or event. Multidimensional 
+	trees of various kinds (e.g. k-d trees \citep{bentley-1975}) 
 	are another example of multikey access techniques that organize the set 
 	of data to be stored. As an example, consider records with the attribute 
 	fields last name, first name, year of birth, and social security number, 
 	and a record [Doe, John, 1951, 1234567891]. \term{Multikey access} means 
 	that the reference of records is done by using any possible subset of its 
-	fields, as shown in the following examples \citep{Nievergelt}: 
+	fields, as shown in the following examples \citep{nievergelt-etal-1984}: 
 	\begin{itemize} 
 		\item Entire record specified (\term{exact match query}, point query)
 		\item Doe born in 1951 (\term{partial match query})
@@ -759,16 +769,16 @@
 		\centering
 		\includegraphics[width=0.2\textwidth]{grid_file}
 		\caption{Space partitions created by a grid file (Fig. 10 
-		\citep{Nievergelt}). Each region boundary cuts the entire search space 
-		in half, so all dimensions are treated symmetrically.}
+		\citep{nievergelt-etal-1984}). Each region boundary cuts the entire 
+		search space in half, so all dimensions are treated symmetrically.}
 		\label{fig:grid_file}
 	\end{figure}
 
 	An extension of the grid file provides a multilevel approach to organizing 
 	the directory. It encounters the directory as a file, and creates a new 
 	directory to organize this file. This extension is called the 
-	\term{multilevel grid file} (or \term{\acr{mlgf}}) \citep{Whang}. For 
-	example, a two-level grid file is shown in 	Figure~\bl{\ref{fig:mlgf_str}}, 
+	\term{multilevel grid file} (or \term{\acr{mlgf}}) \citep{whang-etal-1991}. 
+	For example, a two-level grid file is shown in 	Figure~\bl{\ref{fig:mlgf_str}}, 
 	together with how regions are represented by its directory entries. 
 	$D\textsubscript{2}$ is the directory for the file $D\textsubscript{1}$, 
 	and $D\textsubscript{1}$ is the directory for the original file 
@@ -787,7 +797,7 @@
 		\begin{subfigure}[t]{0.5\textwidth}
 			\includegraphics[width=\textwidth]{mlgf}
 			\caption{The structure of a two-level grid file (Figure 3 
-			\citep{Whang}).}
+			\citep{whang-etal-1991}).}
 			\label{fig:mlgf_str}
 		\end{subfigure}
 		\\
@@ -811,21 +821,21 @@
 
 
 	A \term{generalization tree} is a tree structure where each node 
-	corresponds to a spatial object \citep{Gunther}. Each object corresponding 
-	to an internal node is completely contained in the object corresponding to 
-	its parent node, as illustrated in Figure~\bl{\ref{fig:gen_tree}}. 
-	Different spatial objects, even objects corresponding to nodes at the same 
-	height may overlap. The objects at any height do not have to cover the 
-	total space, dead space is allowed. This very general definition includes 
-	some common spatial access methods, such as R-trees and multilevel grid 
-	files.
+	corresponds to a spatial object \citep{gunther-1993}. Each object 
+	corresponding to an internal node is completely contained in the object 
+	corresponding to its parent node, as illustrated in 
+	Figure~\bl{\ref{fig:gen_tree}}. Different spatial objects, even objects 
+	corresponding to nodes at the same height may overlap. The objects at any 
+	height do not have to cover the total space, dead space is allowed. This 
+	very general definition includes some common spatial access methods, such 
+	as R-trees and multilevel grid files.
 	\\
 
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=\textwidth]{generalization_tree}
 		\caption{A generalization tree representing a cartographic hierarchy 
-		(Fig. 3 \citep{Gunther}).}
+		(Fig. 3 \citep{gunther-1993}).}
 		\label{fig:gen_tree}
 	\end{figure}
 
@@ -839,7 +849,7 @@
 	\label{sec:geo:ex:both}
 
 	Probably the most popular spatial access method is the R-tree, when 
-	considering indexed datasets \citep{Jacox}.
+	considering indexed datasets \citep{jacox-etal-2007}.
 	\\
 
 	\paragraph{Search space reduction}
@@ -847,15 +857,16 @@
 
 	When joining two regions which do not cover the same space, as is likely 
 	when joining index nodes, then the search space can be reduced 
-	\citep{Brinkhoff93}. The two regions could alternatively represent two 
-	data pages or two partitions. Only objects within the intersecting region 
-	of the two nodes need to be compared, as shown in 
+	\citep{brinkhoff-etal-1993}. The two regions could alternatively represent 
+	two data pages or two partitions. Only objects within the intersecting 
+	region of the two nodes need to be compared, as shown in 
 	Figure~\bl{\ref{fig:common_region}}. That way, the space covered by both 
 	the regions might fit in internal memory. In these cases internal memory 
-	techniques from Section~\ref{sec:geo:in} should be used \citep{Jacox}. For 
-	smaller page sizes, a nested-loop join (Section~\ref{sec:geo:in:nested}) 
-	might be best because of the low overhead. For larger page sizes, the 
-	plane-sweep method (Section~\ref{sec:geo:in:sweep}), or a Z-order sweep 
+	techniques from Section~\ref{sec:geo:in} should be used 
+	\citep{jacox-etal-2007}. For smaller page sizes, a nested-loop join 
+	(Section~\ref{sec:geo:in:nested}) might be best because of the low 
+	overhead. For larger page sizes, the plane-sweep method 
+	(Section~\ref{sec:geo:in:sweep}), or a Z-order sweep 
 	(Section~\ref{sec:geo:in:z}) would be more appropriate.
 	\\
 
@@ -864,7 +875,7 @@
 		\includegraphics[width=0.3\textwidth]{common_region}
 		\caption{When joining two regions, only the objects within the 
 		intersecting region (marked with an $x$) need to be processed (Fig. 8 
-		\citep{Jacox}).}
+		\citep{jacox-etal-2007}).}
 		\label{fig:common_region}
 	\end{figure}
 
@@ -885,14 +896,14 @@
 		\centering
 		\includegraphics[width=0.5\textwidth]{reduce_space}
 		\caption{Search space reduction for an R-tree (Figure 1 
-		\citep{Brinkhoff93}).}
+		\citep{brinkhoff-etal-1993}).}
 		\label{fig:reduce_space}
 	\end{figure}
 
 
 
 \todo[size={{\scriptsize}}]{see from Jacox: Corral et al. [1999]}
-If both datasets are indexed, but with incompatible types of indices, such as an R-tree \citep{Guttman} and a point quad tree \citep{Finkel}, Corral et al. [1999] suggest ignoring one index and performing an index-nested loop join, as described in Section~\ref{sec:geo:in:nested}. 
+If both datasets are indexed, but with incompatible types of indices, such as an R-tree \citep{guttman-1984} and a point quad tree \citep{finkel-etal-1974}, Corral et al. [1999] suggest ignoring one index and performing an index-nested loop join, as described in Section~\ref{sec:geo:in:nested}. 
 \\
 
 
@@ -900,108 +911,164 @@ If both datasets are indexed, but with incompatible types of indices, such as an
 	\label{sec:geo:ex:both:syn}
 
 	Since many spatial indices are hierarchical, a spatial join algorithm 
-	for these indices also has a hierarchical nature \citep{Jacox}. Any 
-	generalization tree structure can be applied efficiently to compute 
+	for these indices also has a hierarchical nature \citep{jacox-etal-2007}. 
+	Any generalization tree structure can be applied efficiently to compute 
 	spatial joins in a hierarchical manner. In the following we assume that 
 	both datasets are indexed using generalization trees. For indices of 
 	different heights, the join of a leaf of one index with a sub-tree of the 
-	other can be accomplished using a window query \citep{Brinkhoff93}, 
-	handling leaf-to-node comparison \citep{Kim}, or waiting for the higher 
-	tree \citep{Huang}. The idea of \citet{Brinkhoff93} is to perform window 
-	queries on the subtrees of the shorter tree using the data rectangles of 
-	the higher tree as query rectangles. Alternatively, if there is no more 
-	next-level node (or directory page) \citet{Kim} pass the current node 
-	itself as an input parameter to the next-level recursive call. 
-	\citet{Huang} suggest that after reaching the leaf level of one of the two 
-	trees, then the algorithm stays at this leaf level of this tree. And it 
-	proceeds to traverse the other tree, until its leaf level is reached as 
-	well. Then the current join is the output of the spatial join process. 
+	other can be accomplished using a window query \citep{brinkhoff-etal-1993}, 
+	handling leaf-to-node comparison \citep{kim-etal-1995}, or waiting for the 
+	higher tree \citep{huang-etal-1997}. The idea of \citet{brinkhoff-etal-1993} 
+	is to perform window queries on the subtrees of the shorter tree using the 
+	data rectangles of the higher tree as query rectangles. Alternatively, if 
+	there is no more next-level node (or directory page) \citet{kim-etal-1995} 
+	pass the current node itself as an input parameter to the next-level 
+	recursive call. \citet{huang-etal-1997} suggest that after reaching the 
+	leaf level of one of the two trees, then the algorithm stays at this leaf 
+	level of this tree. And it proceeds to traverse the other tree, until its 
+	leaf level is reached as well. Then the current join is the output of the 
+	spatial join process. 
 	\\
 
 	If both datasets are indexed using generalization trees and both indices 
 	have the same height, then a spatial join can be performed efficiently 
-	with a \term{synchronized traversal} of the indices \citep{Jacox}. In the 
-	following we assume that the data objects are only stored in the leaves of 
-	the tree. Starting with the two root nodes (or levels) of the indices, the 
-	algorithm finds intersections between their sub-nodes. The intersecting 
-	sub-node pairs are added to a priority queue. The pairs in the priority 
-	queue are checked for intersecting sub-nodes in later iterations. If the 
-	two nodes are leaves, they are compared and report any intersecting 
+	with a \term{synchronized traversal} of the indices \citep{jacox-etal-2007}. 
+	In the following we assume that the data objects are only stored in the 
+	leaves of the tree. Starting with the two root nodes (or levels) of the 
+	indices, the algorithm finds intersections between their sub-nodes. The 
+	intersecting sub-node pairs are added to a priority queue. The pairs in the 
+	priority queue are checked for intersecting sub-nodes in later iterations. 
+	If the two nodes are leaves, they are compared and report any intersecting 
 	objects.
 	\\
 
 	The variations of the synchronized traversal algorithm differ in the 
 	priority (i.e. the sort order) that is used by the priority queue. Each 
-	variation attempts to minimize disk accesses. \citet{Gunther} and 
-	\citet{Huang} both use algorithms that correspond to breadth-first 
+	variation attempts to minimize disk accesses. \citet{gunther-1993} and 
+	\citet{huang-etal-1997} both use algorithms that correspond to breadth-first 
 	traversal, where priority is given to higher-level node pairs. In this way, 
 	join computations are processed level by level – all of the nodes at one 
 	level of the indices are examined before any nodes in the next level. At 
-	each level \citet{Huang} further sort the node pairs that are to be joined 
-	at the next lower level, that is, the node pairs in the priority queue. 
-	That way they reduce the number of page faults and buffer misses. Priority 
-	is still given to higher level nodes, but a secondary sort is used within 
-	each level. They also reduce the number of node pair traversals by search 
-	pruning at all levels of the tree. The affect of \term{search pruning} is 
-	that, starting from the top level, each node pair is only traversed for 
-	join computation if the \acr{mbr}s of the parent nodes overlap.
+	each level \citet{huang-etal-1997} further sort the node pairs that are to 
+	be joined at the next lower level, that is, the node pairs in the priority 
+	queue. That way they reduce the number of page faults and buffer misses. 
+	Priority is still given to higher level nodes, but a secondary sort is used 
+	within each level. They also reduce the number of node pair traversals by 
+	search pruning at all levels of the tree. The affect of \term{search 
+	pruning} is that, starting from the top level, each node pair is only 
+	traversed for join computation if the \acr{mbr}s of the parent nodes 
+	overlap.
 	\\
 
 	One of the drawbacks of the breadth-first approach is that, as the 
 	algorithm progresses, the priority queue can grow extremely large and 
-	portions of it might need to be kept in external memory \citep{Jacox}. 
-	\citet{Kim} and \citet{Brinkhoff93} deal with multilevel grid files 
-	\citep{Whang} and R-trees \citep{Guttman} respectively. They both use a 
-	depth-first approach in which all of the sub-node pairs for a given node 
-	pair are processed before proceeding to the next node pair at the same 
-	level. \citet{Kim} use a \term{region-oriented subjoin}. This is a join 
-	between the sets of records in regions of two relations overlapping a 
-	subjoin range. Processing region-oriented subjoins resembles the 
-	nested-loop join algorithm described in Section~\ref{sec:geo:in:nested}. 
-	To improve performance, \citet{Brinkhoff93} use two buffers. A path buffer 
-	is used to accommodate all of the ancestor nodes of the current node pair. 
-	And an additional \acr{lru} (\term{last recently used}) buffer is used for 
-	single pages, not complete paths, independently of the path buffer. The 
-	reason for two different buffers is that the path buffer exclusively 
+	portions of it might need to be kept in external memory 
+	\citep{jacox-etal-2007}. \citet{kim-etal-1995} and 
+	\citet{brinkhoff-etal-1993} deal with multilevel grid files 
+	\citep{whang-etal-1991} and R-trees \citep{guttman-1984} respectively. They 
+	both use a depth-first approach in which all of the sub-node pairs for a 
+	given node pair are processed before proceeding to the next node pair at 
+	the same level. \citet{kim-etal-1995} use a \term{region-oriented subjoin}. 
+	This is a join between the sets of records in regions of two relations 
+	overlapping a subjoin range. Processing region-oriented subjoins resembles 
+	the nested-loop join algorithm described in Section~\ref{sec:geo:in:nested}. 
+	To improve performance, \citet{brinkhoff-etal-1993} use two buffers. A path 
+	buffer is used to accommodate all of the ancestor nodes of the current node 
+	pair. And an additional \acr{lru} (\term{last recently used}) buffer is 
+	used for single pages, not complete paths, independently of the path buffer. 
+	The reason for two different buffers is that the path buffer exclusively 
 	belongs to the data structure, whereas the \acr{lru} buffer can be 
 	considered as a buffer of the underlying system. 
 	\\
 
 
-	\paragraph{Treat as partitioned datasets}
+	\paragraph{Clustering methods}
 	\label{sec:geo:ex:both:part}
-																					\todo[size={{\scriptsize}}]{non-hierarchical methods}
 
-But not all spatial indices are hierarchical. For these cases more general approaches are needed \citep{Jacox}. For example, a way of performing a spatial join on indexed data is to treat the indices as simply a partitioned dataset, where the data pages of the indices are the partitions. Each pair of intersecting data pages is then read into memory and joined. This method is applicable to any index type with data pages. \citet{Kitsuregawa} applied it with k-d trees \citep{Bentley}, while Harada et al. [1990] applied it with grid files \citep{Nievergelt}.
-\\ 
+	But not all spatial indices are hierarchical. For these cases more general 
+	approaches are needed \citep{jacox-etal-2007}. For example, a way of 
+	performing a spatial join on indexed data is to treat the indices as simply 
+	a partitioned dataset, where the data pages of the indices are the 
+	partitions. In this approach, the data pages are read in an order that is 
+	meant to minimize I/O. Each pair of intersecting data pages is then read 
+	into memory and joined. This method is applicable to any index type with 
+	data pages. \citet{kitsuregawa-etal-1989} applied it with k-d trees 
+	\citep{bentley-1975}, while \citet{harada-etal-1990} applied it also with 
+	grid files \citep{nievergelt-etal-1984}.
+	\\ 
 
-In the following, we call the relations to be joined $R$ and $S$, of sizes $\abs{R}$ and $\abs{S}$ respectively. We consider $\abs{S} \geq \abs{R} >\!\!> M$, where $M$ is the main memory size.
+	In the following, we call the relations to be joined $R$ and $S$, of sizes 
+	$\abs{R}$ and $\abs{S}$ respectively. We consider $\abs{S} \geq \abs{R} 
+	>\!\!> M$, where $M$ is the main memory size. A set of pages of relation 
+	$R$ is loaded in the main memory to be processed in each step of the 
+	algorithm. The range of the join attribute value to process is determined 
+	– known as the \term{join range ($J\textsubscript{r}$)}. Then the 
+	intersecting data pages from the other relation $S$ are read into the 
+	emaining main memory and joined, in a nested-loop way. When the processing 
+	in this join range finishes, the pages of relation $R$ that have already 
+	been processed are unloaded. A next set of pages is loaded, and the next 
+	step starts. An example of this algorithm joining two indexed relations $R$ 
+	and $S$ in six steps is illustrated in Figure~\bl{\ref{fig:partition}}.
+	\\
 
-The set of pages of relation $R$ loaded in the main memory is the unit of processing in each step. Because of its shape is called \term{wave} \citep{Kitsuregawa}. 
+	\begin{figure}[h!]
+		\centering
+		\begin{subfigure}[t]{0.6\textwidth}
+			\includegraphics[width=\textwidth]{join_steps}
+			\caption{Processing pages of relations $R$ and $S$ in each join 
+			step.}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[t]{0.6\textwidth}
+			\includegraphics[width=\textwidth]{wave}
+			\caption{Join processing in step 1.}
+		\end{subfigure}
+		\caption{Processing overview of the join algorithms by partitioning the 
+		indexed relations (Fig. 2 \citep{kitsuregawa-etal-1989}).}
+		\label{fig:partition}
+	\end{figure}
+
+	The set of pages which represents the unit of loading from the secondary 
+	storage to the main memory is called \term{wave}. The \term{cluster} of an 
+	attribute value $a\textsubscript{i}$ is the set of pages which may contain 
+	this attribute value, as shown in Figure~\bl{\ref{fig:cluster}}. In order 
+	to hold down the I/O cost of relation $S$, the wave, in each step, contains 
+	at least one cluster of an attribute value in the join range. This implies 
+	that the minimum wave size is cluster-size pages and the maximum wave size 
+	is $M-1$ pages \citep{kitsuregawa-etal-1989}. The wave tuples to be 
+	processed are always on memory. Thus the query processing for 
+	multi-attribute clustered relations (that treat all attributes 
+	symmetrically) can be performed with only one scan of the relations, which 
+	is the lowest I/O bound \citep{harada-etal-1990}.
+	\\
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width=0.6\textwidth]{cluster}
+		\caption{Example of a cluster of a k-d tree indexed relation (Fig. 1 
+		\citep{kitsuregawa-etal-1989}).}
+		\label{fig:cluster}
+	\end{figure}
+
+
+\paragraph{Transform to multi-dimensional points}
+\label{sec:geo:ex:both:mul}
+
+Another idea for spatial join is to first transform objects into multi-dimensional points. Unlike points, rectangles have extent, which complicates spatial join algorithms. If an object will not fit into a partition, then either it must be replicated into multiple partitions or the partitions must overlap, as in an R-tree \citep{guttman-1984}. Transformation methods avoid this problem by transforming objects into multi-dimensional points in a higher dimensional space, such as used by the grid file index \citep{nievergelt-etal-1984}. For example, a two-dimensional rectangle can be transformed into a point in four-dimensional space. One way is to use the coordinate values of the opposing corner points of the rectangle as the four values representing the rectangle. This is a technique known as the \term{corner transformation}. Alternatively, the rectangle can be transformed using the coordinate values of the the center point, half of the width, and half of the height as the four values.
 \\
 
-
+\todo[size={{\scriptsize}}]{\citep{Song} and pages 17-18 of \citep{jacox-etal-2007}}
+Song et al. [1999] propose a spatial join for data that is indexed using the corner transformation method. [...] similar to the non-hierarchical spatial join methods [...]
+\\
+	
 
 
 
 
 
 \todo[size={{\scriptsize}}]{What about the other operations?}
-Join is an operation that is frequently used and is the most expensive in processing database queries \citep{Kim}. 
+Join is an operation that is frequently used and is the most expensive in processing database queries \citep{kim-etal-1995}. 
 \\
-
-
-\paragraph{Transform to multi-dimensional points}
-\label{sec:geo:ex:both:mul}
-
-Another idea for spatial join is to first transform objects into multi-dimensional points. Unlike points, rectangles have extent, which complicates spatial join algorithms. If an object will not fit into a partition, then either it must be replicated into multiple partitions or the partitions must overlap, as in an R-tree \citep{Guttman}. Transformation methods avoid this problem by transforming objects into multi-dimensional points in a higher dimensional space, such as used by the grid file index \citep{Nievergelt}. For example, a two-dimensional rectangle can be transformed into a point in four-dimensional space. One way is to use the coordinate values of the opposing corner points of the rectangle as the four values representing the rectangle. This is a technique known as the \term{corner transformation}. Alternatively, the rectangle can be transformed using the coordinate values of the the center point, half of the width, and half of the height as the four values.
-\\
-
-\todo[size={{\scriptsize}}]{\citep{Song} and pages 17-18 of \citep{Jacox}}
-Song et al. [1999] propose a spatial join for data that is indexed using the corner transformation method. [...] similar to the non-hierarchical spatial join methods [...]
-\\
-	
-
 
 
 
@@ -1015,14 +1082,14 @@ Song et al. [1999] propose a spatial join for data that is indexed using the cor
 
 
 
-\citep{Brinkhoff93}: There are several other approaches for performing joins using multidimensional point access methods, e.g. grid files [1] and kd-trees[11]. These methods can be used for spatial joins, if spatial objects are transformed to higher-dimensional points. However, the most serious disadvantage is that the use of transformation does not preserve proximity.
+\citep{brinkhoff-etal-1993}: There are several other approaches for performing joins using multidimensional point access methods, e.g. grid files [1] and kd-trees[11]. These methods can be used for spatial joins, if spatial objects are transformed to higher-dimensional points. However, the most serious disadvantage is that the use of transformation does not preserve proximity.
 \par
 Methods for computing the spatial join are discussed in great detail for quadtrees and similar access methods[18]. The cells of quadtrees can be represented in a linear fashion in order of z-value and level. A spatial join of two quadtrees can be performed by an “almost linear” scan through the corresponding sequences of cells. Note that the meaning of linear is not related to the number of objects, but to the number of pointers referring to the objects.
 \\
 
 
 
-Let us consider two sets $A={a_1,...,a_n}$ and $B={b_1,...,b_m}$ of spatial objects, known as spatial relations \citep{Brinkhoff93}. The reader may think of the objects in a spatial relation as polygons representing a surface of a spatial object. Let \func{id} be a function that assigns a unique identifier to each spatial object in a database. Furthermore, let \func{mbr} be a function that computes the minimum bounding rectilinear rectangle of an object. For example, $\func{id}(a_1)$ and $\func{mbr}(a_1)$ denote the identifier and the minimum bounding rectangle of $a_1$, respectively. The most important spatial joins are the following:
+Let us consider two sets $A={a_1,...,a_n}$ and $B={b_1,...,b_m}$ of spatial objects, known as spatial relations \citep{brinkhoff-etal-1993}. The reader may think of the objects in a spatial relation as polygons representing a surface of a spatial object. Let \func{id} be a function that assigns a unique identifier to each spatial object in a database. Furthermore, let \func{mbr} be a function that computes the minimum bounding rectilinear rectangle of an object. For example, $\func{id}(a_1)$ and $\func{mbr}(a_1)$ denote the identifier and the minimum bounding rectangle of $a_1$, respectively. The most important spatial joins are the following:
 \begin{itemize} 
 	\item \acr{mbr}-spatial-join:\\ Compute all pairs $(\func{id}(a_i), \func{id}(b_j))$ with $\func{mbr}(a_i) \cap \func{mbr}(b_j) \neq \emptyset$\\
 	\item \acr{id}-spatial-join:\\ Compute all pairs $(\func{id}(a_i), \func{id}(b_j))$ with $a_i \cap b_j \neq \emptyset$\\
@@ -1039,66 +1106,66 @@ In addition to these three, there are also other types of joins – joins with o
 
 
 	\term{Multiway spatial joins} involve an arbitrary number of spatial inputs 
-	\citep{Mamoulis}. Such queries are important in several applications 
+	\citep{mamoulis-etal-2001}. Such queries are important in several applications 
 	including \acr{gis} (e.g. find all cities adjacent to forests that are 
 	intersected by a river).
 	\\
 
-	\citep{Mamoulis} : As in relational databases, joins in spatial databases play an important role in effective spatial query processing. A pairwise spatial join combines two datasets with respect to some spatial predicate (usually overlap). A typical example is “find all cities that are crossed by a river”. The most influential algorithm for joining two datasets indexed by R-trees is the R-tree join (RJ) \citep{Brinkhoff93} [the other? 1996?]. RJ traverses synchronously both trees, following entry pairs that overlap;non-intersecting pairs cannot lead to solutions at the lower levels. Most methods deal with the filter step; that is, they output a set of MBR pairs (candidates) that may enclose intersecting objects.
+	\citep{mamoulis-etal-2001} : As in relational databases, joins in spatial databases play an important role in effective spatial query processing. A pairwise spatial join combines two datasets with respect to some spatial predicate (usually overlap). A typical example is “find all cities that are crossed by a river”. The most influential algorithm for joining two datasets indexed by R-trees is the R-tree join (RJ) \citep{brinkhoff-etal-1993} [the other? 1996?]. RJ traverses synchronously both trees, following entry pairs that overlap;non-intersecting pairs cannot lead to solutions at the lower levels. Most methods deal with the filter step; that is, they output a set of MBR pairs (candidates) that may enclose intersecting objects.
 	\\
 
 	
 
-\citep{Jacox}: Unlike points, rectangles have extent, which complicates spatial join algorithms. 
+\citep{jacox-etal-2007}: Unlike points, rectangles have extent, which complicates spatial join algorithms. 
 \\
 	
 
 \todo[size={{\scriptsize}}]{plane-sweep algorithm? (Preparata et al.)}
 
-	\citep{Brinkhoff96}: Another line of research starts with Orenstein and Manola [OM 88] who proposed to use B-trees combined with z-ordering for processing spatial joins. They followed the approach that for each object an approximation consists of a set of grid cells. A general problem with this approach is that a high number of cells per object is required to provide an accurate approximation of the object in order to obtain a small candidate set. This causes an expensive filter step.
+	\citep{brinkhoff-etal-1996}: Another line of research starts with Orenstein and Manola [OM 88] who proposed to use B-trees combined with z-ordering for processing spatial joins. They followed the approach that for each object an approximation consists of a set of grid cells. A general problem with this approach is that a high number of cells per object is required to provide an accurate approximation of the object in order to obtain a small candidate set. This causes an expensive filter step.
 	\\
 
 
-	[[[[[[ \citep{Jacox}: it is assumed that the data is two dimensional and that we are interested in determining pairs of intersecting objects. Both of these assumptions are common in the literature. ]]]]]]
+	[[[[[[ \citep{jacox-etal-2007}: it is assumed that the data is two dimensional and that we are interested in determining pairs of intersecting objects. Both of these assumptions are common in the literature. ]]]]]]
 \\
 
 
 
-\citep{Huang}: In \citep{Orenstein86} the z-ordering technique is used to transform multidimensional data into the 1-dimensional domain. Spatial join is then conducted on the $B\textsuperscript{+}$-tree structures that store z-ordering values of the spatial data.
+\citep{huang-etal-1997}: In \citep{orenstein-1986} the z-ordering technique is used to transform multidimensional data into the 1-dimensional domain. Spatial join is then conducted on the $B\textsuperscript{+}$-tree structures that store z-ordering values of the spatial data.
 \\
 
-\citep{Orenstein86}: support spatial query processing by providing an object class that implements approximate geometry (AG). Approximate geometry, as developed here, relies (conceptually) on a grid representation of spatial data. This is where the approximation comes in - precision is limited by the resolution of the grid. The AG algorithms are exact. I.e. if the grid representation is considered to be precise (as might be the case for LANDSAT data), then AG would provide precise results. Common techniques for file organization (e.g. B-trees) and buffer management provide excellent support for AG. [[[We are not aware of any other approach to spatial data that can make this claim.]]]
+\citep{orenstein-1986}: support spatial query processing by providing an object class that implements approximate geometry (AG). Approximate geometry, as developed here, relies (conceptually) on a grid representation of spatial data. This is where the approximation comes in - precision is limited by the resolution of the grid. The AG algorithms are exact. I.e. if the grid representation is considered to be precise (as might be the case for LANDSAT data), then AG would provide precise results. Common techniques for file organization (e.g. B-trees) and buffer management provide excellent support for AG. [[[We are not aware of any other approach to spatial data that can make this claim.]]]
 \\
 
 
-\citep{Orenstein86}: Their approach to approximate grid (AG) is based on a grid representation of spatial objects. [[[Implementations of spatial join that incorporate the optimizations discussed above will be designed in the next phase of PROBE research.]]]
+\citep{orenstein-1986}: Their approach to approximate grid (AG) is based on a grid representation of spatial objects. [[[Implementations of spatial join that incorporate the optimizations discussed above will be designed in the next phase of PROBE research.]]]
 \\
-\citep{Orenstein89}: An algorithm called spatial join implements the filter step. Each resulting candidate is a pair of objects, one from each input file. that are likely to overlap. The output from spatial join has to go through a refinement step as described above. Spatial join and filtering algorithms for other spatial problems appear in [OREN88]. These algorithms comprise the geometry filter (GF).
+\citep{orenstein-1989}: An algorithm called spatial join implements the filter step. Each resulting candidate is a pair of objects, one from each input file. that are likely to overlap. The output from spatial join has to go through a refinement step as described above. Spatial join and filtering algorithms for other spatial problems appear in [OREN88]. These algorithms comprise the geometry filter (GF).
 \\
 
-\citep{Orenstein86}: The z value of a region is a concise description of the shape, size and position of the region. These can be derived from the z value. 
+\citep{orenstein-1986}: The z value of a region is a concise description of the shape, size and position of the region. These can be derived from the z value. 
 Z ordering is a total ordering of elements. This property, combined with the highly constrained splitting policy that produces elements, leads to the following observation. The only possible relationships between elements are containment and precedence (in z order). Overlap (other than containment) cannot occur. This leads to very simple algorithms based on the merging of sequences of elements. Much of the usefulness of z order IS based on the property that it preserves proximity, i.e. if two points are close in space then they are likely to be close in z order. 
 \par
 \citep{Orenstein84}: By interleaving the bits of the binary representations of the attribute valued in a tuple, an integer corresponding to the tuple is created. A set of these integers represents a relation. The usual ordering of these integers (z ordering?????) corresponds to an ordering of multi-dimensional data that allows the use of conventional file organizations, such as B-trees, in the efficient processing of multi-dimensional queries (e.g. range queries).
 \\
 
-\citep{Orenstein89}: The spatial join algorithm performs a merge of two geometry filter (GF) sequences, searching for situations where an element in one sequence, as represented by its z value, contains an element from the other input. (This can be determined by checking whether one z value is a prefix of the other.) When such a pair is found, a candidate, comprising the objects associated with the elements, is generated. 
+\citep{orenstein-1989}: The spatial join algorithm performs a merge of two geometry filter (GF) sequences, searching for situations where an element in one sequence, as represented by its z value, contains an element from the other input. (This can be determined by checking whether one z value is a prefix of the other.) When such a pair is found, a candidate, comprising the objects associated with the elements, is generated. 
 \\
 
 
 
 
-	\citet{Jacox} comprehensive survey on spatial data joins.
+	\citet{jacox-etal-2007} comprehensive survey on spatial data joins.
 	\\
 
-	A typical spatial join technique consists of the following components: partitioning the data, performing internal memory spatial joins on subsets of the data, and checking if the full polygons intersect \citep{Jacox}.
+	A typical spatial join technique consists of the following components: partitioning the data, performing internal memory spatial joins on subsets of the data, and checking if the full polygons intersect \citep{jacox-etal-2007}.
 	\\
 
 
-	There exist several methods for performing a spatial join on R-trees \citep{Guttman}.
+	There exist several methods for performing a spatial join on R-trees \citep{guttman-1984}.
 	\\
 
-	Applications such as \acr{gis} require the ability to deal with data objects other than points and query objects other than boxes \citep{Orenstein89}. This motivates 
+	Applications such as \acr{gis} require the ability to deal with data objects other than points and query objects other than boxes \citep{orenstein-1989}. This motivates 
 	consideration of the overlap query. The \term{overlap query} takes as input 
 	two sets of spatial objects, R and S. And returns a set of pairs (r, s) 
 	such that r is a member of R and s is a member of S – r and s overlap 
@@ -1114,14 +1181,14 @@ Z ordering is a total ordering of elements. This property, combined with the hig
 	
 
 
- 	Each spatial object in each input set is transformed to a set of 1-d intervals. An algorithm called spatial join implements the filter step. Each resulting candidate is a pair of objects, one from each input set, that are likely to overlap. The output from spatial join has to go through a refinement step as described above. These algorithms comprise the geometry filter \citep{Orenstein89}.
+ 	Each spatial object in each input set is transformed to a set of 1-d intervals. An algorithm called spatial join implements the filter step. Each resulting candidate is a pair of objects, one from each input set, that are likely to overlap. The output from spatial join has to go through a refinement step as described above. These algorithms comprise the geometry filter \citep{orenstein-1989}.
  	\\
 
 
-	Notes \citep{Jacox}:
+	Notes \citep{jacox-etal-2007}:
 	1) The computational geometry approach to solving the simplified spatial join (a two-set rectangle intersection) is to use a plane-sweep technique [Preparata and Shamos 1985].
 
-	Noter \citep{Brinkhoff93}:
+	Noter \citep{brinkhoff-etal-1993}:
 	1) Orenstein (1986)[18] has proposed B+-trees in combination with z-ordering as the underlying access method for performing spatial joins.
 	\\
 
@@ -1133,7 +1200,7 @@ Z ordering is a total ordering of elements. This property, combined with the hig
 	\section{Federated Geospatial Databases}
 	\label{sec:fed_geo}
 
-	\citet{Butenuth} developed a mechanism for the semantic description of 
+	\citet{butenuth-etal-2007} developed a mechanism for the semantic description of 
 	geospatial objects, in order to provide the applications with a model 
 	independent and uniform method to access objects with respect to thematic 
 	attributes. In order to perform the integration of various types of 
