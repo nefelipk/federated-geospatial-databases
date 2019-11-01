@@ -1,6 +1,6 @@
 *.ods*
 *.sh
-*.pdf
+/*.pdf
 *.aux
 *.glo
 *.idx

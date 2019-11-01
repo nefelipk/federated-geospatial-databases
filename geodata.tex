@@ -74,10 +74,10 @@
 
 	\todo[size={{\scriptsize}}]{Diversities in datasets! How to overcome this problem?}
 	A \term{federated database} (also known as \term{integrated database} 
-	\citep{Jian}) is a collection of cooperating database systems that are 
-	autonomous and possibly heterogeneous \citep{Sheth}. The challenge in 
+	\citep{jian-etal-2001}) is a collection of cooperating database systems that are 
+	autonomous and possibly heterogeneous \citep{sheth-etal-1990}. The challenge in 
 	federation arises from the heterogeneity of these autonomous databases (or 
-	\term{archives} \citep{Malik}). Each  database  makes  independent choices 
+	\term{archives} \citep{malik-etal-2002}). Each  database  makes  independent choices 
 	in its hardware, software, data schema, etc., and invests its resources 
 	accordingly. As a result, differences arise among databases in the types of 
 	network systems, operating systems, database systems, programming platforms, 
@@ -89,7 +89,7 @@
 	private companies, e.g. in car navigation.
 	\\
 
-	\term{Geospatial data} is data about objects, events, or phenomena that have a location on the surface of the earth \citep{Stock}. The location may be 
+	\term{Geospatial data} is data about objects, events, or phenomena that have a location on the surface of the earth \citep{stock-etal-2016}. The location may be 
 	static in the short-term (e.g. the location of a road, an earthquake event, children living in poverty), or dynamic (e.g. a moving vehicle or pedestrian, even the spread of an infectious disease). Geospatial data combines location information (usually coordinates on the earth), attribute information (the characteristics of the object, event, or phenomena concerned), and often also temporal information (the time or life span at which the location and attributes exist). The terms geographical, spatial and geospatial are often used interchangeably. Subsequently, we will mostly use the term spatial interchangeably with geospatial.
 	\\
 
@@ -106,7 +106,7 @@
 	The integration of heterogeneous geospatial data offers possibilities to manually and automatically derive new information, which are not available when using only a single data source \citep{butenuth-etal-2007}. Furthermore, it allows for a consistent representation and the propagation of updates from one data set to the other. However, different acquisition methods, data schemata and updating cycles of the content can lead to discrepancies in geometric and thematic accuracy and correctness which hamper the combined integration. To overcome these difficulties, appropriate methods for the integration and harmonization of data from different sources and of different types are needed.
 	\\
 
-	The major challenge in building a federation of these autonomous and heterogeneous databases is system integration \citep{Malik}.
+	The major challenge in building a federation of these autonomous and heterogeneous databases is system integration \citep{malik-etal-2002}.
 	\\
 
 
@@ -115,16 +115,16 @@
 	\label{sec:fed}
 	
 	To the best of our knowledge the term \term{federated database system} was 
-	introduced by \citet{Hammer}. They defined federated databases as a middle 
+	introduced by \citet{hammer-etal-1979}. They defined federated databases as a middle 
 	road that should be followed between the rigid centralization of 
 	conventional database systems and the anarchy of completely diffused and 
 	decentralized files.
 	\\
 
-	Federated database systems have been extensively researched \citep{Sheth, Litwin}.
+	Federated database systems have been extensively researched \citep{sheth-etal-1990, litwin-etal-1990}.
 	Systems consisting of multiple database systems may be characterized along 
 	three orthogonal dimensions: distribution, heterogeneity, and autonomy 
-	\citep{Sheth}. 
+	\citep{sheth-etal-1990}. 
 	\begin{itemize}
 		\item \term{Distribution}: Data may be distributed among multiple 
 		databases. These databases may be stored on a single computer system or 
@@ -145,7 +145,7 @@
 		independent control. Those who control a autonomous database are often 
 		willing to let others share the data only if they retain control. This 
 		autonomy refers to design, communication and execution 
-		\citep{Sheth, Heimbigner}. More concrete, each component database 
+		\citep{sheth-etal-1990, Heimbigner}. More concrete, each component database 
 		system determines how it will view and combine existing data. It 
 		decides when and how it responds to a request from another component. 
 		And it must not be forced to perform an activity for another component. 
@@ -157,16 +157,16 @@
 	
 
 	\todo[size={{\scriptsize}}]{??? See figure 2.}
-	\citep{Jian}: A federated database can accept different heterogeneous systems and integrate them into higher level systems. They can be divided between two basic forms of interaction, cooperation and coordination. Cooperation means several systems or components use the same common data source. While in case of coordination, the desired data will be copied among these systems or components.
+	\citep{jian-etal-2001}: A federated database can accept different heterogeneous systems and integrate them into higher level systems. They can be divided between two basic forms of interaction, cooperation and coordination. Cooperation means several systems or components use the same common data source. While in case of coordination, the desired data will be copied among these systems or components.
 	\\
 
-	\citep{Jian}: Some times users want to access data from various distinct databases. They used to create a new database and migrate all data from other databases to the new database. This is an approach of re-engineer databases. But the method has its obvious limitations.
+	\citep{jian-etal-2001}: Some times users want to access data from various distinct databases. They used to create a new database and migrate all data from other databases to the new database. This is an approach of re-engineer databases. But the method has its obvious limitations.
 	\\
 
 	\citep{butenuth-etal-2007}: Federated databases allow for integrating heterogeneous databases via a global schema, and they provide a unified database interface for global applications. Local applications remain unchanged, as they still access the databases via the local schemata.
 	\\
 
-	\citep{Malik}: An archive is naturally reluctant to forsake its autonomy – even if it is not, complete restructuring can be prohibitively expensive. Federated database architecture is designed to maintain autonomy and yet accomplish federated tasks.
+	\citep{malik-etal-2002}: An archive is naturally reluctant to forsake its autonomy – even if it is not, complete restructuring can be prohibitively expensive. Federated database architecture is designed to maintain autonomy and yet accomplish federated tasks.
 	\\
 
 	\citep{butenuth-etal-2007}: Beside the general benefits of data integration, there are a lot of practical applications of integration. One is the verification and update of data sets: in order to check the currency and correctness of a data set, a second or third data set can be used to check the information. The task can be extended to provide also update capability: whenever current information is available in one data set, it can be employed to update the other sets, based on the known relations between the data sets and the known link structure between corresponding objects. Furthermore, integration can be used to provide prior information for a dedicated analysis using one data set: for example if a road network has to be updated using aerial imagery, information from existing road data can be used to partition the space and identify potential areas for new roads. Similarly, land use classifications from imagery can be used as input for a more detailed inspection of dedicated areas of interest. 
@@ -180,7 +180,7 @@
 	\subsection{Theory}
 	\label{sec:geo:theory}
 
-	\citet{Tomlinson} first coined the term \term{Geographic Information System 
+	\citet{tomlinson-1969} first coined the term \term{Geographic Information System 
 	(\acr{gis})}, in order to store and manipulate map-based land data. However, 
 	spatial analysis began in 1854 when cholera hit the city of London 
 	\citep{whatIsGis}. British physician John Snow began mapping outbreak 
@@ -192,11 +192,11 @@
 	The key word to this technology is Geography – this means that some portion 
 	of the data is geospatial. Interoperability of \acr{gis} is the ability to 
 	access spatial data and associated services in a distributed and 
-	heterogeneous processing environment \citep{Gong}. 
+	heterogeneous processing environment \citep{gong-etal-2002}. 
 	\\
 
 	\todo[size={{\scriptsize}}]{1. geospatial data join (vs relational database), 2. Hofmann}
-	There were three methods to realize geospatial data sharing \citep{Shi}, 
+	There were three methods to realize geospatial data sharing \citep{shi-etal-2004}, 
 	namely, through data exchange mode, database direct access mode or database 
 	interoperability mode. 
 	\begin{itemize} 
@@ -1057,10 +1057,13 @@ If both datasets are indexed, but with incompatible types of indices, such as an
 Another idea for spatial join is to first transform objects into multi-dimensional points. Unlike points, rectangles have extent, which complicates spatial join algorithms. If an object will not fit into a partition, then either it must be replicated into multiple partitions or the partitions must overlap, as in an R-tree \citep{guttman-1984}. Transformation methods avoid this problem by transforming objects into multi-dimensional points in a higher dimensional space, such as used by the grid file index \citep{nievergelt-etal-1984}. For example, a two-dimensional rectangle can be transformed into a point in four-dimensional space. One way is to use the coordinate values of the opposing corner points of the rectangle as the four values representing the rectangle. This is a technique known as the \term{corner transformation}. Alternatively, the rectangle can be transformed using the coordinate values of the the center point, half of the width, and half of the height as the four values.
 \\
 
-\todo[size={{\scriptsize}}]{\citep{Song} and pages 17-18 of \citep{jacox-etal-2007}}
+\todo[size={{\scriptsize}}]{\citep{song-etal-1999} and pages 17-18 of \citep{jacox-etal-2007}}
 Song et al. [1999] propose a spatial join for data that is indexed using the corner transformation method. [...] similar to the non-hierarchical spatial join methods [...]
 \\
-	
+
+\citep{song-etal-1999}: Experimental results show that the performance of the algorithm is generally better than that of the R*-tree based algorithm proposed by Brinkhoff et al.
+\\
+
 
 
 
@@ -1146,7 +1149,7 @@ In addition to these three, there are also other types of joins – joins with o
 \citep{orenstein-1986}: The z value of a region is a concise description of the shape, size and position of the region. These can be derived from the z value. 
 Z ordering is a total ordering of elements. This property, combined with the highly constrained splitting policy that produces elements, leads to the following observation. The only possible relationships between elements are containment and precedence (in z order). Overlap (other than containment) cannot occur. This leads to very simple algorithms based on the merging of sequences of elements. Much of the usefulness of z order IS based on the property that it preserves proximity, i.e. if two points are close in space then they are likely to be close in z order. 
 \par
-\citep{Orenstein84}: By interleaving the bits of the binary representations of the attribute valued in a tuple, an integer corresponding to the tuple is created. A set of these integers represents a relation. The usual ordering of these integers (z ordering?????) corresponds to an ordering of multi-dimensional data that allows the use of conventional file organizations, such as B-trees, in the efficient processing of multi-dimensional queries (e.g. range queries).
+\citep{orenstein-etal-1984}: By interleaving the bits of the binary representations of the attribute valued in a tuple, an integer corresponding to the tuple is created. A set of these integers represents a relation. The usual ordering of these integers (z ordering?????) corresponds to an ordering of multi-dimensional data that allows the use of conventional file organizations, such as B-trees, in the efficient processing of multi-dimensional queries (e.g. range queries).
 \\
 
 \citep{orenstein-1989}: The spatial join algorithm performs a merge of two geometry filter (GF) sequences, searching for situations where an element in one sequence, as represented by its z value, contains an element from the other input. (This can be determined by checking whether one z value is a prefix of the other.) When such a pair is found, a candidate, comprising the objects associated with the elements, is generated. 
@@ -1212,7 +1215,7 @@ Z ordering is a total ordering of elements. This property, combined with the hig
 	\\
 
 
-	\citet{Jian} introduced a method based on \acr{opengis} 
+	\citet{jian-etal-2001} introduced a method based on \acr{opengis} 
 	\footnote{ \url{https://www.opengeospatial.org/}} and \acr{com} 
 	\footnote{ \url{https://docs.microsoft.com/en-us/windows/win32/com/com-technical-overview}} 
 	that integrates three databases, a vector database, a 
@@ -1227,7 +1230,7 @@ Z ordering is a total ordering of elements. This property, combined with the hig
 	vendors to be combined into an integrated application. 
 	\\
 
-	\citet{Malik} presented \term{SkyQuery}, a prototype federation of 
+	\citet{malik-etal-2002} presented \term{SkyQuery}, a prototype federation of 
 	geographically separate astronomy databases. SkyQuery supports a federated 
 	query called the \term{cross match query}. This is a spatial join query 
 	that matches objects between databases, if they correspond to the same 
@@ -1238,14 +1241,14 @@ Z ordering is a total ordering of elements. This property, combined with the hig
 	\\
 
 	There is not much work done on the merging of federated systems and geospatial databases.
-	Interoperability among traditional geographical information systems requires solving two major problems \citep{Gong}. The former is how to access geospatial data distributed on the network. And the latter is how to allow cooperation between existing heterogeneous geospatial databases.
+	Interoperability among traditional geographical information systems requires solving two major problems \citep{gong-etal-2002}. The former is how to access geospatial data distributed on the network. And the latter is how to allow cooperation between existing heterogeneous geospatial databases.
 	\par
 	The first problem is dealt with by using networking techniques based on the client/server paradigm. For example a distributed object environment, like CORBA can be used to provide interconnectivity among several geographical information systems.
 	\par
 	The second problem has recently been the focus of extensive researches in the field of databases. Several solutions have been identified: Schema integration based solutions aim to combine all information into a single global schema. Canonical data-model based solutions hide heterogeneity and provide a good framework for multi-model translations. Multi-database language based solutions allow users to query several information sources at the same time.
 	\\ 
 
-	\citep{Gong}: In order to solve problems, we often need the cooperation of many spatial databases, even if there are more complex spatial relationship and diversity between the existing spatial data models.
+	\citep{gong-etal-2002}: In order to solve problems, we often need the cooperation of many spatial databases, even if there are more complex spatial relationship and diversity between the existing spatial data models.
 	\\
 
 
