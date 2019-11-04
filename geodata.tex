@@ -245,7 +245,10 @@
 	and $S$, find all of the pairs of intersecting rectangles between the two 
 	sets. That is, for each rectangle $r$ in dataset $R$, find each 
 	intersecting rectangle $s$ from dataset $S$, as illustrated in 
-	Figure~\bl{\ref{fig:ds_join}}.
+	Figure~\bl{\ref{fig:ds_join}}. In the following we discuss about 
+	intersection – the most commonly used operator for spatial join 
+	\citep{Song}. However, the basic ideas of the algorithms below can be 
+	applied to other spatial operators such as enclosure and containment.
 	\\
 
 	\begin{figure}[h!]
@@ -274,10 +277,10 @@
 	Vector and raster data are the two primary types of spatial data in 
 	\acr{gis} \citep{s-gisgeography-2018}. The three basic symbol types for 
 	vector data are points (e.g. cities in maps), lines (e.g. rivers or roads 
-	in maps) and polygons (e.g. building footprints, agricultural fields). 
-	Polygon features are most commonly distinguished using either a thematic 
-	mapping symbology (color schemes), patterns, or in the case of numeric 
-	gradation, a color gradation scheme \citep{s-dempsey-2017}.
+	in maps) and polygons or regions (e.g. building footprints, agricultural 
+	fields). Polygon features are most commonly distinguished using either a 
+	thematic mapping symbology (color schemes), patterns, or in the case of 
+	numeric gradation, a color gradation scheme \citep{s-dempsey-2017}.
 	\par 
 	On the other hand raster data is made up of pixels (also referred to as 
 	grid cells). They are useful for storing data representing surfaces, that 
@@ -1051,23 +1054,74 @@ If both datasets are indexed, but with incompatible types of indices, such as an
 	\end{figure}
 
 
-\paragraph{Transform to multi-dimensional points}
-\label{sec:geo:ex:both:mul}
+	\paragraph{Transform to multi-dimensional points}
+	\label{sec:geo:ex:both:mul}
 
-Another idea for spatial join is to first transform objects into multi-dimensional points. Unlike points, rectangles have extent, which complicates spatial join algorithms. If an object will not fit into a partition, then either it must be replicated into multiple partitions or the partitions must overlap, as in an R-tree \citep{guttman-1984}. Transformation methods avoid this problem by transforming objects into multi-dimensional points in a higher dimensional space, such as used by the grid file index \citep{nievergelt-etal-1984}. For example, a two-dimensional rectangle can be transformed into a point in four-dimensional space. One way is to use the coordinate values of the opposing corner points of the rectangle as the four values representing the rectangle. This is a technique known as the \term{corner transformation}. Alternatively, the rectangle can be transformed using the coordinate values of the the center point, half of the width, and half of the height as the four values.
-\\
+	Another idea for spatial join is to first transform objects into 
+	multi-dimensional points in a higher dimensional space, such as used by the 
+	grid file index \citep{nievergelt-etal-1984}. Unlike points, rectangles 
+	have extent, which complicates spatial join algorithms. If an object will 
+	not fit into a partition, then either it must be replicated into multiple 
+	partitions or the partitions must overlap, as in an R-tree 
+	\citep{guttman-1984}. Transformation methods avoid this problem. For 
+	example, a two-dimensional rectangle can be transformed into a point in 
+	four-dimensional space. One way is to use the coordinate values of the 
+	opposing corner points of the rectangle as the four values representing the 
+	rectangle. This is a technique known as the \term{corner transformation}. 
+	Alternatively, the rectangle can be transformed using the coordinate values 
+	of the the center point, half of the width, and half of the height as the 
+	four values.
+	\\
 
-\todo[size={{\scriptsize}}]{\citep{song-etal-1999} and pages 17-18 of \citep{jacox-etal-2007}}
-Song et al. [1999] propose a spatial join for data that is indexed using the corner transformation method. [...] similar to the non-hierarchical spatial join methods [...]
-\\
+	\citet{song-etal-1999} propose a spatial join for data that is indexed 
+	using the corner transformation method. In two-dimensional space, any 
+	interval that overlaps $O\textsubscript{2}$, such as $O\textsubscript{1}$, 
+	will be contained within the region shown in Figure~\bl{\ref{fig:2-d}}, 
+	lying above the diagonal. All data points in the transform space are above 
+	the diagonal, since the terminating point of the interval is always greater 
+	than the starting point. Similarly, for two-dimensional objects, such as an 
+	\acr{mbr} $r$ of an object, all rectangles overlapping $r$ will occupy a 
+	space in four dimensions similar to the region mentioned above.
+	\\
+
+	Figure~\bl{\ref{fig:1-d}} shows the one-dimensional objects 
+	$O\textsubscript{1}$, $O\textsubscript{2}$, $O\textsubscript{3}$ and 
+	$O\textsubscript{4}$, which have starting endpoints within the range $A$ 
+	and terminating endpoints within $B$. Figure~\bl{\ref{fig:2-d}} shows the 
+	transformed objects represented as four corner points rectangle $P$. If the 
+	starting endpoint of an object is in $A$ and the terminating endpoint in 
+	$B$, then the transformed object is located in $P$. Also, note that 
+	$O\textsubscript{2}$, representing the upper-left point of $P$, is the 
+	largest object in $P$.
+	\\
+
+	\begin{figure}[h!]
+		\centering
+		\begin{subfigure}[t]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{1-d}
+			\caption{Four one-dimensional intervals, $O\textsubscript{1}$, 
+			$O\textsubscript{2}$, $O\textsubscript{3}$ and $O\textsubscript{4}$, 
+			that overlap.}
+			\label{fig:1-d}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[t]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{2-d}
+			\caption{All intervals are near each other when mapped to 
+			two-dimensional points. Since the left endpoint ($lx$) is always 
+			less than or equal to the right endpoint ($rx$), then all points 
+			will be above the diagonal line. Any intervals that overlap 
+			interval $O\textsubscript{2}$ will be contained within the range 
+			$lx \leq rx'$ and $rx \leq lx'$ area, when represented as a point.}
+			\label{fig:2-d}
+		\end{subfigure}
+		\caption{Example of the transformation to multi-dimensional points in a 
+		higher dimensional space (Fig. 2 \citep{song-etal-1999}).}
+		\label{fig:transf}
+	\end{figure}
 
 \citep{song-etal-1999}: Experimental results show that the performance of the algorithm is generally better than that of the R*-tree based algorithm proposed by Brinkhoff et al.
 \\
-
-
-
-
-
 
 \todo[size={{\scriptsize}}]{What about the other operations?}
 Join is an operation that is frequently used and is the most expensive in processing database queries \citep{kim-etal-1995}. 
